@@ -77,5 +77,5 @@ jobs:
         with:
           app-name: 'enterteniment-manager'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5F540F137E9947EFB904A606496D09ED }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A3C3BBA734F2479495919279447A0B74 }}
           package: .
