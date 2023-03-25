@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertenimentManager.Tests", "EntertenimentManager.Tests\EntertenimentManager.Tests.csproj", "{52375988-500D-4440-8BDF-082B8B0BCE6F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertenimentManager.API", "EntertenimentManager.API\EntertenimentManager.API.csproj", "{DB7969D0-C0CC-4595-B762-972F4BCA8FF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5511E44-1FB9-4DF8-870C-7394FEF9318A} = {C5511E44-1FB9-4DF8-870C-7394FEF9318A}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertenimentManager.Domain", "EntertenimentManager.Domain\EntertenimentManager.Domain.csproj", "{C5511E44-1FB9-4DF8-870C-7394FEF9318A}"
 EndProject

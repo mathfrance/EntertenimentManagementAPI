@@ -477,4 +477,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # Ignore local appSettings
-#appsettings.json
+appsettings.json

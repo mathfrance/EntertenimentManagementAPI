@@ -20,11 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EntertenimentManagement\EntertenimentManager.Domain.csproj" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <ProjectReference Include="..\EntertenimentManager.Domain\EntertenimentManager.Domain.csproj" />
   </ItemGroup>
 
 
