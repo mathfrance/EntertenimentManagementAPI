@@ -1,5 +1,5 @@
-﻿using EntertenimentManager.Domain.Models.Itens;
-using EntertenimentManager.Domain.Models.Lists;
+﻿using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Entities.Lists;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Generic;

@@ -2,7 +2,8 @@
 using EntertenimentManager.API.Extensions;
 using EntertenimentManager.API.ViewModels;
 using EntertenimentManager.API.ViewModels.Accounts;
-using EntertenimentManager.Domain.Models.Users;
+using EntertenimentManager.Domain.Entities.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -48,34 +49,26 @@ namespace EntertenimentManager.API.Controllers
             }
         }
 
-        [HttpPost("v1/users")]
-        public async Task<IActionResult> PostAsync(
-            [FromBody] CreateUserViewModel model,
-            [FromServices] EntertenimentManagementDataContext context)
-        {
-            if (!ModelState.IsValid) return BadRequest(new ResultViewModel<User>(ModelState.GetErrors()));
+        //[HttpPost("v1/users")]
+        //public async Task<IActionResult> PostAsync(
+        //    [FromBody] CreateUserViewModel model,
+        //    [FromServices] EntertenimentManagementDataContext context)
+        //{
+        //    if (!ModelState.IsValid) return BadRequest(new ResultViewModel<User>(ModelState.GetErrors()));
 
-            try
-            {
-                var user = new User
-                {
-                    Id = 0,
-                    Name = model.Name,
-                    Email = model.Email,
-                    Image = model.Image,
-                    PasswordHash = model.PasswordHash,
-                    Catalog = model.Catalog,
-                };
-                await context.Users.AddAsync(user);
-                await context.SaveChangesAsync();
+        //    try
+        //    {
+        //        var user = new User(model.Name, model.Email, PasswordHasher.Hash(password), new() { role });
+        //        await context.Users.AddAsync(user);
+        //        await context.SaveChangesAsync();
 
-                return Created($"v1/users/{user.Id}", new ResultViewModel<User>(user));
-            }
-            catch
-            {
-                return StatusCode(500, new ResultViewModel<User>("Não foi possível incluir o usuário"));
-            }
-        }
+        //        return Created($"v1/users/{user.Id}", new ResultViewModel<User>(user));
+        //    }
+        //    catch
+        //    {
+        //        return StatusCode(500, new ResultViewModel<User>("Não foi possível incluir o usuário"));
+        //    }
+        //}
 
         [HttpPut("v1/users/{id:int}")]
         public async Task<IActionResult> PutAsync(

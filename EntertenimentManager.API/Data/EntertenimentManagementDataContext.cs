@@ -1,7 +1,7 @@
 ﻿using EntertenimentManager.API.Data.Mappings;
-using EntertenimentManager.Domain.Models.Itens;
-using EntertenimentManager.Domain.Models.Lists;
-using EntertenimentManager.Domain.Models.Users;
+using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Entities.Lists;
+using EntertenimentManager.Domain.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace EntertenimentManager.API.Data

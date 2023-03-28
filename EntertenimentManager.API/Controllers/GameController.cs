@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EntertenimentManager.Domain.Models.Itens;
+using EntertenimentManager.Domain.Entities.Itens;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -117,13 +117,7 @@ namespace EntertenimentManager.API.Controllers
                 if (game == null)
                     return NotFound(new ResultViewModel<Game>(ModelState.GetErrors()));
 
-                game.Title = model.Title;
-                game.Developer = model.Developer;
-                game.Genre = model.Genre;
-                game.ReleaseYear = model.ReleaseYear;
-                game.UrlImage = model.UrlImage;
-                game.BelongsTo = model.BelongsTo;
-                game.Platforms = model.Platforms;
+                game.Update(model.Title, model.Genre, model.ReleaseYear, model.Developer, model.UrlImage, model.Platforms, model.BelongsTo);
 
                 context.Games.Update(game);
                 await context.SaveChangesAsync();

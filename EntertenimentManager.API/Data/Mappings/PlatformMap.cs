@@ -1,4 +1,4 @@
-﻿using EntertenimentManager.Domain.Models.Itens;
+﻿using EntertenimentManager.Domain.Entities.Itens;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

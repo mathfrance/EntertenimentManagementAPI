@@ -1,5 +1,5 @@
 ﻿using EntertenimentManager.API.Extensions;
-using EntertenimentManager.Domain.Models.Users;
+using EntertenimentManager.Domain.Entities.Users;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;

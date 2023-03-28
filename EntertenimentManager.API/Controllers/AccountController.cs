@@ -1,5 +1,5 @@
 ﻿using EntertenimentManager.API.ViewModels;
-using EntertenimentManager.Domain.Models.Users;
+using EntertenimentManager.Domain.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,14 +30,8 @@ namespace EntertenimentManager.API.Controllers
             var password = PasswordGenerator.Generate();
 
             var role = await context.Roles.FirstOrDefaultAsync(x => x.Id == (int)EnumRoles.user);
-            var user = new User
-            {
-                Id = 0,
-                Name = model.Name,
-                Email = model.Email,
-                PasswordHash = PasswordHasher.Hash(password),
-                Roles = new() { role }
-            };
+            var user = new User(model.Name, model.Email, PasswordHasher.Hash(password), new() { role }); 
+
             try
             {
                 await context.Users.AddAsync(user);

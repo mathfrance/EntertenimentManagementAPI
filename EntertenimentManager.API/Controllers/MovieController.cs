@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EntertenimentManager.Domain.Models.Itens;
+using EntertenimentManager.Domain.Entities.Itens;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -84,14 +84,7 @@ namespace EntertenimentManager.API.Controllers
                 if (movie == null)
                     return NotFound(new ResultViewModel<Movie>(ModelState.GetErrors()));
 
-                movie.Title = model.Title;
-                movie.Director = model.Director;
-                movie.DurationInMinutes = model.DurationInMinutes;
-                movie.Distributor = model.Distributor;
-                movie.Genre = model.Genre;
-                movie.ReleaseYear = model.ReleaseYear;
-                movie.UrlImage = model.UrlImage;
-                movie.BelongsTo = model.BelongsTo;
+                movie.Update(model.Title, model.Genre, model.ReleaseYear, model.DurationInMinutes, model.Distributor, model.Director, model.UrlImage, model.BelongsTo);
 
                 context.Movies.Update(movie);
                 await context.SaveChangesAsync();
