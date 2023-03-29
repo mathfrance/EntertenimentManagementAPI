@@ -22,7 +22,7 @@ namespace EntertenimentManagement.API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Itens.Game", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("Game", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Itens.Movie", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Movie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("Movie", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Itens.Platform", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Platform", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,7 +119,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("Platform", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.Catalog", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Catalog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,7 +143,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("Catalog", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.Category", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -170,7 +170,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("Category", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.PersonalList", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.PersonalList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -196,7 +196,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("PersonalList", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Users.Role", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Users.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -214,7 +214,7 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("Role", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Users.User", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Users.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -310,20 +310,20 @@ namespace EntertenimentManagement.API.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.Catalog", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Catalog", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Users.User", "Owner")
+                    b.HasOne("EntertenimentManager.Domain.Entities.Users.User", "Owner")
                         .WithOne("Catalog")
-                        .HasForeignKey("EntertenimentManagement.Models.Lists.Catalog", "UserId")
+                        .HasForeignKey("EntertenimentManager.Domain.Entities.Lists.Catalog", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_User_Catalog");
 
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.Category", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Lists.Catalog", "Catalog")
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.Catalog", "Catalog")
                         .WithMany("Categories")
                         .HasForeignKey("CatalogId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -332,9 +332,9 @@ namespace EntertenimentManagement.API.Migrations
                     b.Navigation("Catalog");
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.PersonalList", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.PersonalList", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Lists.Category", "Category")
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.Category", "Category")
                         .WithMany("Lists")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -345,14 +345,14 @@ namespace EntertenimentManagement.API.Migrations
 
             modelBuilder.Entity("GamePlatforms", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Itens.Game", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Game", null)
                         .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_GamePlatforms_PlatformId");
 
-                    b.HasOne("EntertenimentManagement.Models.Itens.Platform", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Platform", null)
                         .WithMany()
                         .HasForeignKey("PlatformsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -362,14 +362,14 @@ namespace EntertenimentManagement.API.Migrations
 
             modelBuilder.Entity("PersonalListGame", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Lists.PersonalList", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", null)
                         .WithMany()
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_PersonalListGame_GameId");
 
-                    b.HasOne("EntertenimentManagement.Models.Itens.Game", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Game", null)
                         .WithMany()
                         .HasForeignKey("PersonalListId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,14 +379,14 @@ namespace EntertenimentManagement.API.Migrations
 
             modelBuilder.Entity("PersonalListMovie", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Lists.PersonalList", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", null)
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_PersonalListMovie_MovieId");
 
-                    b.HasOne("EntertenimentManagement.Models.Itens.Movie", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Movie", null)
                         .WithMany()
                         .HasForeignKey("PersonalListId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -396,14 +396,14 @@ namespace EntertenimentManagement.API.Migrations
 
             modelBuilder.Entity("UserRoles", b =>
                 {
-                    b.HasOne("EntertenimentManagement.Models.Users.Role", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Users.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_UserRoles_UserId");
 
-                    b.HasOne("EntertenimentManagement.Models.Users.User", null)
+                    b.HasOne("EntertenimentManager.Domain.Entities.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -411,17 +411,17 @@ namespace EntertenimentManagement.API.Migrations
                         .HasConstraintName("FK_UserRoles_RoleId");
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.Catalog", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Catalog", b =>
                 {
                     b.Navigation("Categories");
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Lists.Category", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
                 {
                     b.Navigation("Lists");
                 });
 
-            modelBuilder.Entity("EntertenimentManagement.Models.Users.User", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Users.User", b =>
                 {
                     b.Navigation("Catalog");
                 });

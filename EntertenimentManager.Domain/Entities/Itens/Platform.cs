@@ -5,10 +5,10 @@ namespace EntertenimentManager.Domain.Entities.Itens
 {
     public class Platform : Entity
     {
-        public Platform(string description, List<Game> games = null)
+        public Platform(string description)
         {
             Description = description;
-            Games = games ?? (new());
+            Games = new();
         }
 
         public string Description { get; private set; } = string.Empty;

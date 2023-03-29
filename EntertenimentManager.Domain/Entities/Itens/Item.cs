@@ -6,13 +6,13 @@ namespace EntertenimentManager.Domain.Entities.Itens
 {
     public abstract class Item : Entity
     {
-        protected Item(string title, string genre, int releaseYear, string urlImage = "", List<PersonalList> belongsTo = null)
+        protected Item(string title, string genre, int releaseYear, string urlImage = "")
         {
             Title = title;
             Genre = genre;
             UrlImage = urlImage;
             ReleaseYear = releaseYear;
-            BelongsTo = belongsTo ?? (new());
+            BelongsTo = new();
         }
 
         public string Title { get; private set; } = string.Empty;

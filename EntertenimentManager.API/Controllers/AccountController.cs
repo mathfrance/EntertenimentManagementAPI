@@ -30,7 +30,8 @@ namespace EntertenimentManager.API.Controllers
             var password = PasswordGenerator.Generate();
 
             var role = await context.Roles.FirstOrDefaultAsync(x => x.Id == (int)EnumRoles.user);
-            var user = new User(model.Name, model.Email, PasswordHasher.Hash(password), new() { role }); 
+            var user = new User(model.Name, model.Email, PasswordHasher.Hash(password));
+            user.AddRole(role);
 
             try
             {
@@ -109,7 +110,7 @@ namespace EntertenimentManager.API.Controllers
 
             try
             {
-                user.Roles = await context.Roles.ToListAsync();
+                user.AddRoles(await context.Roles.ToListAsync());
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
 
@@ -147,7 +148,7 @@ namespace EntertenimentManager.API.Controllers
             if (user == null)
                 return NotFound(new ResultViewModel<string>("Usuário não encontrado"));
 
-            user.Image = $"https://localhost:5000/images/{fileName}";
+            user.UpdateImage($"https://localhost:5000/images/{fileName}");
             try
             {
                 context.Users.Update(user);

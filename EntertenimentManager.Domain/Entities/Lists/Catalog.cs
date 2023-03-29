@@ -6,15 +6,14 @@ namespace EntertenimentManager.Domain.Entities.Lists
 {
     public class Catalog : Entity
     {
-        public Catalog(string description, User owner, List<Category> categories = null)
+        public Catalog(string description)
         {
             Description = description;
-            Owner = owner;
-            Categories = categories ?? (new());
+            Categories = new();
         }
 
-        public string Description { get; set; } = string.Empty;
-        public User Owner { get; set; }
-        public List<Category> Categories { get; set; }
+        public string Description { get; private set; } = string.Empty;
+        public User Owner { get; private set; }
+        public List<Category> Categories { get; private set; }
     }
 }

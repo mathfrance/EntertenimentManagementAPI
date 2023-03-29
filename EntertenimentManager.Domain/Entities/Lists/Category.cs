@@ -5,17 +5,16 @@ namespace EntertenimentManager.Domain.Entities.Lists
 {
     public class Category : Entity
     {
-        public Category(string name, Catalog catalog, string description = "", List<PersonalList> lists = null)
+        public Category(string name,string description = "")
         {
             Name = name;
-            Catalog = catalog;
             Description = description;
-            Lists = lists ?? (new());
+            Lists = new();
         }
 
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public Catalog Catalog { get; set; }
-        public List<PersonalList> Lists { get; set; }
+        public string Name { get; private set; } = string.Empty;
+        public string Description { get; private set; } = string.Empty;
+        public Catalog Catalog { get; private set; }
+        public List<PersonalList> Lists { get; private set; }
     }
 }

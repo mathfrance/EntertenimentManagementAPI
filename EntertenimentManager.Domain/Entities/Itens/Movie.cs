@@ -5,8 +5,8 @@ namespace EntertenimentManager.Domain.Entities.Itens
 {
     public class Movie : Item
     {
-        public Movie(string title, string genre, int releaseYear, int durationInMinutes = 0, string distributor = "", string director = "", string urlImage = "", List<PersonalList> belongsTo = null)
-            : base(title, genre, releaseYear, urlImage, belongsTo)
+        public Movie(string title, string genre, int releaseYear, int durationInMinutes = 0, string distributor = "", string director = "", string urlImage = "")
+            : base(title, genre, releaseYear, urlImage)
         {
             Distributor = distributor;
             Director = director;
