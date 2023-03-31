@@ -1,4 +1,4 @@
-﻿namespace EntertenimentManager.API.Data.Enum
+﻿namespace EntertenimentManager.Domain.Enum
 {
     public enum EnumRoles
     {

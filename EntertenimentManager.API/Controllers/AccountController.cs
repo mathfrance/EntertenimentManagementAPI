@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using EntertenimentManager.API.Services;
 using EntertenimentManager.API.Data;
 using EntertenimentManager.API.ViewModels.Accounts;
-using EntertenimentManager.API.Data.Enum;
 using EntertenimentManager.API.Extensions;
+using EntertenimentManager.Domain.Enum;
 
 namespace EntertenimentManager.API.Controllers
 {

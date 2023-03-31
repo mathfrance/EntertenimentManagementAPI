@@ -5,13 +5,13 @@ using Flunt.Validations;
 
 namespace EntertenimentManager.Domain.Commands.User
 {
-    public class CreateUserCommand : Notifiable<Notification>, ICommand
+    public class CreateAccountCommand : Notifiable<Notification>, ICommand
     {
 
-        public CreateUserCommand()
+        public CreateAccountCommand()
         { }
 
-        public CreateUserCommand(string name, string email, string passwordHash, string image)
+        public CreateAccountCommand(string name, string email, string passwordHash, string image)
         {
             Name = name;
             Email = email;
@@ -26,12 +26,11 @@ namespace EntertenimentManager.Domain.Commands.User
 
         public void Validate()
         {
-            AddNotifications(new Contract<CreateUserCommand>()
+            AddNotifications(new Contract<CreateAccountCommand>()
                 .Requires()
                 .IsNullOrEmpty(Name, "Informe o nome")
                 .IsLowerThan(Name, 3, "O nome precisa ter pelo menos 3 caracteres")
                 .IsGreaterThan(Name, 80, "O nome precisa ter no máximo 80 caracteres")
-                .IsNullOrEmpty(Email, "Informe um email")
                 .IsEmailOrEmpty(Email, "Informe um email válido")
                 );
         }

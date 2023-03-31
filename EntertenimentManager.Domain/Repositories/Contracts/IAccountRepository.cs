@@ -2,9 +2,10 @@
 
 namespace EntertenimentManager.Domain.Repositories.Contracts
 {
-    public interface IUserRepository
+    public interface IAccountRepository
     {
         void Create(User user);
         void Update(User user);
+        Role GetRole(int roleId);
     }
 }
