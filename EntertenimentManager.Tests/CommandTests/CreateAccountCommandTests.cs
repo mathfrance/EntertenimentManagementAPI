@@ -1,0 +1,27 @@
+using EntertenimentManager.Domain.Commands.User;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace EntertenimentManager.Tests.CommandTests
+{
+    [TestClass]
+    public class CreateAccountCommandTests
+    {
+        private readonly CreateAccountCommand _validCommand = new CreateAccountCommand("Fulano", "fulano@email.com", "hashpass", "");
+        private readonly CreateAccountCommand _invalidCommand = new CreateAccountCommand("", "", "", "");
+
+
+        [TestMethod]
+        public void ShouldReturnInvalidWhenCommandIsInvalid()
+        {
+            _invalidCommand.Validate();
+            Assert.IsFalse(_invalidCommand.IsValid);
+        }
+
+        [TestMethod]
+        public void ShouldReturnValidWhenCommandIsValid()
+        {
+            _validCommand.Validate();            
+            Assert.IsTrue(_validCommand.IsValid);
+        }
+    }
+}

@@ -28,10 +28,10 @@ namespace EntertenimentManager.Domain.Commands.User
         {
             AddNotifications(new Contract<CreateAccountCommand>()
                 .Requires()
-                .IsNullOrEmpty(Name, "Informe o nome")
-                .IsLowerThan(Name, 3, "O nome precisa ter pelo menos 3 caracteres")
-                .IsGreaterThan(Name, 80, "O nome precisa ter no máximo 80 caracteres")
-                .IsEmailOrEmpty(Email, "Informe um email válido")
+                .IsNotNullOrEmpty(Name, "Informe o nome")
+                .IsGreaterThan(Name, 3, "O nome precisa ter pelo menos 3 caracteres")
+                .IsLowerThan(Name, 80, "O nome precisa ter no máximo 80 caracteres")
+                .IsEmail(Email, "Informe um email válido")
                 );
         }
     }
