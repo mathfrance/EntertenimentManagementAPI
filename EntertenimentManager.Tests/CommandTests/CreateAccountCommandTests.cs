@@ -6,8 +6,8 @@ namespace EntertenimentManager.Tests.CommandTests
     [TestClass]
     public class CreateAccountCommandTests
     {
-        private readonly CreateAccountCommand _validCommand = new CreateAccountCommand("Fulano", "fulano@email.com", "hashpass", "");
-        private readonly CreateAccountCommand _invalidCommand = new CreateAccountCommand("", "", "", "");
+        private readonly CreateAccountCommand _validCommand = new("Fulano", "fulano@email.com", "hashpass", "");
+        private readonly CreateAccountCommand _invalidCommand = new("", "", "", "");
 
 
         [TestMethod]
