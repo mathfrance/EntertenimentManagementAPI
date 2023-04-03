@@ -43,6 +43,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Run Tests
+        run: dotnet run test
+
       - name: Update database from EF Migrations
         run: dotnet ef database update --project EntertenimentManager.API
 
