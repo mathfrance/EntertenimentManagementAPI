@@ -30,8 +30,7 @@ namespace EntertenimentManager.Domain.Entities.Users
 
         public void AddRole(Role role)
         {
-            //Validações
-            _roles.Add(role);
+            if (role != null) _roles.Add(role);
         }
 
         public void AddRoles(IEnumerable<Role> roles)

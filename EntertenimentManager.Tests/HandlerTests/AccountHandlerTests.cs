@@ -29,11 +29,5 @@ namespace EntertenimentManager.Tests.HandlerTests
             _result = (GenericCommandResult)_accountHandler.Handle(_validCommand);
             Assert.IsTrue(_result.Success);
         }
-
-        [TestMethod]
-        public void ShouldFail()
-        {
-            Assert.Fail();
-        }
     }
 }
