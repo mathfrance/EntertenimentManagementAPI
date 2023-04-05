@@ -26,7 +26,12 @@ namespace EntertenimentManager.Domain.Entities.Users
         #endregion
 
         #region CRUD Properties
-        public void UpdateImage(string image) => Image = image;
+        public void Update(string name, string passwordHash, string image)
+        {
+            Name = name;
+            PasswordHash= passwordHash;
+            Image = image;
+        } 
 
         public void AddRole(Role role)
         {

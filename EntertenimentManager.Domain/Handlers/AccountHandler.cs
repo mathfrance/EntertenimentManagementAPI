@@ -10,6 +10,7 @@ using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using SecureIdentity.Password;
 using System;
+using System.Reflection;
 
 namespace EntertenimentManager.Domain.Handlers
 {
@@ -34,10 +35,9 @@ namespace EntertenimentManager.Domain.Handlers
                 return new GenericCommandResult(false, "Não foi possível criar o usuário", command.Notifications);
             }
 
-            var image = new Image(command.Image);
-
             var password = PasswordGenerator.Generate();
-            var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), image.FileName);
+
+            var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), command.Image.FileName);
 
 
             var role = _repository.GetRole((int)EnumRoles.user);
@@ -62,25 +62,17 @@ namespace EntertenimentManager.Domain.Handlers
 
             if (!command.IsValid)
             {
-                return new GenericCommandResult(false, "Não foi possível criar o usuário", command.Notifications);
+                return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
             }
 
-            var password = PasswordGenerator.Generate();
-            var user = new User(command.Name,"", PasswordHasher.Hash(password));
+            var user = _repository.GetByEmail(command.Email);
 
-            var role = _repository.GetRole((int)EnumRoles.user);
+            user.Update(command.Name, PasswordHasher.Hash(command.Password), command.Image.FileName);
 
-            user.AddRole(role);
+            _repository.Update(user);
 
-            _repository.Create(user);
 
-            var login = new
-            {
-                command.Name,
-                Password = password
-            };
-
-            return new GenericCommandResult(true, "Usuário criado com sucesso", login);
+            return new GenericCommandResult(true, "Usuário alterado com sucesso", user);
         }
     }
 }

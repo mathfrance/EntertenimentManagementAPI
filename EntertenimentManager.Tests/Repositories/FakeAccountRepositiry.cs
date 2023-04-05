@@ -17,5 +17,9 @@ namespace EntertenimentManager.Tests.Repositories
             return new Role();
         }
 
+        public User GetByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

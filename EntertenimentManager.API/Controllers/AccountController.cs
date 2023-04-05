@@ -148,7 +148,7 @@ namespace EntertenimentManager.API.Controllers
             if (user == null)
                 return NotFound(new ResultViewModel<string>("Usuário não encontrado"));
 
-            user.UpdateImage($"https://localhost:5000/images/{fileName}");
+            //user.UpdateImage($"https://localhost:5000/images/{fileName}");
             try
             {
                 context.Users.Update(user);

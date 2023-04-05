@@ -1,5 +1,6 @@
 ﻿using EntertenimentManager.Domain.Commands.Contracts;
 using EntertenimentManager.Domain.Entities.Users;
+using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using Flunt.Validations;
 
@@ -11,18 +12,16 @@ namespace EntertenimentManager.Domain.Commands.User
         public CreateAccountCommand()
         { }
 
-        public CreateAccountCommand(string name, string email, string passwordHash, string image)
+        public CreateAccountCommand(string name, string email, string image)
         {
             Name = name;
             Email = email;
-            PasswordHash = passwordHash;
-            Image = image;
+            Image = new(image);
         }
 
         public string Name { get; set; } = string.Empty;
         public string Email { get;  set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
-        public string Image { get;  set; } = string.Empty;
+        public Image Image { get;  set; }
 
         public void Validate()
         {
@@ -33,6 +32,8 @@ namespace EntertenimentManager.Domain.Commands.User
                 .IsLowerThan(Name, 80, "O nome precisa ter no máximo 80 caracteres")
                 .IsEmail(Email, "Informe um email válido")
                 );
+
+            AddNotifications(Image.Notifications);
         }
     }
 }

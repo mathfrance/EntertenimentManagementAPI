@@ -6,6 +6,7 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     {
         void Create(User user);
         void Update(User user);
+        User GetByEmail(string email);
         Role GetRole(int roleId);
     }
 }
