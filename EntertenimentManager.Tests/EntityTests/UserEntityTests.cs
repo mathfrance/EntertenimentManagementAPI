@@ -1,5 +1,4 @@
-﻿using EntertenimentManager.Domain.Commands.User;
-using EntertenimentManager.Domain.Entities.Users;
+﻿using EntertenimentManager.Domain.Entities.Users;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EntertenimentManager.Tests.EntityTests
