@@ -6,11 +6,8 @@ using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enum;
 using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
-using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using SecureIdentity.Password;
-using System;
-using System.Reflection;
 
 namespace EntertenimentManager.Domain.Handlers
 {

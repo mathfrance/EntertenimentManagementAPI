@@ -19,7 +19,7 @@ namespace EntertenimentManager.Tests.Repositories
 
         public User GetByEmail(string email)
         {
-            throw new NotImplementedException();
+            return new("Fulano", "fulano@email.com", "Pass123", "base64Image");
         }
     }
 }
