@@ -8,6 +8,7 @@ using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using Flunt.Notifications;
 using SecureIdentity.Password;
+using System.Reflection;
 
 namespace EntertenimentManager.Domain.Handlers
 {
@@ -15,7 +16,8 @@ namespace EntertenimentManager.Domain.Handlers
         Notifiable<Notification>,
         IHandler<CreateAccountCommand>,
         IHandler<UpdateAccountCommand>,
-        IHandler<AllowAdminCommand>
+        IHandler<AllowAdminCommand>,
+        IHandler<LoginCommand>
 
     {
         private readonly IAccountRepository _repository;
@@ -30,9 +32,7 @@ namespace EntertenimentManager.Domain.Handlers
             command.Validate();
 
             if (!command.IsValid)
-            {
                 return new GenericCommandResult(false, "Não foi possível criar o usuário", command.Notifications);
-            }
 
             var password = PasswordGenerator.Generate();
 
@@ -60,9 +60,7 @@ namespace EntertenimentManager.Domain.Handlers
             command.Validate();
 
             if (!command.IsValid)
-            {
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
-            }
 
             var user = _repository.GetByEmail(command.Email);
 
@@ -80,11 +78,9 @@ namespace EntertenimentManager.Domain.Handlers
             command.Validate();
 
             if (!command.IsValid)
-            {
                 return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
-            }
 
-            var user = _repository.GetByEmail(command.Email);            
+            var user = _repository.GetByEmail(command.Email);
 
             var role = _repository.GetRole((int)EnumRoles.admin);
 
@@ -97,11 +93,26 @@ namespace EntertenimentManager.Domain.Handlers
             {
                 user.RemoveRole(role);
                 message = "Permissão removida com sucesso";
-            }           
+            }
 
             _repository.Update(user);
 
             return new GenericCommandResult(true, message, user);
+        }
+
+        public ICommandResult Handle(LoginCommand command)
+        {
+            command.Validate();
+
+            if (!command.IsValid)
+                return new GenericCommandResult(false, "Não foi possível realizar o login", command.Notifications);
+
+            var user = _repository.GetByEmail(command.Email);
+
+            if (!PasswordHasher.Verify(user.PasswordHash, command.Password))
+                return new GenericCommandResult(false, "Usuário ou senha inválidos", null);
+
+            return new GenericCommandResult(true, "Login realizado com sucesso", user);
         }
     }
 }
