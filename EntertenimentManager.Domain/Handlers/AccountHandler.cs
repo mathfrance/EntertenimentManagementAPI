@@ -74,7 +74,6 @@ namespace EntertenimentManager.Domain.Handlers
 
         public ICommandResult Handle(AllowAdminCommand command)
         {
-            var message = string.Empty;
             command.Validate();
 
             if (!command.IsValid)
@@ -83,6 +82,8 @@ namespace EntertenimentManager.Domain.Handlers
             var user = _repository.GetByEmail(command.Email);
 
             var role = _repository.GetRole((int)EnumRoles.admin);
+
+            string message;
 
             if (command.Allow)
             {

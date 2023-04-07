@@ -1,5 +1,6 @@
 ﻿using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Repositories.Contracts;
+using SecureIdentity.Password;
 
 namespace EntertenimentManager.Tests.Repositories
 {
@@ -19,7 +20,8 @@ namespace EntertenimentManager.Tests.Repositories
 
         public User GetByEmail(string email)
         {
-            return new("Fulano", "fulano@email.com", "Pass123", "base64Image");
+            var hashPass = PasswordHasher.Hash("Pass123");
+            return new("Fulano", "fulano@email.com", hashPass, "base64Image");
         }
     }
 }

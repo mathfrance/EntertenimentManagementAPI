@@ -16,9 +16,12 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly CreateAccountCommand _invalidCreateCommand;
         private readonly UpdateAccountCommand _validUpdateCommand;
         private readonly UpdateAccountCommand _invalidUpdateCommand;
-        private readonly AllowAdminCommand _validAllowAdminCommand;
-        private readonly AllowAdminCommand _validNotAllowAdminCommand;
-        private readonly AllowAdminCommand _invalidAllowAdminCommand;
+        private readonly AllowAdminCommand _validAllowAdminCommand = new("fulano@email.com", true);
+        private readonly AllowAdminCommand _validNotAllowAdminCommand = new ("fulano@email.com", false);
+        private readonly AllowAdminCommand _invalidAllowAdminCommand = new("", true);
+        private readonly LoginCommand _validLoginCommand = new("fulano@email.com", "Pass123");
+        private readonly LoginCommand _wrongPasswordLoginCommand = new("fulano@email.com", "Wrong123");
+        private readonly LoginCommand _invalidLoginCommand = new("notEmail.com", "Pass123");
         private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry());
         private GenericCommandResult _result = new();
 
@@ -29,10 +32,6 @@ namespace EntertenimentManager.Tests.HandlerTests
 
             _validUpdateCommand = new("Fulano", "fulano@email.com", "Pass123", _base64Image);
             _invalidUpdateCommand = new("", "", "Pass123", _base64Image);
-
-            _validAllowAdminCommand = new("fulano@email.com", true);
-            _validNotAllowAdminCommand = new("fulano@email.com", false);
-            _invalidAllowAdminCommand = new("", true);
         }
 
         #region CreateAccountCommand
@@ -44,7 +43,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
 
         [TestMethod]
-        public void ShouldReturnValidWhenCreateCommandIsValid()
+        public void ShouldReturnSuccessWhenCreateCommandIsValid()
         {
             _result = (GenericCommandResult)_accountHandler.Handle(_validCreateCommand);
             Assert.IsTrue(_result.Success);
@@ -60,7 +59,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
 
         [TestMethod]
-        public void ShouldReturnValidWhenUpdateCommandIsValid()
+        public void ShouldReturnSuccessWhenUpdateCommandIsValid()
         {
             _result = (GenericCommandResult)_accountHandler.Handle(_validUpdateCommand);
             Assert.IsTrue(_result.Success);
@@ -87,6 +86,29 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             _result = (GenericCommandResult)_accountHandler.Handle(_validNotAllowAdminCommand);
             Assert.AreEqual(_result.Message, "Permissão removida com sucesso");
+        }
+        #endregion
+
+        #region LoginCommand
+        [TestMethod]
+        public void ShouldReturnFailWhenLoginCommandIsInvalid()
+        {
+            _result = (GenericCommandResult)_accountHandler.Handle(_invalidLoginCommand);
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public void ShouldReturnFailWhenPasswordLoginCommandItsWrong()
+        {
+            _result = (GenericCommandResult)_accountHandler.Handle(_wrongPasswordLoginCommand);
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public void ShouldReturnSuccessWhenLoginCommandIsValid()
+        {
+            _result = (GenericCommandResult)_accountHandler.Handle(_validLoginCommand);
+            Assert.IsTrue(_result.Success);
         }
         #endregion
     }
