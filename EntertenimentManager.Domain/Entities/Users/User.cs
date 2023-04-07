@@ -8,7 +8,7 @@ namespace EntertenimentManager.Domain.Entities.Users
     public class User : Entity
     {
         private List<Role> _roles;
-        public User(string name, string email, string passwordHash, string image = "")
+        public User(string name, string email, string passwordHash, string image)
         {
             Name = name;
             Email = email;
@@ -35,15 +35,12 @@ namespace EntertenimentManager.Domain.Entities.Users
 
         public void AddRole(Role role)
         {
-            if (role != null) _roles.Add(role);
+            if (role != null && !_roles.Exists(x => x.Id == role.Id)) _roles.Add(role);
         }
 
-        public void AddRoles(IEnumerable<Role> roles)
+        public void RemoveRole(Role role)
         {
-            foreach (var role in roles)
-            {
-                this.AddRole(role);
-            }
+            if (role != null && _roles.Exists(x => x.Id == role.Id)) _roles.RemoveAll(x => x.Id == role.Id);
         }
         #endregion
     }

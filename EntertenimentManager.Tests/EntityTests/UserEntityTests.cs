@@ -6,7 +6,7 @@ namespace EntertenimentManager.Tests.EntityTests
     [TestClass]
     public class UserEntityTests
     {
-        private readonly User _user = new("Fulano", "fulano@email.com", "hashpass");
+        private readonly User _user = new("Fulano", "fulano@email.com", "hashpass", "image");
         private const int EMPTY = 0;
 
 
@@ -22,6 +22,30 @@ namespace EntertenimentManager.Tests.EntityTests
         {
             _user.AddRole(new());
             Assert.AreNotEqual(EMPTY, _user.Roles.Count);
+        }
+
+        [TestMethod]
+        public void ShouldNotAddRoleWhenItsAlreadyExist()
+        {
+            _user.AddRole(new());
+            _user.AddRole(new());
+            Assert.AreEqual(1, _user.Roles.Count);
+        }
+
+        [TestMethod]
+        public void ShouldNotRemoveRoleWhenIsNull()
+        {
+            _user.AddRole(new());
+            _user.RemoveRole(null);
+            Assert.AreNotEqual(EMPTY, _user.Roles.Count);
+        }
+
+        [TestMethod]
+        public void ShouldRemoveRoleWhenIsNotNull()
+        {
+            _user.AddRole(new());
+            _user.RemoveRole(new());
+            Assert.AreEqual(EMPTY, _user.Roles.Count);
         }
     }
 }

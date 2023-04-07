@@ -30,7 +30,7 @@ namespace EntertenimentManager.API.Controllers
             var password = PasswordGenerator.Generate();
 
             var role = await context.Roles.FirstOrDefaultAsync(x => x.Id == (int)EnumRoles.user);
-            var user = new User(model.Name, model.Email, PasswordHasher.Hash(password));
+            var user = new User(model.Name, model.Email, PasswordHasher.Hash(password), "");
             user.AddRole(role);
 
             try
@@ -110,7 +110,7 @@ namespace EntertenimentManager.API.Controllers
 
             try
             {
-                user.AddRoles(await context.Roles.ToListAsync());
+                //user.AddRoles(await context.Roles.ToListAsync());
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
 

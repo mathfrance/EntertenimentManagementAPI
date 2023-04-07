@@ -8,13 +8,16 @@ using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using Flunt.Notifications;
 using SecureIdentity.Password;
+using System.Net;
 
 namespace EntertenimentManager.Domain.Handlers
 {
     public class AccountHandler :
         Notifiable<Notification>,
         IHandler<CreateAccountCommand>,
-        IHandler<UpdateAccountCommand>
+        IHandler<UpdateAccountCommand>,
+        IHandler<AllowAdminCommand>
+
     {
         private readonly IAccountRepository _repository;
 
@@ -70,6 +73,33 @@ namespace EntertenimentManager.Domain.Handlers
 
 
             return new GenericCommandResult(true, "Usuário alterado com sucesso", user);
+        }
+
+        public ICommandResult Handle(AllowAdminCommand command)
+        {
+            command.Validate();
+
+            if (!command.IsValid)
+            {
+                return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
+            }
+
+            var user = _repository.GetByEmail(command.Email);            
+
+            var role = _repository.GetRole((int)EnumRoles.admin);
+
+            if (command.Allow)
+            {
+                user.AddRole(role);
+            }
+            else
+            {
+                user.RemoveRole(role);
+            }           
+
+            _repository.Update(user);
+
+            return new GenericCommandResult(true, "Permissão alterada com sucesso", user);
         }
     }
 }

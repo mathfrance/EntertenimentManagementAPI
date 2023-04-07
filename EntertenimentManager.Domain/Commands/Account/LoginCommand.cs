@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EntertenimentManager.Domain.Commands.Account
 {
-    internal class ChangePasswordCommand
+    internal class LoginCommand
     {
     }
 }
