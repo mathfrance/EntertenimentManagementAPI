@@ -16,6 +16,9 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly CreateAccountCommand _invalidCreateCommand;
         private readonly UpdateAccountCommand _validUpdateCommand;
         private readonly UpdateAccountCommand _invalidUpdateCommand;
+        private readonly AllowAdminCommand _validAllowAdminCommand;
+        private readonly AllowAdminCommand _validNotAllowAdminCommand;
+        private readonly AllowAdminCommand _invalidAllowAdminCommand;
         private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry());
         private GenericCommandResult _result = new();
 
@@ -26,7 +29,12 @@ namespace EntertenimentManager.Tests.HandlerTests
 
             _validUpdateCommand = new("Fulano", "fulano@email.com", "Pass123", _base64Image);
             _invalidUpdateCommand = new("", "", "Pass123", _base64Image);
+
+            _validAllowAdminCommand = new("fulano@email.com", true);
+            _validNotAllowAdminCommand = new("fulano@email.com", false);
+            _invalidAllowAdminCommand = new("", true);
         }
+
         #region CreateAccountCommand
         [TestMethod]
         public void ShouldReturnFailWhenCreateCommandIsInvalid()
@@ -56,6 +64,29 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             _result = (GenericCommandResult)_accountHandler.Handle(_validUpdateCommand);
             Assert.IsTrue(_result.Success);
+        }
+        #endregion
+
+        #region AllowAdminCommand
+        [TestMethod]
+        public void ShouldReturnFailWhenAllowAdminCommandIsInvalid()
+        {
+            _result = (GenericCommandResult)_accountHandler.Handle(_invalidAllowAdminCommand);
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public void ShouldReturnAddMessageWhenAllowAdminCommandIsTrue()
+        {
+            _result = (GenericCommandResult)_accountHandler.Handle(_validAllowAdminCommand);
+            Assert.AreEqual(_result.Message, "Permissão adicionada com sucesso");
+        }
+
+        [TestMethod]
+        public void ShouldReturnRemoveMessageWhenAllowAdminCommandIsFalse()
+        {
+            _result = (GenericCommandResult)_accountHandler.Handle(_validNotAllowAdminCommand);
+            Assert.AreEqual(_result.Message, "Permissão removida com sucesso");
         }
         #endregion
     }

@@ -8,7 +8,6 @@ using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using Flunt.Notifications;
 using SecureIdentity.Password;
-using System.Net;
 
 namespace EntertenimentManager.Domain.Handlers
 {
@@ -77,6 +76,7 @@ namespace EntertenimentManager.Domain.Handlers
 
         public ICommandResult Handle(AllowAdminCommand command)
         {
+            var message = string.Empty;
             command.Validate();
 
             if (!command.IsValid)
@@ -91,15 +91,17 @@ namespace EntertenimentManager.Domain.Handlers
             if (command.Allow)
             {
                 user.AddRole(role);
+                message = "Permissão adicionada com sucesso";
             }
             else
             {
                 user.RemoveRole(role);
+                message = "Permissão removida com sucesso";
             }           
 
             _repository.Update(user);
 
-            return new GenericCommandResult(true, "Permissão alterada com sucesso", user);
+            return new GenericCommandResult(true, message, user);
         }
     }
 }
