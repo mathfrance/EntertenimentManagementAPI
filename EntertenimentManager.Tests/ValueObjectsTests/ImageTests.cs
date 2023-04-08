@@ -1,5 +1,4 @@
-﻿using EntertenimentManager.Domain.Entities.Users;
-using EntertenimentManager.Domain.SharedContext.ValueObjects;
+﻿using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EntertenimentManager.Tests.ValueObjectsTests
