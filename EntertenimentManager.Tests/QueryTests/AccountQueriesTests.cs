@@ -7,14 +7,16 @@ namespace EntertenimentManager.Tests.QueryTests
     [TestClass]
     public class AccountQueriesTests
     {
-        private List<User> _users;
+        private readonly List<User> _users;
 
         public AccountQueriesTests()
         {
-            _users = new List<User>();
-            _users.Add(new User("Fulano", "fulano@email.com", "hashpass", "image"));
-            _users.Add(new User("Beltrano", "beltrano@email.com", "hashpass", "image"));
-            _users.Add(new User("Sicrano", "sicrano@email.com", "hashpass", "image"));
+            _users = new List<User>
+            {
+                new User("Fulano", "fulano@email.com", "hashpass", "image"),
+                new User("Beltrano", "beltrano@email.com", "hashpass", "image"),
+                new User("Sicrano", "sicrano@email.com", "hashpass", "image")
+            };
         }
 
         [TestMethod]
