@@ -1,5 +1,9 @@
-﻿using EntertenimentManager.API.Data;
-using EntertenimentManager.API.Services;
+﻿using EntertenimentManager.API.Services;
+using EntertenimentManager.Domain.Handlers;
+using EntertenimentManager.Domain.Handlers.Contract;
+using EntertenimentManager.Domain.Repositories.Contracts;
+using EntertenimentManager.Infra.Contexts;
+using EntertenimentManager.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +71,9 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddDbContext<EntertenimentManagementDataContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddTransient<TokenService>();
+            builder.Services.AddTransient<EmailService>();
+            builder.Services.AddTransient<IAccountRepository, AccountRepository>(); 
+            builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<EmailService>();
         }
     }

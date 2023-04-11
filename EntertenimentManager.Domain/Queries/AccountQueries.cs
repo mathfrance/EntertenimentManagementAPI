@@ -10,5 +10,10 @@ namespace EntertenimentManager.Domain.Queries
         {
             return x => x.Email == email;
         }
+
+        public static Expression<Func<Role, bool>> GetRoleById(int id)
+        {
+            return x => x.Id == id;
+        }
     }
 }
