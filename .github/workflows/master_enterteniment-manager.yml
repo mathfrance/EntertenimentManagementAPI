@@ -50,7 +50,7 @@ jobs:
         run: cd EntertenimentManager.Infra
 
       - name: Update database from EF Migrations in separate projects
-        run: dotnet ef database update -s ..\EntertenimentManager.API\
+        run: dotnet ef database update -s ../EntertenimentManager.API/
 
       - name: Remove IP address to SQL Server
         run: az sql server firewall-rule delete --resource-group API --server enterteniment-manager-server --name githubactions
