@@ -47,7 +47,7 @@ jobs:
         run: dotnet test
 
       - name: Move to EntertenimentManager.Infra
-        run: cd .\EntertenimentManager.Infra\
+        run: cd EntertenimentManager.Infra
 
       - name: Update database from EF Migrations in separate projects
         run: dotnet ef database update -s ..\EntertenimentManager.API\
