@@ -1,9 +1,8 @@
-﻿using EntertenimentManager.API.Data;
-using EntertenimentManager.API.Extensions;
+﻿using EntertenimentManager.API.Extensions;
 using EntertenimentManager.API.ViewModels;
 using EntertenimentManager.API.ViewModels.Accounts;
 using EntertenimentManager.Domain.Entities.Users;
-using Microsoft.AspNetCore.Identity;
+using EntertenimentManager.Infra.Contexts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

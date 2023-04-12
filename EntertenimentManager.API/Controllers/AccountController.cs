@@ -1,5 +1,4 @@
 ﻿using EntertenimentManager.API.ViewModels;
-using EntertenimentManager.Domain.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,14 +7,13 @@ using System.Text.RegularExpressions;
 using System;
 using System.Threading.Tasks;
 using EntertenimentManager.API.Services;
-using EntertenimentManager.API.Data;
 using EntertenimentManager.API.ViewModels.Accounts;
 using EntertenimentManager.API.Extensions;
-using EntertenimentManager.Domain.Enum;
 using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
+using EntertenimentManager.Infra.Contexts;
 
 namespace EntertenimentManager.API.Controllers
 {

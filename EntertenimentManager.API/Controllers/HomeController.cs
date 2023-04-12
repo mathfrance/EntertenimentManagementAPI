@@ -1,5 +1,4 @@
-﻿using EntertenimentManager.API.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace EntertenimentManager.API.Controllers
 {

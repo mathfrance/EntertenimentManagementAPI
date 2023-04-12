@@ -68,7 +68,7 @@ namespace EntertenimentManager.API.Extensions
         public static void ConfigureServices(this WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<EntertenimentManagementDataContext>(options =>
+            builder.Services.AddDbContext<EntertenimentManagementDataContext>(options =>                
                 options.UseSqlServer(connectionString));
             builder.Services.AddTransient<TokenService>();
             builder.Services.AddTransient<EmailService>();

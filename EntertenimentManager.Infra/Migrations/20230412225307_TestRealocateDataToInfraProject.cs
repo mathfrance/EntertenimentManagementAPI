@@ -2,37 +2,37 @@
 
 #nullable disable
 
-namespace EntertenimentManagement.API.Migrations
+namespace EntertenimentManagement.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class maxlengthEmailMigrationTest : Migration
+    public partial class TestRealocateDataToInfraProject : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Email",
+                name: "Name",
                 table: "User",
-                type: "NVARCHAR(120)",
-                maxLength: 120,
+                type: "NVARCHAR(100)",
+                maxLength: 100,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "NVARCHAR(100)",
-                oldMaxLength: 100);
+                oldType: "NVARCHAR(80)",
+                oldMaxLength: 80);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Email",
+                name: "Name",
                 table: "User",
-                type: "NVARCHAR(100)",
-                maxLength: 100,
+                type: "NVARCHAR(80)",
+                maxLength: 80,
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "NVARCHAR(120)",
-                oldMaxLength: 120);
+                oldType: "NVARCHAR(100)",
+                oldMaxLength: 100);
         }
     }
 }

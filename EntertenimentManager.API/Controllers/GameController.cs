@@ -1,5 +1,4 @@
 ﻿using EntertenimentManager.API.ViewModels;
-using EntertenimentManager.API.Data;
 using EntertenimentManager.API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Infra.Contexts;
 
 namespace EntertenimentManager.API.Controllers
 {
