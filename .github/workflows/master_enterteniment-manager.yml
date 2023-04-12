@@ -45,9 +45,9 @@ jobs:
 
       - name: Run Tests
         run: dotnet test
-        
+
       - name: Update database from EF Migrations in separate projects
-        run: 
+        run: |
           cd EntertenimentManager.Infra
           dotnet ef database update -s ../EntertenimentManager.API/
 
