@@ -6,6 +6,7 @@ using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enum;
 using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
+using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using SecureIdentity.Password;
 using System.Reflection;
@@ -45,12 +46,7 @@ namespace EntertenimentManager.Domain.Handlers
 
             _repository.Create(user);
 
-            var login = new
-            {
-                command.Name,
-                command.Email,
-                Password = password
-            };
+            Login login = new(command.Name, command.Email, password);            
 
             return new GenericCommandResult(true, "Usuário criado com sucesso", login);
         }

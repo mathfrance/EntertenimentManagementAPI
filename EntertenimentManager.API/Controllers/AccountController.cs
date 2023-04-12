@@ -12,6 +12,10 @@ using EntertenimentManager.API.Data;
 using EntertenimentManager.API.ViewModels.Accounts;
 using EntertenimentManager.API.Extensions;
 using EntertenimentManager.Domain.Enum;
+using EntertenimentManager.Domain.Commands;
+using EntertenimentManager.Domain.Commands.User;
+using EntertenimentManager.Domain.Handlers;
+using EntertenimentManager.Domain.SharedContext.ValueObjects;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -21,44 +25,37 @@ namespace EntertenimentManager.API.Controllers
     {
         [HttpPost("v1/accounts/")]
         public async Task<IActionResult> Post(
-            [FromBody] RegisterViewModel model,
-            [FromServices] EmailService emailService,
-            [FromServices] EntertenimentManagementDataContext context)
+            [FromBody] CreateAccountCommand command,
+            [FromServices] AccountHandler handler,
+            [FromServices] EmailService emailService)
         {
-            if (!ModelState.IsValid) return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-
-            var password = PasswordGenerator.Generate();
-
-            var role = await context.Roles.FirstOrDefaultAsync(x => x.Id == (int)EnumRoles.user);
-            var user = new User(model.Name, model.Email, PasswordHasher.Hash(password), "");
-            user.AddRole(role);
+            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível realizar o cadastro", ModelState.GetErrors()));
 
             try
             {
-                await context.Users.AddAsync(user);
-                await context.SaveChangesAsync();
+                var commandResult = (GenericCommandResult)handler.Handle(command);
 
-                emailService.Send(
-                    user.Name,
-                    user.Email,
-                    "Bem vindo!",
-                    "Sua senha é <strong>{password}</strong>");
-
-                var login = new LoginViewModel
+                if (commandResult.Success) 
                 {
-                    Email = user.Email,
-                    Password = password
-                };
+                    var login = (Login)commandResult.Data;
 
-                return Ok(new ResultViewModel<LoginViewModel>(login));
+                    emailService.Send(
+                        login.Name,
+                        login.Email,
+                        "Bem vindo!",
+                        "Sua senha é <strong>{login.Password}</strong>");
+                }          
+
+            return Ok(commandResult);
+
             }
             catch (DbUpdateException)
             {
-                return StatusCode(400, new ResultViewModel<string>("Não foi possível cadastrar este e-mail"));
+                return StatusCode(400, new GenericCommandResult(false, "Não foi possível realizar o cadastro", null));
             }
             catch
             {
-                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
 

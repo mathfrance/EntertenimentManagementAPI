@@ -7,7 +7,7 @@ namespace EntertenimentManager.Domain.Entities.Users
 {
     public class User : Entity
     {
-        private List<Role> _roles;
+        private readonly List<Role> _roles;
         public User(string name, string email, string passwordHash, string image)
         {
             Name = name;
