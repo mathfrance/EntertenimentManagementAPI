@@ -21,7 +21,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly LoginCommand _validLoginCommand = new("fulano@email.com", "Pass123");
         private readonly LoginCommand _wrongPasswordLoginCommand = new("fulano@email.com", "Wrong123");
         private readonly LoginCommand _invalidLoginCommand = new("notEmail.com", "Pass123");
-        private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry());
+        private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry());        
         private GenericCommandResult _result = new();
 
         public AccountHandlerTests()
@@ -35,78 +35,88 @@ namespace EntertenimentManager.Tests.HandlerTests
 
         #region CreateAccountCommand
         [TestMethod]
-        public void ShouldReturnFailWhenCreateCommandIsInvalid()
+        public async Task ShouldReturnFailWhenCreateCommandIsInvalid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_invalidCreateCommand);
+            var res = await _accountHandler.Handle(_invalidCreateCommand);
+            _result = (GenericCommandResult) res;
             Assert.IsFalse(_result.Success);
         }
 
         [TestMethod]
-        public void ShouldReturnSuccessWhenCreateCommandIsValid()
+        public async Task ShouldReturnSuccessWhenCreateCommandIsValid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_validCreateCommand);
+            var res = await _accountHandler.Handle(_validCreateCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
         }
         #endregion
 
         #region UpdateAccountCommand
         [TestMethod]
-        public void ShouldReturnFailWhenUpdateCommandIsInvalid()
+        public async Task ShouldReturnFailWhenUpdateCommandIsInvalid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_invalidUpdateCommand);
+            var res = await _accountHandler.Handle(_invalidUpdateCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }
 
         [TestMethod]
-        public void ShouldReturnSuccessWhenUpdateCommandIsValid()
+        public async Task ShouldReturnSuccessWhenUpdateCommandIsValid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_validUpdateCommand);
+            var res = await _accountHandler.Handle(_validUpdateCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
         }
         #endregion
 
         #region AllowAdminCommand
         [TestMethod]
-        public void ShouldReturnFailWhenAllowAdminCommandIsInvalid()
+        public async Task ShouldReturnFailWhenAllowAdminCommandIsInvalid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_invalidAllowAdminCommand);
+            var res = await _accountHandler.Handle(_invalidAllowAdminCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }
 
         [TestMethod]
-        public void ShouldReturnAddMessageWhenAllowAdminCommandIsTrue()
+        public async Task ShouldReturnAddMessageWhenAllowAdminCommandIsTrue()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_validAllowAdminCommand);
+            var res = await _accountHandler.Handle(_validAllowAdminCommand);
+            _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Permissão adicionada com sucesso");
         }
 
         [TestMethod]
-        public void ShouldReturnRemoveMessageWhenAllowAdminCommandIsFalse()
+        public async Task ShouldReturnRemoveMessageWhenAllowAdminCommandIsFalse()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_validNotAllowAdminCommand);
+            var res = await _accountHandler.Handle(_validNotAllowAdminCommand);
+            _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Permissão removida com sucesso");
         }
         #endregion
 
         #region LoginCommand
         [TestMethod]
-        public void ShouldReturnFailWhenLoginCommandIsInvalid()
+        public async Task ShouldReturnFailWhenLoginCommandIsInvalid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_invalidLoginCommand);
+            var res = await _accountHandler.Handle(_invalidLoginCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }
 
         [TestMethod]
-        public void ShouldReturnFailWhenPasswordLoginCommandItsWrong()
+        public async Task ShouldReturnFailWhenPasswordLoginCommandItsWrong()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_wrongPasswordLoginCommand);
+            var res =  await _accountHandler.Handle(_wrongPasswordLoginCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }
 
         [TestMethod]
-        public void ShouldReturnSuccessWhenLoginCommandIsValid()
+        public async Task ShouldReturnSuccessWhenLoginCommandIsValid()
         {
-            _result = (GenericCommandResult)_accountHandler.Handle(_validLoginCommand);
+            var res = await _accountHandler.Handle(_validLoginCommand);
+            _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
         }
         #endregion

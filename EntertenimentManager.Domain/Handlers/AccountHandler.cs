@@ -9,7 +9,7 @@ using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using SecureIdentity.Password;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace EntertenimentManager.Domain.Handlers
 {
@@ -28,7 +28,7 @@ namespace EntertenimentManager.Domain.Handlers
             _repository = repository;
         }
 
-        public ICommandResult Handle(CreateAccountCommand command)
+        public async Task<ICommandResult> Handle(CreateAccountCommand command)
         {
             command.Validate();
 
@@ -40,7 +40,7 @@ namespace EntertenimentManager.Domain.Handlers
             var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), command.Image.FileName);
 
 
-            var role = _repository.GetRole((int)EnumRoles.user);
+            var role = await _repository.GetRole((int)EnumRoles.user);
 
             user.AddRole(role);
 
@@ -51,14 +51,14 @@ namespace EntertenimentManager.Domain.Handlers
             return new GenericCommandResult(true, "Usuário criado com sucesso", login);
         }
 
-        public ICommandResult Handle(UpdateAccountCommand command)
+        public async Task<ICommandResult> Handle(UpdateAccountCommand command)
         {
             command.Validate();
 
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
 
-            var user = _repository.GetByEmail(command.Email);
+            var user = await _repository.GetByEmail(command.Email);
 
             user.Update(command.Name, PasswordHasher.Hash(command.Password), command.Image.FileName);
 
@@ -68,16 +68,16 @@ namespace EntertenimentManager.Domain.Handlers
             return new GenericCommandResult(true, "Usuário alterado com sucesso", user);
         }
 
-        public ICommandResult Handle(AllowAdminCommand command)
+        public async Task<ICommandResult> Handle(AllowAdminCommand command)
         {
             command.Validate();
 
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
 
-            var user = _repository.GetByEmail(command.Email);
+            var user = await _repository.GetByEmail(command.Email);
 
-            var role = _repository.GetRole((int)EnumRoles.admin);
+            var role = await _repository.GetRole((int)EnumRoles.admin);
 
             string message;
 
@@ -97,14 +97,14 @@ namespace EntertenimentManager.Domain.Handlers
             return new GenericCommandResult(true, message, user);
         }
 
-        public ICommandResult Handle(LoginCommand command)
+        public async Task<ICommandResult> Handle(LoginCommand command)
         {
             command.Validate();
 
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível realizar o login", command.Notifications);
 
-            var user = _repository.GetByEmail(command.Email);
+            var user = await _repository.GetByEmail(command.Email);
 
             if (!PasswordHasher.Verify(user.PasswordHash, command.Password))
                 return new GenericCommandResult(false, "Usuário ou senha inválidos", null);

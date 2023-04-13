@@ -19,21 +19,21 @@ namespace EntertenimentManager.Infra.Repositories
         public void Create(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
         }
 
-        public User? GetByEmail(string email)
+        public Task<User?> GetByEmail(string email)
         {
             return _context
                         .Users
                         .AsNoTracking()
                         .Include(x => x.Roles)
-                        .FirstOrDefault(AccountQueries.GetByEmail(email));
+                        .FirstOrDefaultAsync(AccountQueries.GetByEmail(email));
         }
 
-        public Role? GetRole(int roleId)
+        public Task<Role?> GetRole(int roleId)
         {
-            return _context.Roles.FirstOrDefault(AccountQueries.GetRoleById(roleId));
+            return _context.Roles.FirstOrDefaultAsync(AccountQueries.GetRoleById(roleId));
         }
 
         public void Update(User user)

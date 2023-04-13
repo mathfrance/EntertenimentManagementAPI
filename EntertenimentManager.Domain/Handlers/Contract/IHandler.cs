@@ -1,9 +1,10 @@
 ﻿using EntertenimentManager.Domain.Commands.Contracts;
+using System.Threading.Tasks;
 
 namespace EntertenimentManager.Domain.Handlers.Contract
 {
     public interface IHandler<T> where T: ICommand
     {
-        ICommandResult Handle(T command);
+        Task<ICommandResult> Handle(T command);
     }
 }

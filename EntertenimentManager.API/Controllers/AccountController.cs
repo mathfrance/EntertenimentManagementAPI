@@ -14,6 +14,7 @@ using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using EntertenimentManager.Infra.Contexts;
+using Microsoft.AspNetCore.Http;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -31,7 +32,8 @@ namespace EntertenimentManager.API.Controllers
 
             try
             {
-                var commandResult = (GenericCommandResult)handler.Handle(command);
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult) result;
 
                 if (commandResult.Success) 
                 {

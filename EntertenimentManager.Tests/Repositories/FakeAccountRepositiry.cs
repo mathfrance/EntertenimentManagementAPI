@@ -13,15 +13,15 @@ namespace EntertenimentManager.Tests.Repositories
         {
         }
 
-        public Role GetRole(int roleId)
+        public Task<Role> GetRole(int roleId)
         {
-            return new Role();
+            return Task.FromResult(new Role());
         }
 
-        public User GetByEmail(string email)
+        public Task<User> GetByEmail(string email)
         {
             var hashPass = PasswordHasher.Hash("Pass123");
-            return new("Fulano", "fulano@email.com", hashPass, "base64Image");
+            return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
         }
     }
 }
