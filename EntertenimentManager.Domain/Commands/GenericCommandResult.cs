@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EntertenimentManager.Domain.Commands.Contracts;
+﻿using EntertenimentManager.Domain.Commands.Contracts;
 
 namespace EntertenimentManager.Domain.Commands
 {

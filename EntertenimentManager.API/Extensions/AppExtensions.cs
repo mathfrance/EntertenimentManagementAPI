@@ -1,9 +1,9 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Handlers;
-using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
 using EntertenimentManager.Infra.Repositories;
+using EntertenimentManager.Infra.Storages;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +26,9 @@ namespace EntertenimentManager.API.Extensions
             var smtp = new Configuration.SmtpConfiguration();
             builder.Configuration.GetSection("SmtpConfiguration").Bind(smtp);
             Configuration.Smtp = smtp;
+            Configuration.AzureStorageConnectionString = builder.Configuration.GetValue<string>("AzureStorageConnectionString");
+            Configuration.ImageContainer = "user-images";
 
-            var AzureStorageConnectionString = builder.Configuration.GetValue<string>("AzureStorageConnectionString");
         }
 
         public static void ConfigureAuthentication(this WebApplicationBuilder builder)
@@ -72,7 +73,10 @@ namespace EntertenimentManager.API.Extensions
                 options.UseSqlServer(connectionString));
             builder.Services.AddTransient<TokenService>();
             builder.Services.AddTransient<EmailService>();
-            builder.Services.AddTransient<IAccountRepository, AccountRepository>(); 
+            builder.Services.AddTransient<IImageStorage>(provider => new AzureImageStorage(
+                Configuration.AzureStorageConnectionString, 
+                Configuration.ImageContainer));
+            builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<EmailService>();
         }

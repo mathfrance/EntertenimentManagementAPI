@@ -1,10 +1,8 @@
 ﻿using EntertenimentManager.Domain.Entities.Users;
-using EntertenimentManager.Domain.Enum;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace EntertenimentManager.Infra.Repositories
 {

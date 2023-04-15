@@ -3,6 +3,7 @@ using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Tests.Repositories;
+using EntertenimentManager.Tests.Storages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EntertenimentManager.Tests.HandlerTests
@@ -21,7 +22,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly LoginCommand _validLoginCommand = new("fulano@email.com", "Pass123");
         private readonly LoginCommand _wrongPasswordLoginCommand = new("fulano@email.com", "Wrong123");
         private readonly LoginCommand _invalidLoginCommand = new("notEmail.com", "Pass123");
-        private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry());        
+        private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry(), new FakeStorage());        
         private GenericCommandResult _result = new();
 
         public AccountHandlerTests()

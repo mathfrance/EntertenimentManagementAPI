@@ -14,7 +14,6 @@ using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using EntertenimentManager.Infra.Contexts;
-using Microsoft.AspNetCore.Http;
 
 namespace EntertenimentManager.API.Controllers
 {

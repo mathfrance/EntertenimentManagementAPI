@@ -22,10 +22,12 @@ namespace EntertenimentManager.Domain.Handlers
 
     {
         private readonly IAccountRepository _repository;
+        private readonly IImageStorage _imageStorage;
 
-        public AccountHandler(IAccountRepository repository)
+        public AccountHandler(IAccountRepository repository, IImageStorage storage)
         {
             _repository = repository;
+            _imageStorage = storage;
         }
 
         public async Task<ICommandResult> Handle(CreateAccountCommand command)
@@ -45,6 +47,7 @@ namespace EntertenimentManager.Domain.Handlers
             user.AddRole(role);
 
             _repository.Create(user);
+            _imageStorage.Upload(command.Image.ImageBytes, command.Image.FileName);
 
             Login login = new(command.Name, command.Email, password);            
 

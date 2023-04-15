@@ -1,5 +1,4 @@
 ﻿using EntertenimentManager.Domain.Commands.Contracts;
-using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using Flunt.Validations;

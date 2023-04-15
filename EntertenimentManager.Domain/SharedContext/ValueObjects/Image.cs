@@ -1,8 +1,6 @@
-﻿using EntertenimentManager.Domain.Commands.User;
-using EntertenimentManager.Domain.SharedContext.ValueObjects.Contracts;
+﻿using EntertenimentManager.Domain.SharedContext.ValueObjects.Contracts;
 using Flunt.Notifications;
 using Flunt.Validations;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System;
 
