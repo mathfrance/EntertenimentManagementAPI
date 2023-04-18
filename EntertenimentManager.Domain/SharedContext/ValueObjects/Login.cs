@@ -1,15 +1,6 @@
-﻿using EntertenimentManager.Domain.Commands.User;
-using EntertenimentManager.Domain.Entities.Users;
-using EntertenimentManager.Domain.SharedContext.ValueObjects.Contracts;
+﻿using EntertenimentManager.Domain.SharedContext.ValueObjects.Contracts;
 using Flunt.Notifications;
 using Flunt.Validations;
-using SecureIdentity.Password;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace EntertenimentManager.Domain.SharedContext.ValueObjects
 {
