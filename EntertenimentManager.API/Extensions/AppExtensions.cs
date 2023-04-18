@@ -26,7 +26,7 @@ namespace EntertenimentManager.API.Extensions
             var smtp = new Configuration.SmtpConfiguration();
             builder.Configuration.GetSection("SmtpConfiguration").Bind(smtp);
             Configuration.Smtp = smtp;
-            Configuration.AzureStorageConnectionString = builder.Configuration.GetValue<string>("AzureStorageConnectionString");
+            Configuration.StorageConnectionString = builder.Configuration.GetValue<string>("StorageConnectionString");
             Configuration.ImageContainer = "user-images";
 
         }
@@ -74,7 +74,7 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<TokenService>();
             builder.Services.AddTransient<EmailService>();
             builder.Services.AddTransient<IImageStorage>(provider => new AzureImageStorage(
-                Configuration.AzureStorageConnectionString, 
+                Configuration.StorageConnectionString, 
                 Configuration.ImageContainer));
             builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<AccountHandler, AccountHandler>();

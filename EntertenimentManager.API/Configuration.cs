@@ -5,7 +5,7 @@
         public static string JwtKey { get; set; }
         public static string ApiKeyName { get; set; }
         public static string ApiKey { get; set; }
-        public static string AzureStorageConnectionString { get; set; }
+        public static string StorageConnectionString { get; set; }
         public static string ImageContainer { get; set; }
 
         public static SmtpConfiguration Smtp { get; set; }
