@@ -1,7 +1,6 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Contracts;
-using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enum;
 using EntertenimentManager.Domain.Handlers.Contract;

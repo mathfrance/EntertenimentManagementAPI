@@ -1,6 +1,5 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Account;
-using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Tests.Repositories;
 using EntertenimentManager.Tests.Storages;

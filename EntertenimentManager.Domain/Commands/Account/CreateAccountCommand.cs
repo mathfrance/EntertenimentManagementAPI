@@ -3,7 +3,7 @@ using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using Flunt.Validations;
 
-namespace EntertenimentManager.Domain.Commands.User
+namespace EntertenimentManager.Domain.Commands.Account
 {
     public class CreateAccountCommand : Notifiable<Notification>, ICommand
     {
@@ -19,8 +19,8 @@ namespace EntertenimentManager.Domain.Commands.User
         }
 
         public string Name { get; set; } = string.Empty;
-        public string Email { get;  set; } = string.Empty;
-        public Image Image { get;  set; }
+        public string Email { get; set; } = string.Empty;
+        public Image Image { get; set; }
 
         public void Validate()
         {

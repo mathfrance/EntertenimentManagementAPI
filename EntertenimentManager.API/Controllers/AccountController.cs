@@ -10,10 +10,10 @@ using EntertenimentManager.API.Services;
 using EntertenimentManager.API.ViewModels.Accounts;
 using EntertenimentManager.API.Extensions;
 using EntertenimentManager.Domain.Commands;
-using EntertenimentManager.Domain.Commands.User;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using EntertenimentManager.Infra.Contexts;
+using EntertenimentManager.Domain.Commands.Account;
 
 namespace EntertenimentManager.API.Controllers
 {

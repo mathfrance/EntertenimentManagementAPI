@@ -1,4 +1,4 @@
-using EntertenimentManager.Domain.Commands.User;
+using EntertenimentManager.Domain.Commands.Account;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EntertenimentManager.Tests.CommandTests

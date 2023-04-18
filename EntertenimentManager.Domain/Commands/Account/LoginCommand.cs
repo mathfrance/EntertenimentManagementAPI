@@ -1,5 +1,4 @@
 ﻿using EntertenimentManager.Domain.Commands.Contracts;
-using EntertenimentManager.Domain.Commands.User;
 using Flunt.Notifications;
 using Flunt.Validations;
 using System;
