@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EntertenimentManager.Domain\EntertenimentManager.Domain.csproj" />
     <ProjectReference Include="..\EntertenimentManager.Infra\EntertenimentManager.Infra.csproj" />
   </ItemGroup>

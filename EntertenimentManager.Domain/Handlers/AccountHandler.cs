@@ -46,6 +46,7 @@ namespace EntertenimentManager.Domain.Handlers
             user.AddRole(role);
 
             _repository.Create(user);
+
             _imageStorage.Upload(command.Image.ImageBytes, command.Image.FileName);
 
             Login login = new(command.Name, command.Email, password);            

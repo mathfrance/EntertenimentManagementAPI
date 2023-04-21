@@ -42,7 +42,7 @@ namespace EntertenimentManager.API.Controllers
                         login.Name,
                         login.Email,
                         "Bem vindo!",
-                        "Sua senha é <strong>${login.Password}</strong>");
+                        $"Sua senha é <strong>{login.Password}</strong>");
                 }          
 
             return Ok(commandResult);
