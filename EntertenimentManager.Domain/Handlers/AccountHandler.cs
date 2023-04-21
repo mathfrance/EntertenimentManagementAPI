@@ -47,7 +47,7 @@ namespace EntertenimentManager.Domain.Handlers
 
             _repository.Create(user);
 
-            _imageStorage.Upload(command.Image.ImageBytes, command.Image.FileName);
+            await _imageStorage.Upload(command.Image.ImageBytes, command.Image.FileName);
 
             Login login = new(command.Name, command.Email, password);            
 

@@ -1,7 +1,9 @@
-﻿namespace EntertenimentManager.Domain.Repositories.Contracts
+﻿using System.Threading.Tasks;
+
+namespace EntertenimentManager.Domain.Repositories.Contracts
 {
     public interface IImageStorage
     {
-        void Upload(byte[] imageBytes, string fileName);
+        Task Upload(byte[] imageBytes, string fileName);
     }
 }

@@ -4,7 +4,7 @@ namespace EntertenimentManager.Tests.Storages
 {
     internal class FakeStorage : IImageStorage
     {
-        public void Upload(byte[] imageBytes, string fileName)
-        { }
+        public Task Upload(byte[] imageBytes, string fileName)
+        { return Task.CompletedTask; }
     }
 }
