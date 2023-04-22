@@ -109,6 +109,9 @@ namespace EntertenimentManager.Domain.Handlers
 
             var user = await _repository.GetByEmail(command.Email);
 
+            if (user == null)
+                return new GenericCommandResult(false, "Usuário ou senha inválidos", null);
+
             if (!PasswordHasher.Verify(user.PasswordHash, command.Password))
                 return new GenericCommandResult(false, "Usuário ou senha inválidos", null);
 

@@ -21,7 +21,13 @@ namespace EntertenimentManager.Tests.Repositories
         public Task<User> GetByEmail(string email)
         {
             var hashPass = PasswordHasher.Hash("Pass123");
+            if(email != "fulano@email.com"){
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+                return Task.FromResult<User>(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            }
             return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
+
         }
     }
 }

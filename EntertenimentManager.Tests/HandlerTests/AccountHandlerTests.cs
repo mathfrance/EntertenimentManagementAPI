@@ -20,6 +20,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly AllowAdminCommand _invalidAllowAdminCommand = new("", true);
         private readonly LoginCommand _validLoginCommand = new("fulano@email.com", "Pass123");
         private readonly LoginCommand _wrongPasswordLoginCommand = new("fulano@email.com", "Wrong123");
+        private readonly LoginCommand _wrongEmailLoginCommand = new("wrong@email.com", "Pass123");
         private readonly LoginCommand _invalidLoginCommand = new("notEmail.com", "Pass123");
         private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry(), new FakeStorage());        
         private GenericCommandResult _result = new();
@@ -108,6 +109,14 @@ namespace EntertenimentManager.Tests.HandlerTests
         public async Task ShouldReturnFailWhenPasswordLoginCommandItsWrong()
         {
             var res =  await _accountHandler.Handle(_wrongPasswordLoginCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenEmailLoginCommandNotExists()
+        {
+            var res = await _accountHandler.Handle(_wrongEmailLoginCommand);
             _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }

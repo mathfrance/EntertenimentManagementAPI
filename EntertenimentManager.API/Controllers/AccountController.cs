@@ -14,6 +14,7 @@ using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using EntertenimentManager.Infra.Contexts;
 using EntertenimentManager.Domain.Commands.Account;
+using EntertenimentManager.Domain.Entities.Users;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -32,9 +33,9 @@ namespace EntertenimentManager.API.Controllers
             try
             {
                 var result = await handler.Handle(command);
-                var commandResult = (GenericCommandResult) result;
+                var commandResult = (GenericCommandResult)result;
 
-                if (commandResult.Success) 
+                if (commandResult.Success)
                 {
                     var login = (Login)commandResult.Data;
 
@@ -43,9 +44,9 @@ namespace EntertenimentManager.API.Controllers
                         login.Email,
                         "Bem vindo!",
                         $"Sua senha é <strong>{login.Password}</strong>");
-                }          
+                }
 
-            return Ok(commandResult);
+                return Ok(commandResult);
 
             }
             catch (DbUpdateException)
@@ -60,32 +61,26 @@ namespace EntertenimentManager.API.Controllers
 
         [HttpPost("v1/accounts/login")]
         public async Task<IActionResult> Login(
-            [FromBody] LoginViewModel model,
-            [FromServices] EntertenimentManagementDataContext context,
+            [FromBody] LoginCommand command,
+            [FromServices] AccountHandler handler,
             [FromServices] TokenService tokenService)
         {
-            if (!ModelState.IsValid) return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-
-            var user = await context
-                .Users
-                .AsNoTracking()
-                .Include(x => x.Roles)
-                .FirstOrDefaultAsync(x => x.Email == model.Email);
-
-            if (user == null) return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
-
-            if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
-                return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
+            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível realizar o login", ModelState.GetErrors()));
 
             try
             {
-                var token = tokenService.GenerateToken(user);
-                return Ok(new ResultViewModel<string>(token, null));
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                if (commandResult.Success)
+                {
+                    var token = tokenService.GenerateToken((User)commandResult.Data);
+                    commandResult.Data = token;
+                }                
+                return Ok(commandResult);
             }
             catch (Exception)
             {
-
-                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
 
