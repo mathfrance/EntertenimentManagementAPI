@@ -14,8 +14,10 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly CreateAccountCommand _validCreateCommand;
         private readonly CreateAccountCommand _invalidCreateCommand;
         private readonly UpdateAccountCommand _validUpdateCommand;
+        private readonly UpdateAccountCommand _validUpdateCommandEmailNotExist;
         private readonly UpdateAccountCommand _invalidUpdateCommand;
         private readonly AllowAdminCommand _validAllowAdminCommand = new("fulano@email.com", true);
+        private readonly AllowAdminCommand _validAllowAdminCommandEmailNotExist = new("wrong@email.com", true);
         private readonly AllowAdminCommand _validNotAllowAdminCommand = new ("fulano@email.com", false);
         private readonly AllowAdminCommand _invalidAllowAdminCommand = new("", true);
         private readonly LoginCommand _validLoginCommand = new("fulano@email.com", "Pass123");
@@ -31,6 +33,7 @@ namespace EntertenimentManager.Tests.HandlerTests
             _invalidCreateCommand = new("", "", _base64Image);
 
             _validUpdateCommand = new("Fulano", "fulano@email.com", "Pass123", _base64Image);
+            _validUpdateCommandEmailNotExist = new("Fulano", "wrong@email.com", "Pass123", _base64Image);
             _invalidUpdateCommand = new("", "", "Pass123", _base64Image);
         }
 
@@ -68,6 +71,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
         }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenEmailFromUpdateCommandNotExists()
+        {
+            var res = await _accountHandler.Handle(_validUpdateCommandEmailNotExist);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
         #endregion
 
         #region AllowAdminCommand
@@ -94,6 +105,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Permissão removida com sucesso");
         }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenEmailFromAllowAdminCommandNotExists()
+        {
+            var res = await _accountHandler.Handle(_validAllowAdminCommandEmailNotExist);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
         #endregion
 
         #region LoginCommand
@@ -106,7 +125,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
 
         [TestMethod]
-        public async Task ShouldReturnFailWhenPasswordLoginCommandItsWrong()
+        public async Task ShouldReturnFailWhenPasswordlFromLoginCommandItsWrong()
         {
             var res =  await _accountHandler.Handle(_wrongPasswordLoginCommand);
             _result = (GenericCommandResult)res;
@@ -114,7 +133,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
 
         [TestMethod]
-        public async Task ShouldReturnFailWhenEmailLoginCommandNotExists()
+        public async Task ShouldReturnFailWhenEmailFromLoginCommandNotExists()
         {
             var res = await _accountHandler.Handle(_wrongEmailLoginCommand);
             _result = (GenericCommandResult)res;

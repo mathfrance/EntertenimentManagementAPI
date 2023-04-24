@@ -40,7 +40,6 @@ namespace EntertenimentManager.Domain.Handlers
 
             var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), command.Image.FileName);
 
-
             var role = await _repository.GetRole((int)EnumRoles.user);
 
             user.AddRole(role);
@@ -63,6 +62,9 @@ namespace EntertenimentManager.Domain.Handlers
 
             var user = await _repository.GetByEmail(command.Email);
 
+            if (user == null)
+                return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
+
             user.Update(command.Name, PasswordHasher.Hash(command.Password), command.Image.FileName);
 
             _repository.Update(user);
@@ -73,12 +75,16 @@ namespace EntertenimentManager.Domain.Handlers
 
         public async Task<ICommandResult> Handle(AllowAdminCommand command)
         {
+
             command.Validate();
 
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
 
             var user = await _repository.GetByEmail(command.Email);
+
+            if (user == null)
+                return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
 
             var role = await _repository.GetRole((int)EnumRoles.admin);
 
