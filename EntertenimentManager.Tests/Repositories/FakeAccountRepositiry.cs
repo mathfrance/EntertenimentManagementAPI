@@ -18,7 +18,20 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult(new Role());
         }
 
-        public Task<User> GetByEmail(string email)
+        public Task<User> GetByEmailTracking(string email)
+        {
+            var hashPass = PasswordHasher.Hash("Pass123");
+            if (email != "fulano@email.com")
+            {
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+                return Task.FromResult<User>(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+            }
+            return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
+
+        }
+
+        public Task<User> GetByEmailNoTracking(string email)
         {
             var hashPass = PasswordHasher.Hash("Pass123");
             if(email != "fulano@email.com"){
@@ -29,5 +42,7 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
 
         }
+
+       
     }
 }

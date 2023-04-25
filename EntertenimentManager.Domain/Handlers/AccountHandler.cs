@@ -60,7 +60,7 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
 
-            var user = await _repository.GetByEmail(command.Email);
+            var user = await _repository.GetByEmailTracking(command.Email);
 
             if (user == null)
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
@@ -81,7 +81,7 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
 
-            var user = await _repository.GetByEmail(command.Email);
+            var user = await _repository.GetByEmailTracking(command.Email);
 
             if (user == null)
                 return new GenericCommandResult(false, "Não foi possível alterar a permissão", command.Notifications);
@@ -103,7 +103,7 @@ namespace EntertenimentManager.Domain.Handlers
 
             _repository.Update(user);
 
-            return new GenericCommandResult(true, message, user);
+            return new GenericCommandResult(true, message, null);
         }
 
         public async Task<ICommandResult> Handle(LoginCommand command)
@@ -113,7 +113,7 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível realizar o login", command.Notifications);
 
-            var user = await _repository.GetByEmail(command.Email);
+            var user = await _repository.GetByEmailNoTracking(command.Email);
 
             if (user == null)
                 return new GenericCommandResult(false, "Usuário ou senha inválidos", null);

@@ -20,7 +20,15 @@ namespace EntertenimentManager.Infra.Repositories
             _context.SaveChangesAsync();
         }
 
-        public Task<User?> GetByEmail(string email)
+        public Task<User?> GetByEmailTracking(string email)
+        {
+            return _context
+                        .Users
+                        .Include(x => x.Roles)
+                        .FirstOrDefaultAsync(AccountQueries.GetByEmail(email));
+        }
+
+        public Task<User?> GetByEmailNoTracking(string email)
         {
             return _context
                         .Users
@@ -36,12 +44,8 @@ namespace EntertenimentManager.Infra.Repositories
 
         public void Update(User user)
         {
-            var userUpdated = _context
-                        .Users
-                        .AsNoTracking()
-                        .Include(x => x.Roles)
-                        .FirstOrDefaultAsync(AccountQueries.GetByEmail(user.Email));
-
+            _context.Users.Update(user);
+            _context.SaveChangesAsync();
         }
     }
 }

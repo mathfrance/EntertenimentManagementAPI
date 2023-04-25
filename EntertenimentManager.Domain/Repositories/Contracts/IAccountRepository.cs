@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.Domain.Entities.Users;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EntertenimentManager.Domain.Repositories.Contracts
@@ -7,7 +8,8 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     {
         void Create(User user);
         void Update(User user);
-        Task<User> GetByEmail(string email);
+        Task<User> GetByEmailTracking(string email);
+        Task<User> GetByEmailNoTracking(string email);
         Task<Role> GetRole(int roleId);
     }
 }

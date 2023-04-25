@@ -85,31 +85,22 @@ namespace EntertenimentManager.API.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost("v1/accounts/setup-admin")]
-        public async Task<IActionResult> SetupAdmin(
-            [FromBody] EditUserViewModel model,
-            [FromServices] EntertenimentManagementDataContext context)
+        [HttpPost("v1/accounts/allow-admin")]
+        public async Task<IActionResult> AllowAdmin(
+            [FromBody] AllowAdminCommand command,
+            [FromServices] AccountHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-
-            var user = await context
-                .Users
-                .Include(x => x.Roles)
-                .FirstOrDefaultAsync(x => x.Email == model.Email);
-
-            if (user == null) return StatusCode(401, new ResultViewModel<string>("Usuário não encontrado"));
+            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível alterar a permissão", ModelState.GetErrors()));
 
             try
             {
-                //user.AddRoles(await context.Roles.ToListAsync());
-                context.Users.Update(user);
-                await context.SaveChangesAsync();
-
-                return Ok(new ResultViewModel<string>("Permissões de administrador concedidas ao usuário"));
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
             }
             catch (Exception)
             {
-                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
 
