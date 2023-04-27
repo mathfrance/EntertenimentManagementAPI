@@ -12,7 +12,7 @@ namespace EntertenimentManager.Infra.Storages
             _azurestorageConnectionString = azurestorageConnectionString;
             _container = container;
         }
-        public async Task Upload(byte[] imageBytes, string fileName)
+        public async Task UploadAsync(byte[] imageBytes, string fileName)
         {
             var blobClient = new BlobClient(_azurestorageConnectionString, _container, fileName);
 

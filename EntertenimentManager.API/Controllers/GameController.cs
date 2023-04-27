@@ -120,6 +120,7 @@ namespace EntertenimentManager.API.Controllers
                 game.Update(model.Title, model.Genre, model.ReleaseYear, model.Developer, model.UrlImage, model.Platforms, model.BelongsTo);
 
                 context.Games.Update(game);
+
                 await context.SaveChangesAsync();
 
                 return Ok(game);

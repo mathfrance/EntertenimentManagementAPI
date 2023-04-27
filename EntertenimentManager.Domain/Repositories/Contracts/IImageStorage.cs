@@ -4,6 +4,6 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
 {
     public interface IImageStorage
     {
-        Task Upload(byte[] imageBytes, string fileName);
+        Task UploadAsync(byte[] imageBytes, string fileName);
     }
 }

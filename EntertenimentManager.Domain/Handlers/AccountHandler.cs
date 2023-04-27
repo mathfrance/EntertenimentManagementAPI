@@ -44,9 +44,9 @@ namespace EntertenimentManager.Domain.Handlers
 
             user.AddRole(role);
 
-            _repository.Create(user);
+            await _repository.CreateAsync(user);
 
-            await _imageStorage.Upload(command.Image.ImageBytes, command.Image.FileName);
+            await _imageStorage.UploadAsync(command.Image.ImageBytes, command.Image.FileName);
 
             Login login = new(command.Name, command.Email, password);            
 
@@ -67,7 +67,7 @@ namespace EntertenimentManager.Domain.Handlers
 
             user.Update(command.Name, PasswordHasher.Hash(command.Password), command.Image.FileName);
 
-            _repository.Update(user);
+            await _repository.UpdateAsync(user);
 
 
             return new GenericCommandResult(true, "Usuário alterado com sucesso", user);
@@ -101,7 +101,7 @@ namespace EntertenimentManager.Domain.Handlers
                 message = "Permissão removida com sucesso";
             }
 
-            _repository.Update(user);
+            await _repository.UpdateAsync(user);
 
             return new GenericCommandResult(true, message, null);
         }

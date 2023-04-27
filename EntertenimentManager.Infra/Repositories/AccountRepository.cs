@@ -14,10 +14,10 @@ namespace EntertenimentManager.Infra.Repositories
             _context = context;
         }
 
-        public void Create(User user)
+        public async Task CreateAsync(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public Task<User?> GetByEmailTracking(string email)
@@ -42,10 +42,10 @@ namespace EntertenimentManager.Infra.Repositories
             return _context.Roles.FirstOrDefaultAsync(AccountQueries.GetRoleById(roleId));
         }
 
-        public void Update(User user)
+        public async Task UpdateAsync(User user)
         {
             _context.Users.Update(user);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

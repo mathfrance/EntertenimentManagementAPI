@@ -6,11 +6,13 @@ namespace EntertenimentManager.Tests.Repositories
 {
     public class FakeAccountRepositiry : IAccountRepository
     {
-        public void Create(User user)
+        public Task CreateAsync(User user)
         {
+            return Task.CompletedTask;
         }
-        public void Update(User user)
+        public Task UpdateAsync(User user)
         {
+           return Task.CompletedTask;
         }
 
         public Task<Role> GetRole(int roleId)
@@ -34,7 +36,8 @@ namespace EntertenimentManager.Tests.Repositories
         public Task<User> GetByEmailNoTracking(string email)
         {
             var hashPass = PasswordHasher.Hash("Pass123");
-            if(email != "fulano@email.com"){
+            if (email != "fulano@email.com")
+            {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                 return Task.FromResult<User>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
@@ -43,6 +46,6 @@ namespace EntertenimentManager.Tests.Repositories
 
         }
 
-       
+
     }
 }
