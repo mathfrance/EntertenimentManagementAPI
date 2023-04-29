@@ -1,20 +1,16 @@
-﻿using EntertenimentManager.API.ViewModels;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SecureIdentity.Password;
-using System.Text.RegularExpressions;
 using System;
 using System.Threading.Tasks;
 using EntertenimentManager.API.Services;
-using EntertenimentManager.API.ViewModels.Accounts;
 using EntertenimentManager.API.Extensions;
 using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
-using EntertenimentManager.Infra.Contexts;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Entities.Users;
+using System.Security.Claims;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -75,7 +71,7 @@ namespace EntertenimentManager.API.Controllers
                 {
                     var token = tokenService.GenerateToken((User)commandResult.Data);
                     commandResult.Data = token;
-                }                
+                }
                 return Ok(commandResult);
             }
             catch (Exception)
@@ -105,43 +101,24 @@ namespace EntertenimentManager.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("v1/accounts/upload-image")]
-        public async Task<IActionResult> UploadImage(
-        [FromBody] UploadImageViewModel model,
-        [FromServices] EntertenimentManagementDataContext context)
+        [HttpPost("v1/accounts/update")]
+        public async Task<IActionResult> Update(
+            [FromBody] UpdateAccountCommand command,
+            [FromServices] AccountHandler handler)
         {
-            var fileName = $"{Guid.NewGuid()}.jpg";
-            var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(model.Base64Image, "");
-            var bytes = Convert.FromBase64String(data);
-
+            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível alterar o usuário", ModelState.GetErrors()));
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            command.RequestEmail = identity.Name;
             try
             {
-                await System.IO.File.WriteAllBytesAsync($"wwwroot/images/{fileName}", bytes);
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
             }
             catch (Exception)
             {
-                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
-
-            var user = await context
-                .Users
-                .FirstOrDefaultAsync(x => x.Email == User.Identity.Name);
-
-            if (user == null)
-                return NotFound(new ResultViewModel<string>("Usuário não encontrado"));
-
-            //user.UpdateImage($"https://localhost:5000/images/{fileName}");
-            try
-            {
-                context.Users.Update(user);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new ResultViewModel<string>("Falha interna no servidor"));
-            }
-
-            return Ok(new ResultViewModel<string>("Imagem alterada com sucesso.", null));
         }
     }
 }

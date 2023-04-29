@@ -26,11 +26,13 @@ namespace EntertenimentManager.Domain.Entities.Users
         #endregion
 
         #region CRUD Properties
-        public void Update(string name, string passwordHash, string image)
+        public void Update(string name, string email, string passwordHash, string image = "")
         {
             Name = name;
-            PasswordHash= passwordHash;
-            Image = image;
+            Email = email;
+            PasswordHash = passwordHash;
+            if(!string.IsNullOrEmpty(image))
+                Image = image;
         } 
 
         public void AddRole(Role role)

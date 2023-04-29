@@ -32,7 +32,10 @@ namespace EntertenimentManager.Tests.HandlerTests
             _validCreateCommand = new("Fulano", "fulano@email.com", _base64Image);
             _invalidCreateCommand = new("", "", _base64Image);
 
-            _validUpdateCommand = new("Fulano", "fulano@email.com", "Pass123", _base64Image);
+            _validUpdateCommand = new("Fulano", "fulano@email.com", "Pass123", _base64Image)
+            {
+                RequestEmail = "fulano@email.com"
+            };
             _validUpdateCommandEmailNotExist = new("Fulano", "wrong@email.com", "Pass123", _base64Image);
             _invalidUpdateCommand = new("", "", "Pass123", _base64Image);
         }

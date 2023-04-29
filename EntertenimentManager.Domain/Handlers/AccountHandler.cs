@@ -60,17 +60,32 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
 
-            var user = await _repository.GetByEmailTracking(command.Email);
+            if(command.RequestEmail != command.Email)
+            {
+                var existingEmail = await _repository.GetByEmailNoTracking(command.Email);
+                if (existingEmail != null)
+                    return new GenericCommandResult(false, "Não foi possível alterar o usuário, já existe um cadastro com o email informado", command.Notifications);
+            }                
+
+            var user = await _repository.GetByEmailTracking(command.RequestEmail);
 
             if (user == null)
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
 
-            user.Update(command.Name, PasswordHasher.Hash(command.Password), command.Image.FileName);
+            
+            if (command.HasImageToUpdate())
+            {
+                user.Update(command.Name, command.Email, PasswordHasher.Hash(command.Password), command.NewImage.FileName);
+                await _imageStorage.UploadAsync(command.NewImage.ImageBytes, command.NewImage.FileName);
+            }
+            else
+            {
+                user.Update(command.Name, command.Email, PasswordHasher.Hash(command.Password), "");
+            }           
 
-            await _repository.UpdateAsync(user);
+            await _repository.UpdateAsync(user);            
 
-
-            return new GenericCommandResult(true, "Usuário alterado com sucesso", user);
+            return new GenericCommandResult(true, "Usuário alterado com sucesso", null);
         }
 
         public async Task<ICommandResult> Handle(AllowAdminCommand command)

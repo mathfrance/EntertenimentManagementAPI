@@ -11,18 +11,19 @@ namespace EntertenimentManager.Domain.Commands.Account
         public UpdateAccountCommand()
         { }
 
-        public UpdateAccountCommand(string name, string email, string password, string image)
+        public UpdateAccountCommand(string name, string email, string password, string image = "")
         {
             Name = name;
             Email = email;
             Password = password;
-            Image = new(image);
+            NewImage = new(image);
         }
 
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
+        public string RequestEmail { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public Image Image { get; set; }
+        public Image NewImage { get; set; }
 
         public void Validate()
         {
@@ -33,8 +34,11 @@ namespace EntertenimentManager.Domain.Commands.Account
                 .IsLowerThan(Name, 80, "O nome precisa ter no máximo 80 caracteres")
                 .IsEmail(Email, "Informe um email válido")
                 );
+        }
 
-            AddNotifications(Image.Notifications);
+        public bool HasImageToUpdate()
+        {
+            return NewImage != null;
         }
     }
 }
