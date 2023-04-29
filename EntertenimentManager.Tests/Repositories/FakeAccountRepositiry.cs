@@ -23,7 +23,7 @@ namespace EntertenimentManager.Tests.Repositories
         public Task<User> GetByEmailTracking(string email)
         {
             var hashPass = PasswordHasher.Hash("Pass123");
-            if (email != "fulano@email.com")
+            if (email != "fulano@email.com" && email != "beltrano@email.com")
             {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                 return Task.FromResult<User>(null);
@@ -36,7 +36,7 @@ namespace EntertenimentManager.Tests.Repositories
         public Task<User> GetByEmailNoTracking(string email)
         {
             var hashPass = PasswordHasher.Hash("Pass123");
-            if (email != "fulano@email.com")
+            if (email != "fulano@email.com" && email != "beltrano@email.com")
             {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
                 return Task.FromResult<User>(null);

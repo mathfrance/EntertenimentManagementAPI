@@ -38,7 +38,7 @@ namespace EntertenimentManager.Domain.Commands.Account
 
         public bool HasImageToUpdate()
         {
-            return NewImage != null;
+            return NewImage != null && !string.IsNullOrEmpty(NewImage.FileName);
         }
     }
 }
