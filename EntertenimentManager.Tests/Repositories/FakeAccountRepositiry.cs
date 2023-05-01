@@ -15,6 +15,11 @@ namespace EntertenimentManager.Tests.Repositories
            return Task.CompletedTask;
         }
 
+        public Task DeleteAsync(User user)
+        {
+            return Task.CompletedTask;
+        }
+
         public Task<Role> GetRole(int roleId)
         {
             return Task.FromResult(new Role());
@@ -44,8 +49,6 @@ namespace EntertenimentManager.Tests.Repositories
             }
             return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
 
-        }
-
-
+        }        
     }
 }

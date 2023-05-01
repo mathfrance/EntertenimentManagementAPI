@@ -17,7 +17,8 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<CreateAccountCommand>,
         IHandler<UpdateAccountCommand>,
         IHandler<AllowAdminCommand>,
-        IHandler<LoginCommand>
+        IHandler<LoginCommand>,
+        IHandler<DeleteAccountCommand>
 
     {
         private readonly IAccountRepository _repository;
@@ -137,6 +138,23 @@ namespace EntertenimentManager.Domain.Handlers
                 return new GenericCommandResult(false, "Usuário ou senha inválidos", null);
 
             return new GenericCommandResult(true, "Login realizado com sucesso", user);
+        }
+
+        public async Task<ICommandResult> Handle(DeleteAccountCommand command)
+        {
+            command.Validate();
+
+            if (!command.IsValid)
+                return new GenericCommandResult(false, "Não foi possível realizar a exclusão", command.Notifications);
+
+            var user = await _repository.GetByEmailTracking(command.Email);
+
+            if (user == null)
+                return new GenericCommandResult(false, "Não foi possível realizar a exclusão", null);
+
+            await _repository.DeleteAsync(user);
+
+            return new GenericCommandResult(true, "Exclusão realizado com sucesso", user);
         }
     }
 }

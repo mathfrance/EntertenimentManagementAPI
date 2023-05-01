@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.API.Services;
+using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
@@ -78,6 +79,7 @@ namespace EntertenimentManager.API.Extensions
                 Configuration.ImageContainer));
             builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
+            builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
             builder.Services.AddTransient<EmailService>();
         }
     }

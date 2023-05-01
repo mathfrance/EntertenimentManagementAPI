@@ -120,5 +120,25 @@ namespace EntertenimentManager.API.Controllers
                 return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
+
+        [Authorize]
+        [HttpDelete("v1/accounts/")]
+        public async Task<IActionResult> Delete(
+            [FromServices] DeleteAccountCommand command,
+            [FromServices] AccountHandler handler)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            command.Email = identity.Name;
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
     }
 }
