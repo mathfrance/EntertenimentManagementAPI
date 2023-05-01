@@ -101,8 +101,8 @@ namespace EntertenimentManager.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("v1/accounts/update")]
-        public async Task<IActionResult> Update(
+        [HttpPut("v1/accounts/")]
+        public async Task<IActionResult> Put(
             [FromBody] UpdateAccountCommand command,
             [FromServices] AccountHandler handler)
         {
