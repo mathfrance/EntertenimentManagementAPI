@@ -20,9 +20,7 @@ namespace EntertenimentManager.Infra.Mappings
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(50);
 
-            builder.Property(x => x.Description)
-                .HasColumnType("NVARCHAR")
-                .HasMaxLength(150);
+            builder.Property(x => x.Type);
 
             builder
                 .HasOne(x => x.Owner)

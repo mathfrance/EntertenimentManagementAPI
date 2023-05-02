@@ -6,15 +6,15 @@ namespace EntertenimentManager.Domain.Entities.Lists
 {
     public class Category : Entity
     {
-        public Category(string name,string description = "")
+        public Category(string name, int type)
         {
             Name = name;
-            Description = description;
+            Type = type;
             Lists = new();
         }
 
         public string Name { get; private set; } = string.Empty;
-        public string Description { get; private set; } = string.Empty;
+        public int Type { get; private set; }
         public User Owner { get; private set; }
         public List<PersonalList> Lists { get; private set; }
     }

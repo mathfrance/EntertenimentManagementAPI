@@ -28,7 +28,6 @@ namespace EntertenimentManager.Infra.Mappings
                 .HasMaxLength(50);
 
             builder.Property(x => x.UrlImage);
-            //     .HasDefaultValue("Foto de perfil anonimo");
 
             builder.Property(x => x.ReleaseYear);
 
