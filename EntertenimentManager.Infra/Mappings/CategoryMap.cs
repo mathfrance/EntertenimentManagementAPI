@@ -25,9 +25,9 @@ namespace EntertenimentManager.Infra.Mappings
                 .HasMaxLength(150);
 
             builder
-                .HasOne(x => x.Catalog)
+                .HasOne(x => x.Owner)
                         .WithMany(x => x.Categories)
-                        .HasConstraintName("FK_Category_Catalog")
+                        .HasConstraintName("FK_Category_Owner")
                         .OnDelete(DeleteBehavior.ClientCascade);
         }
     }

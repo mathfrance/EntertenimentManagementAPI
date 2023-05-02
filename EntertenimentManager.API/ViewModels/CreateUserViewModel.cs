@@ -8,6 +8,5 @@ namespace EntertenimentManager.API.ViewModels
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string Image { get; set; }
-        public Catalog Catalog { get; set; }
     }
 }

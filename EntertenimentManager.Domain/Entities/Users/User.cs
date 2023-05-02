@@ -15,13 +15,14 @@ namespace EntertenimentManager.Domain.Entities.Users
             PasswordHash = passwordHash;
             Image = image;
             _roles = new();
+            Categories = new();
         }
         #region Properties
         public string Name { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string PasswordHash { get; private set; } = string.Empty;
         public string Image { get; private set; } = string.Empty;
-        public Catalog Catalog { get; private set; }
+        public List<Category> Categories { get; private set; }
         public IReadOnlyCollection<Role> Roles { get { return _roles.ToArray(); } }
         #endregion
 

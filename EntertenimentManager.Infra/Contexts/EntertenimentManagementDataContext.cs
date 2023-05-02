@@ -13,7 +13,6 @@ namespace EntertenimentManager.Infra.Contexts
         { }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Game> Games { get; set; }
-        public DbSet<Catalog> Catalogs { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<PersonalList> PersonalLists { get; set; }
         public DbSet<Platform> Platforms { get; set; }
@@ -24,7 +23,6 @@ namespace EntertenimentManager.Infra.Contexts
         {
             modelBuilder.ApplyConfiguration(new MovieMap());
             modelBuilder.ApplyConfiguration(new GameMap());
-            modelBuilder.ApplyConfiguration(new CatalogMap());
             modelBuilder.ApplyConfiguration(new CategoryMap());
             modelBuilder.ApplyConfiguration(new PersonalListMap());
             modelBuilder.ApplyConfiguration(new PlatformMap());

@@ -30,18 +30,10 @@ namespace EntertenimentManager.Infra.Mappings
                 .IsRequired();
 
             builder.Property(x => x.Image);
-            //     .HasDefaultValue("Foto de perfil anonimo");
 
             builder
                 .HasIndex(x => x.Email, "IX_User_Email")
                 .IsUnique();
-
-            builder
-                .HasOne(x => x.Catalog)
-                .WithOne(x => x.Owner)
-                .HasForeignKey<Catalog>("UserId")
-                .HasConstraintName("FK_User_Catalog")
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasMany(x => x.Roles)
