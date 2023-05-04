@@ -25,6 +25,7 @@ namespace EntertenimentManager.Infra.Repositories
             return _context
                         .Users
                         .Include(x => x.Roles)
+                        .Include(x => x.Categories)
                         .FirstOrDefaultAsync(AccountQueries.GetByEmail(email));
         }
 
@@ -34,6 +35,7 @@ namespace EntertenimentManager.Infra.Repositories
                         .Users
                         .AsNoTracking()
                         .Include(x => x.Roles)
+                        .Include(x => x.Categories)
                         .FirstOrDefaultAsync(AccountQueries.GetByEmail(email));
         }
 

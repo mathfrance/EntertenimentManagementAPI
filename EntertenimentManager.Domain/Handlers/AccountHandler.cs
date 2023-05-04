@@ -2,7 +2,7 @@
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Contracts;
 using EntertenimentManager.Domain.Entities.Users;
-using EntertenimentManager.Domain.Enum;
+using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
@@ -41,6 +41,8 @@ namespace EntertenimentManager.Domain.Handlers
 
             var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), command.Image.FileName);
 
+            user.CreateCategories();
+
             var role = await _repository.GetRole((int)EnumRoles.user);
 
             user.AddRole(role);
@@ -73,7 +75,8 @@ namespace EntertenimentManager.Domain.Handlers
             if (user == null)
                 return new GenericCommandResult(false, "Não foi possível alterar o usuário", command.Notifications);
 
-            
+            user.UpdateCategories();
+
             if (command.HasImageToUpdate())
             {
                 user.Update(command.Name, command.Email, PasswordHasher.Hash(command.Password), command.NewImage.FileName);
