@@ -18,11 +18,7 @@ namespace EntertenimentManager.Infra.Mappings
             builder.Property(x => x.Title)
                 .IsRequired()
                 .HasColumnType("NVARCHAR")
-                .HasMaxLength(50);
-
-            builder.Property(x => x.Exclusive)
-                .IsRequired()
-                .HasColumnType("BIT");
+                .HasMaxLength(50);            
 
             builder
                 .HasOne(x => x.Category)
