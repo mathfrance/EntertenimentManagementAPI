@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.Domain.Entities.Users;
+using EntertenimentManager.Domain.Enumerators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EntertenimentManager.Tests.EntityTests
@@ -46,6 +47,31 @@ namespace EntertenimentManager.Tests.EntityTests
             _user.AddRole(new());
             _user.RemoveRole(new());
             Assert.AreEqual(EMPTY, _user.Roles.Count);
+        }
+
+        [TestMethod]
+        public void ShouldCreateAllCategoriesFromEnum()
+        {
+            _user.CreateCategories();
+            var length = Enum.GetValues(typeof(EnumCategories)).Length;
+            Assert.AreEqual(length, _user.Categories.Count);
+        }
+
+        [TestMethod]
+        public void ShouldNotAddExistsCategoriesFromEnum()
+        {
+            _user.CreateCategories();
+            _user.UpdateCategories();
+            var length = Enum.GetValues(typeof(EnumCategories)).Length;
+            Assert.AreEqual(length, _user.Categories.Count);
+        }
+
+        [TestMethod]
+        public void ShouldAddNewCategoriesFromEnumWhenItsUpdated()
+        {
+            var length = Enum.GetValues(typeof(EnumCategories)).Length;
+            _user.UpdateCategories();
+            Assert.AreEqual(length, _user.Categories.Count);
         }
     }
 }
