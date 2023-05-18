@@ -10,7 +10,8 @@ namespace EntertenimentManager.Infra.Mappings
         public void Configure(EntityTypeBuilder<Movie> builder)
         {
             // Tabela
-            builder.ToTable("Movie");
+            builder.UseTpcMappingStrategy()
+                .ToTable("Movie");
 
             builder.HasKey(x => x.Id);
 
@@ -44,24 +45,12 @@ namespace EntertenimentManager.Infra.Mappings
             builder
                 .HasIndex(x => x.Title, "IX_Movie_Title")
                 .IsUnique();
-
+            
             builder
-                .HasMany(x => x.BelongsTo)
-                .WithMany(x => x.Movies)
-                .UsingEntity<Dictionary<string, object>>(
-                    "PersonalListMovie",
-                    Movie => Movie
-                        .HasOne<PersonalList>()
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .HasConstraintName("FK_PersonalListMovie_MovieId")
-                        .OnDelete(DeleteBehavior.Cascade),
-                    PersonalList => PersonalList
-                        .HasOne<Movie>()
-                        .WithMany()
-                        .HasForeignKey("PersonalListId")
-                        .HasConstraintName("FK_PersonalListMovie_PersonalListId")
-                        .OnDelete(DeleteBehavior.Cascade));
+                .HasOne(x => x.BelongsTo)
+                .WithMany(x => (IEnumerable<Movie>)x.Items)
+                        .HasConstraintName("FK_Movie_PersonalList")
+                        .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

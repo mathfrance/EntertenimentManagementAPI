@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Lists;
+﻿using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Entities.Lists;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,9 +23,10 @@ namespace EntertenimentManager.Infra.Mappings
 
             builder
                 .HasOne(x => x.Category)
-                        .WithMany(x => x.Lists)
+                        .WithMany(x => (IEnumerable<PersonalList>)x.Lists)
                         .HasConstraintName("FK_PersonalList_Category")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.ClientCascade);           
+           
         }
     }
 }

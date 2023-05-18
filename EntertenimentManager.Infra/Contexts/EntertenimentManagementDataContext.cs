@@ -21,8 +21,8 @@ namespace EntertenimentManager.Infra.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new MovieMap());
-            modelBuilder.ApplyConfiguration(new GameMap());
+            //modelBuilder.ApplyConfiguration(new MovieMap());
+            //modelBuilder.ApplyConfiguration(new GameMap());
             modelBuilder.ApplyConfiguration(new CategoryMap());
             modelBuilder.ApplyConfiguration(new PersonalListMap());
             modelBuilder.ApplyConfiguration(new PlatformMap());

@@ -4,18 +4,20 @@ using EntertenimentManager.Domain.SharedContext;
 
 namespace EntertenimentManager.Domain.Entities.Lists
 {
-    public class PersonalList : Entity
+    public class PersonalList : Entity, IPersonalList 
     {
-        public PersonalList(string title)
+        public PersonalList()
+        {
+            
+        }
+        public PersonalList(string title, List<Item> items)
         {
             Title = title;
-            Movies = new(); 
-            Games = new();
+            Items = items; 
         }
 
         public string Title { get; private set; } = string.Empty;
         public Category Category { get; private set; }
-        public List<Movie> Movies { get; private set; }
-        public List<Game> Games { get; private set; }
+        public List<Item> Items { get; private set; }
     }
 }
