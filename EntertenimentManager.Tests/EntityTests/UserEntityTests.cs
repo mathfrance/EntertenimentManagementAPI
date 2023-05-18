@@ -66,12 +66,12 @@ namespace EntertenimentManager.Tests.EntityTests
             Assert.AreEqual(length, _user.Categories.Count);
         }
 
-        //[TestMethod]
-        //public void ShouldAddNewCategoriesFromEnumWhenItsUpdated()
-        //{
-        //    var length = Enum.GetValues(typeof(EnumCategories)).Length;
-        //    _user.UpdateCategories();
-        //    Assert.AreEqual(length, _user.Categories.Count);
-        //}
+        [TestMethod]
+        public void ShouldAddNewCategoriesFromEnumWhenItsUpdated()
+        {
+            var length = Enum.GetValues(typeof(EnumCategories)).Length;
+            _user.UpdateCategories();
+            Assert.AreEqual(length, _user.Categories.Count);
+        }
     }
 }

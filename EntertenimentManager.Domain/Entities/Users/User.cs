@@ -52,9 +52,7 @@ namespace EntertenimentManager.Domain.Entities.Users
         {
             foreach (EnumCategories category in Enum.GetValues(typeof(EnumCategories)))
             {
-                CategoryFactory factory = new CategoryFactory();
-                var result = factory.Create(category);
-                _categories.Add(new Category(category.ToString(), (int)category, result));
+                _categories.Add(new Category(category.ToString(), (int)category));
             }
         }
 
@@ -62,8 +60,8 @@ namespace EntertenimentManager.Domain.Entities.Users
         {
             foreach (EnumCategories category in Enum.GetValues(typeof(EnumCategories)))
             {
-                //if (!_categories.Exists(x => x.Type == (int)category))
-                //_categories.Add(new Category(category.ToString(), (int)category));
+                if (!_categories.Exists(x => x.Type == (int)category))
+                _categories.Add(new Category(category.ToString(), (int)category));
             }
         }
         #endregion

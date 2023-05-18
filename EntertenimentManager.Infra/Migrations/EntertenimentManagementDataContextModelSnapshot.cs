@@ -22,7 +22,7 @@ namespace EntertenimentManagement.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Item", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,34 +30,75 @@ namespace EntertenimentManagement.Infra.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BelongsToId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Developer")
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
 
                     b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("NVARCHAR");
 
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
 
                     b.Property<string>("UrlImage")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BelongsToId");
+                    b.HasIndex(new[] { "Title" }, "IX_Game_Title")
+                        .IsUnique();
 
-                    b.ToTable("Item");
+                    b.ToTable("Game", (string)null);
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Item");
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.UseTphMappingStrategy();
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Director")
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("Distributor")
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<int>("DurationInMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<int>("ReleaseYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("UrlImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Title" }, "IX_Movie_Title")
+                        .IsUnique();
+
+                    b.ToTable("Movie", (string)null);
                 });
 
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Platform", b =>
@@ -178,19 +219,49 @@ namespace EntertenimentManagement.Infra.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("GamePlatform", b =>
+            modelBuilder.Entity("GamePlatforms", b =>
                 {
-                    b.Property<int>("GamesId")
+                    b.Property<int>("GameId")
                         .HasColumnType("int");
 
                     b.Property<int>("PlatformsId")
                         .HasColumnType("int");
 
-                    b.HasKey("GamesId", "PlatformsId");
+                    b.HasKey("GameId", "PlatformsId");
 
                     b.HasIndex("PlatformsId");
 
-                    b.ToTable("GamePlatform");
+                    b.ToTable("GamePlatforms");
+                });
+
+            modelBuilder.Entity("PersonalListGame", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonalListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GameId", "PersonalListId");
+
+                    b.HasIndex("PersonalListId");
+
+                    b.ToTable("PersonalListGame");
+                });
+
+            modelBuilder.Entity("PersonalListMovie", b =>
+                {
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PersonalListId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MovieId", "PersonalListId");
+
+                    b.HasIndex("PersonalListId");
+
+                    b.ToTable("PersonalListMovie");
                 });
 
             modelBuilder.Entity("UserRoles", b =>
@@ -206,41 +277,6 @@ namespace EntertenimentManagement.Infra.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Game", b =>
-                {
-                    b.HasBaseType("EntertenimentManager.Domain.Entities.Itens.Item");
-
-                    b.Property<string>("Developer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("Game");
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Movie", b =>
-                {
-                    b.HasBaseType("EntertenimentManager.Domain.Entities.Itens.Item");
-
-                    b.Property<string>("Director")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Distributor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DurationInMinutes")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("Movie");
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Item", b =>
-                {
-                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", "BelongsTo")
-                        .WithMany("Items")
-                        .HasForeignKey("BelongsToId");
-
-                    b.Navigation("BelongsTo");
                 });
 
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
@@ -265,19 +301,55 @@ namespace EntertenimentManagement.Infra.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("GamePlatform", b =>
+            modelBuilder.Entity("GamePlatforms", b =>
                 {
                     b.HasOne("EntertenimentManager.Domain.Entities.Itens.Game", null)
                         .WithMany()
-                        .HasForeignKey("GamesId")
+                        .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_GamePlatforms_PlatformId");
 
                     b.HasOne("EntertenimentManager.Domain.Entities.Itens.Platform", null)
                         .WithMany()
                         .HasForeignKey("PlatformsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_GamePlatforms_GameId");
+                });
+
+            modelBuilder.Entity("PersonalListGame", b =>
+                {
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", null)
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_PersonalListGame_GameId");
+
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Game", null)
+                        .WithMany()
+                        .HasForeignKey("PersonalListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_PersonalListGame_PersonalListId");
+                });
+
+            modelBuilder.Entity("PersonalListMovie", b =>
+                {
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", null)
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_PersonalListMovie_MovieId");
+
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Movie", null)
+                        .WithMany()
+                        .HasForeignKey("PersonalListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_PersonalListMovie_PersonalListId");
                 });
 
             modelBuilder.Entity("UserRoles", b =>
@@ -300,11 +372,6 @@ namespace EntertenimentManagement.Infra.Migrations
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
                 {
                     b.Navigation("Lists");
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.PersonalList", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Users.User", b =>

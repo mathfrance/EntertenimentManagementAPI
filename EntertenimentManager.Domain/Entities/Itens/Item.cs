@@ -12,17 +12,17 @@ namespace EntertenimentManager.Domain.Entities.Itens
             Genre = genre;
             UrlImage = urlImage;
             ReleaseYear = releaseYear;
+            BelongsTo = new();
         }
 
         public string Title { get; private set; } = string.Empty;
         public string Genre { get; private set; } = string.Empty;
         public string UrlImage { get; private set; } = string.Empty;
         public int ReleaseYear { get; private set; } = 0;
+        public List<PersonalList> BelongsTo { get; private set; }
 
-        public PersonalList BelongsTo { get; private set; }
 
-
-        protected void Update(string title, string genre, int releaseYear, string urlImage, PersonalList belongsTo)
+        protected void Update(string title, string genre, int releaseYear, string urlImage, List<PersonalList> belongsTo)
         {
             Title = title;
             Genre = genre;

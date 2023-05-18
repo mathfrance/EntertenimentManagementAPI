@@ -27,6 +27,7 @@ namespace EntertenimentManager.Infra.Mappings
                 .HasMaxLength(50);
 
             builder.Property(x => x.UrlImage);
+            //     .HasDefaultValue("Foto de perfil anonimo");
 
             builder.Property(x => x.ReleaseYear)
                 .IsRequired();
@@ -40,10 +41,22 @@ namespace EntertenimentManager.Infra.Mappings
                 .IsUnique();
 
             builder
-                .HasOne(x => x.BelongsTo)
-                .WithMany(x => (IEnumerable<Game>)x.Items)
-                        .HasConstraintName("FK_Game_PersonalList")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                .HasMany(x => x.BelongsTo)
+                .WithMany(x => x.Games)
+                .UsingEntity<Dictionary<string, object>>(
+                    "PersonalListGame",
+                    Game => Game
+                        .HasOne<PersonalList>()
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .HasConstraintName("FK_PersonalListGame_GameId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    PersonalList => PersonalList
+                        .HasOne<Game>()
+                        .WithMany()
+                        .HasForeignKey("PersonalListId")
+                        .HasConstraintName("FK_PersonalListGame_PersonalListId")
+                        .OnDelete(DeleteBehavior.Cascade));
 
             builder
                 .HasMany(x => x.Platforms)
