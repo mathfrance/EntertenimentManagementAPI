@@ -46,22 +46,10 @@ namespace EntertenimentManager.Infra.Mappings
                 .IsUnique();
 
             builder
-                .HasMany(x => x.BelongsTo)
-                .WithMany(x => x.Movies)
-                .UsingEntity<Dictionary<string, object>>(
-                    "PersonalListMovie",
-                    Movie => Movie
-                        .HasOne<PersonalList>()
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .HasConstraintName("FK_PersonalListMovie_MovieId")
-                        .OnDelete(DeleteBehavior.Cascade),
-                    PersonalList => PersonalList
-                        .HasOne<Movie>()
-                        .WithMany()
-                        .HasForeignKey("PersonalListId")
-                        .HasConstraintName("FK_PersonalListMovie_PersonalListId")
-                        .OnDelete(DeleteBehavior.Cascade));
+                .HasOne(x => x.BelongsTo)
+                .WithMany(x => (IEnumerable<Movie>)x.Items)
+                        .HasConstraintName("FK_Movie_PersonalList")
+                        .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

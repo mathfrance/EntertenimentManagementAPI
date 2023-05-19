@@ -22,7 +22,7 @@ namespace EntertenimentManager.Infra.Mappings
 
             builder
                 .HasOne(x => x.Category)
-                        .WithMany(x => x.Lists)
+                        .WithMany(x => (IEnumerable<PersonalList>)x.Lists)
                         .HasConstraintName("FK_PersonalList_Category")
                         .OnDelete(DeleteBehavior.ClientCascade);
         }
