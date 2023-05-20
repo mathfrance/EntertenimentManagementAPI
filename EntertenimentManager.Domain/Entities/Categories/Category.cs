@@ -1,9 +1,10 @@
-﻿using EntertenimentManager.Domain.Entities.Users;
+﻿using EntertenimentManager.Domain.Entities.Lists;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.SharedContext;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EntertenimentManager.Domain.Entities.Lists
+namespace EntertenimentManager.Domain.Entities.Categories
 {
     public class Category : Entity
     {
@@ -11,7 +12,7 @@ namespace EntertenimentManager.Domain.Entities.Lists
         {
 
         }
-        public Category(string name, int type, IEnumerable<IPersonalList> list)
+        public Category(string name, int type, IEnumerable<PersonalList> list)
         {
             Name = name;
             Type = type;
@@ -21,6 +22,6 @@ namespace EntertenimentManager.Domain.Entities.Lists
         public string Name { get; private set; } = string.Empty;
         public int Type { get; private set; }
         public User Owner { get; private set; }
-        public IList<IPersonalList> Lists { get; private set; }
+        public IList<PersonalList> Lists { get; private set; }
     }
 }

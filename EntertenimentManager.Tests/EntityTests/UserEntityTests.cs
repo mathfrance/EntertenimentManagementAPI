@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Users;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enumerators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -7,7 +8,7 @@ namespace EntertenimentManager.Tests.EntityTests
     [TestClass]
     public class UserEntityTests
     {
-        private readonly User _user = new("Fulano", "fulano@email.com", "hashpass", "image");
+        private readonly User _user = new("Fulano", "fulano@email.com", "hashpass", "image", new CategoryFactory());
         private const int EMPTY = 0;
 
 
@@ -66,12 +67,12 @@ namespace EntertenimentManager.Tests.EntityTests
             Assert.AreEqual(length, _user.Categories.Count);
         }
 
-        //[TestMethod]
-        //public void ShouldAddNewCategoriesFromEnumWhenItsUpdated()
-        //{
-        //    var length = Enum.GetValues(typeof(EnumCategories)).Length;
-        //    _user.UpdateCategories();
-        //    Assert.AreEqual(length, _user.Categories.Count);
-        //}
+        [TestMethod]
+        public void ShouldAddNewCategoriesFromEnumWhenItsUpdated()
+        {
+            var length = Enum.GetValues(typeof(EnumCategories)).Length;
+            _user.UpdateCategories();
+            Assert.AreEqual(length, _user.Categories.Count);
+        }
     }
 }

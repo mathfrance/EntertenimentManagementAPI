@@ -1,8 +1,9 @@
-﻿using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.SharedContext;
+﻿using EntertenimentManager.Domain.SharedContext;
 using System.Collections.Generic;
 using System;
 using EntertenimentManager.Domain.Enumerators;
+using EntertenimentManager.Domain.Entities.Categories.Contracts;
+using EntertenimentManager.Domain.Entities.Categories;
 
 namespace EntertenimentManager.Domain.Entities.Users
 {
@@ -10,15 +11,19 @@ namespace EntertenimentManager.Domain.Entities.Users
     {
         private readonly List<Role> _roles;
         private readonly List<Category> _categories;
-        public User(string name, string email, string passwordHash, string image)
+        private readonly ICategoryFactory _categoryFactory;
+        
+        public User(string name, string email, string passwordHash, string image, ICategoryFactory categoryFactory)
         {
             Name = name;
             Email = email;
             PasswordHash = passwordHash;
             Image = image;
+            _categoryFactory = categoryFactory;
             _roles = new();
             _categories = new();
         }
+        
         #region Properties
         public string Name { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
@@ -51,10 +56,9 @@ namespace EntertenimentManager.Domain.Entities.Users
         public void CreateCategories()
         {
             foreach (EnumCategories category in Enum.GetValues(typeof(EnumCategories)))
-            {
-                CategoryFactory factory = new CategoryFactory();
-                var result = factory.Create(category);
-                _categories.Add(new Category(category.ToString(), (int)category, result));
+            {                
+                var personalLists = _categoryFactory.Create(category);
+                _categories.Add(new Category(category.ToString(), (int)category, personalLists));
             }
         }
 
@@ -62,8 +66,12 @@ namespace EntertenimentManager.Domain.Entities.Users
         {
             foreach (EnumCategories category in Enum.GetValues(typeof(EnumCategories)))
             {
-                //if (!_categories.Exists(x => x.Type == (int)category))
-                //_categories.Add(new Category(category.ToString(), (int)category));
+                if (!_categories.Exists(x => x.Type == (int)category))
+                {
+                    var personalLists = _categoryFactory.Create(category);
+                    _categories.Add(new Category(category.ToString(), (int)category, personalLists));
+                }
+                    
             }
         }
         #endregion

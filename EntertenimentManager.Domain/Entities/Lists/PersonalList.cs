@@ -1,19 +1,16 @@
-﻿using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.SharedContext;
 using System.Collections.Generic;
 
 namespace EntertenimentManager.Domain.Entities.Lists
 {
-    public class PersonalList : Entity, IPersonalList
+    public class PersonalList : Entity
     {
-        public PersonalList()
-        {
-
-        }
-        public PersonalList(string title, List<Item> items)
+        public PersonalList(string title)
         {
             Title = title;
-            Items = items;
+            Items = new();
         }
 
         public string Title { get; private set; } = string.Empty;

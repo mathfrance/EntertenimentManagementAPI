@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Users;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,9 +16,9 @@ namespace EntertenimentManager.Tests.QueryTests
         {
             _users = new List<User>
             {
-                new User("Fulano", "fulano@email.com", "hashpass", "image"),
-                new User("Beltrano", "beltrano@email.com", "hashpass", "image"),
-                new User("Sicrano", "sicrano@email.com", "hashpass", "image")
+                new User("Fulano", "fulano@email.com", "hashpass", "image", new CategoryFactory()),
+                new User("Beltrano", "beltrano@email.com", "hashpass", "image", new CategoryFactory()),
+                new User("Sicrano", "sicrano@email.com", "hashpass", "image", new CategoryFactory())
             };
 
             _roles = new List<Role>

@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Users;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using SecureIdentity.Password;
 
@@ -34,7 +35,7 @@ namespace EntertenimentManager.Tests.Repositories
                 return Task.FromResult<User>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             }
-            return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
+            return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image", new CategoryFactory()));
 
         }
 
@@ -47,7 +48,7 @@ namespace EntertenimentManager.Tests.Repositories
                 return Task.FromResult<User>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             }
-            return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image"));
+            return Task.FromResult(new User("Fulano", "fulano@email.com", hashPass, "base64Image", new CategoryFactory()));
 
         }        
     }

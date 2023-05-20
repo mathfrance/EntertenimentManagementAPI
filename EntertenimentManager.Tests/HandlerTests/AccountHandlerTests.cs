@@ -1,5 +1,6 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Account;
+using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Tests.Repositories;
 using EntertenimentManager.Tests.Storages;
@@ -29,7 +30,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly DeleteAccountCommand _validDeleteCommand = new("fulano@email.com");
         private readonly DeleteAccountCommand _wrongEmailDeleteCommand = new("wrong@email.com");
         private readonly DeleteAccountCommand _invalidDeleteCommand = new("notEmail.com");
-        private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry(), new FakeStorage());        
+        private readonly AccountHandler _accountHandler = new(new FakeAccountRepositiry(), new FakeStorage(), new CategoryFactory());        
         private GenericCommandResult _result = new();
 
         public AccountHandlerTests()

@@ -1,5 +1,7 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Commands.Account;
+using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Categories.Contracts;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
@@ -78,6 +80,7 @@ namespace EntertenimentManager.API.Extensions
                 Configuration.StorageConnectionString, 
                 Configuration.ImageContainer));
             builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+            builder.Services.AddTransient<ICategoryFactory, CategoryFactory>();
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
             builder.Services.AddTransient<EmailService>();

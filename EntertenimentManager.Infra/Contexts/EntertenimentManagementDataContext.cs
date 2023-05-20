@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Infra.Mappings;

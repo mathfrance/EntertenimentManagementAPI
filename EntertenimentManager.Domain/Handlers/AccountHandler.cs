@@ -1,6 +1,7 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Contracts;
+using EntertenimentManager.Domain.Entities.Categories.Contracts;
 using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Handlers.Contract;
@@ -23,11 +24,13 @@ namespace EntertenimentManager.Domain.Handlers
     {
         private readonly IAccountRepository _repository;
         private readonly IImageStorage _imageStorage;
+        private readonly ICategoryFactory _categoryFactory;
 
-        public AccountHandler(IAccountRepository repository, IImageStorage storage)
+        public AccountHandler(IAccountRepository repository, IImageStorage storage, ICategoryFactory categoryFactory)
         {
             _repository = repository;
             _imageStorage = storage;
+            _categoryFactory = categoryFactory;
         }
 
         public async Task<ICommandResult> Handle(CreateAccountCommand command)
@@ -39,7 +42,7 @@ namespace EntertenimentManager.Domain.Handlers
 
             var password = PasswordGenerator.Generate();
 
-            var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), command.Image.FileName);
+            var user = new User(command.Name, command.Email, PasswordHasher.Hash(password), command.Image.FileName, _categoryFactory);
 
             user.CreateCategories();
 
