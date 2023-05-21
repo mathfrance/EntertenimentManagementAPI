@@ -12,7 +12,11 @@ namespace EntertenimentManager.Domain.Entities.Users
         private readonly List<Role> _roles;
         private readonly List<Category> _categories;
         private readonly ICategoryFactory _categoryFactory;
-        
+
+
+        protected User()
+        {
+        }
         public User(string name, string email, string passwordHash, string image, ICategoryFactory categoryFactory)
         {
             Name = name;
@@ -23,7 +27,7 @@ namespace EntertenimentManager.Domain.Entities.Users
             _roles = new();
             _categories = new();
         }
-        
+
         #region Properties
         public string Name { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
@@ -56,7 +60,7 @@ namespace EntertenimentManager.Domain.Entities.Users
         public void CreateCategories()
         {
             foreach (EnumCategories category in Enum.GetValues(typeof(EnumCategories)))
-            {                
+            {
                 var personalLists = _categoryFactory.Create(category);
                 _categories.Add(new Category(category.ToString(), (int)category, personalLists));
             }
@@ -71,7 +75,7 @@ namespace EntertenimentManager.Domain.Entities.Users
                     var personalLists = _categoryFactory.Create(category);
                     _categories.Add(new Category(category.ToString(), (int)category, personalLists));
                 }
-                    
+
             }
         }
         #endregion
