@@ -8,20 +8,20 @@ namespace EntertenimentManager.Domain.Entities.Categories
 {
     public class Category : Entity
     {
-        public Category()
+        private readonly IList<PersonalList> _personalLists;
+        protected Category()
         {
-
         }
         public Category(string name, int type, IEnumerable<PersonalList> list)
         {
             Name = name;
             Type = type;
-            Lists = list.ToList();
+            _personalLists = list.ToList();
         }
 
         public string Name { get; private set; } = string.Empty;
         public int Type { get; private set; }
         public User Owner { get; private set; }
-        public IList<PersonalList> Lists { get; private set; }
+        public IReadOnlyCollection<PersonalList> Lists { get { return _personalLists.ToArray(); } }
     }
 }

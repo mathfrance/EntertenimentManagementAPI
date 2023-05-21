@@ -2,9 +2,9 @@
 using EntertenimentManager.Domain.SharedContext;
 using System.Collections.Generic;
 
-namespace EntertenimentManager.Domain.Entities.Itens
+namespace EntertenimentManager.Domain.Entities.Itens.Contracts
 {
-    public interface Item
+    public interface IItem
     {
         public string Title { get; }
         public string Genre { get; }
@@ -13,9 +13,8 @@ namespace EntertenimentManager.Domain.Entities.Itens
         public PersonalList BelongsTo { get; }
 
 
-        protected void Update(string title, string genre, int releaseYear, string urlImage, PersonalList belongsTo)
+        public void Update()
         {
-
         }
     }
 }
