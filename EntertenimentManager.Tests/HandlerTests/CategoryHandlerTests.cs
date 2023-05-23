@@ -1,15 +1,8 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Category;
-using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Tests.Repositories;
-using EntertenimentManager.Tests.Storages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EntertenimentManager.Tests.HandlerTests
 {

@@ -1,6 +1,5 @@
 ﻿using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Repositories.Contracts;
-using System.Collections.Generic;
 
 namespace EntertenimentManager.Tests.Repositories
 {

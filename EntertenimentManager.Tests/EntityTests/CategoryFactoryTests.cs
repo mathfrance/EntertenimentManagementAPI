@@ -1,10 +1,7 @@
-﻿
-using EntertenimentManager.Domain.Entities.Categories;
+﻿using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enumerators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace EntertenimentManager.Tests.EntityTests
 {
