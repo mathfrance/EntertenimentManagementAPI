@@ -23,6 +23,7 @@ namespace EntertenimentManager.Infra.Repositories
             return await _context
                         .Categories
                         .AsNoTracking()
+                        .Include(x => x.Lists)
                         .Where(CategoryQueries.GetByUserId(userId))
                         .ToListAsync();                    
         }

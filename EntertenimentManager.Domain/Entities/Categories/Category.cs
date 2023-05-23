@@ -17,13 +17,12 @@ namespace EntertenimentManager.Domain.Entities.Categories
         {
             Name = name;
             Type = type;
-            _personalLists = new List<PersonalList>();
             _personalLists = list.ToList();
         }
 
         public string Name { get; private set; } = string.Empty;
         public int Type { get; private set; }
         public User Owner { get; private set; }
-        public IReadOnlyCollection<PersonalList> Lists { get { return _personalLists.ToArray(); } }
+        public IReadOnlyCollection<PersonalList> Lists { get { return _personalLists; } }
     }
 }
