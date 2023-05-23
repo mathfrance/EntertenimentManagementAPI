@@ -1,5 +1,6 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Commands.Account;
+using EntertenimentManager.Domain.Commands.Category;
 using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Entities.Categories.Contracts;
 using EntertenimentManager.Domain.Handlers;
@@ -85,6 +86,7 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<CategoryHandler, CategoryHandler>();
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
+            builder.Services.AddTransient<GetAllCategoriesCommand, GetAllCategoriesCommand>();
             builder.Services.AddTransient<EmailService>();
         }
     }

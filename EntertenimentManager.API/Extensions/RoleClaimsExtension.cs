@@ -11,7 +11,8 @@ namespace EntertenimentManager.API.Extensions
         {
             var result = new List<Claim>
             {
-                new (ClaimTypes.Name, user.Email)
+                new (ClaimTypes.Name, user.Email),
+                new (ClaimTypes.NameIdentifier, user.Id.ToString())
             };
             result.AddRange(
                 user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name))
