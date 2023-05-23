@@ -8,14 +8,16 @@ namespace EntertenimentManager.Domain.Entities.Categories
 {
     public class Category : Entity
     {
-        private readonly IList<PersonalList> _personalLists;
+        private readonly List<PersonalList> _personalLists;
         protected Category()
         {
+            _personalLists = new List<PersonalList>();
         }
         public Category(string name, int type, IEnumerable<PersonalList> list)
         {
             Name = name;
             Type = type;
+            _personalLists = new List<PersonalList>();
             _personalLists = list.ToList();
         }
 

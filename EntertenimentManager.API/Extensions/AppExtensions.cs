@@ -79,9 +79,11 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<IImageStorage>(provider => new AzureImageStorage(
                 Configuration.StorageConnectionString, 
                 Configuration.ImageContainer));
-            builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<ICategoryFactory, CategoryFactory>();
+            builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+            builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
+            builder.Services.AddTransient<CategoryHandler, CategoryHandler>();
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
             builder.Services.AddTransient<EmailService>();
         }
