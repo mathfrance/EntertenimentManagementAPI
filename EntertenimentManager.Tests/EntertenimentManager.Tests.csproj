@@ -20,4 +20,8 @@
     <ProjectReference Include="..\EntertenimentManager.Domain\EntertenimentManager.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CommandTests\Category\" />
+  </ItemGroup>
+
 </Project>

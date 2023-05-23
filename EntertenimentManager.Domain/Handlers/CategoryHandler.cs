@@ -22,10 +22,6 @@ namespace EntertenimentManager.Domain.Handlers
         {
             var categories = await _repository.GetAllByUserId(command.UserId);
 
-            if (categories == null)
-                return new GenericCommandResult(false, "Não foi possível obter as categorias do usuário", command.Notifications);
-
-
             return new GenericCommandResult(true, "Categorias obtidas com sucesso", categories);
         }
     }
