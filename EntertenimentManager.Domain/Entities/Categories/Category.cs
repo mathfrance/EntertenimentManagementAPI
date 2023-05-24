@@ -13,6 +13,7 @@ namespace EntertenimentManager.Domain.Entities.Categories
         {
             _personalLists = new List<PersonalList>();
         }
+
         public Category(string name, int type, IEnumerable<PersonalList> list)
         {
             Name = name;
@@ -24,5 +25,10 @@ namespace EntertenimentManager.Domain.Entities.Categories
         public int Type { get; private set; }
         public User Owner { get; private set; }
         public IReadOnlyCollection<PersonalList> Lists { get { return _personalLists; } }
+
+        public void AddOwner(User owner)
+        {
+            Owner ??= owner;
+        }
     }
 }

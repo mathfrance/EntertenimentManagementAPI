@@ -10,7 +10,7 @@ namespace EntertenimentManager.Tests.HandlerTests
     public class CategoryHandlerTests
     {
         private readonly CategoryHandler _categoryHandler = new(new FakeCategoryRepository());
-        private readonly GetAllCategoriesCommand _categoriesCommand = new GetAllCategoriesCommand() { UserId = 1};
+        private readonly GetAllCategoriesCommand _categoriesCommand = new() { UserId = 1};
         private GenericCommandResult _result = new();
 
         #region CategoryHandler        
