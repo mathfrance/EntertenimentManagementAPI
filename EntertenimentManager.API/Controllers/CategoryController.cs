@@ -35,5 +35,25 @@ namespace EntertenimentManager.API.Controllers
                 return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
+
+        [HttpPost("v1/categories/")]
+        [Authorize]
+        public async Task<IActionResult> GetAsync(
+            [FromBody] GetCategoryByIdCommand command,
+            [FromServices] CategoryHandler handler)
+        {
+            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter as categorias do usuário", ModelState.GetErrors()));
+           
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
     }
 }

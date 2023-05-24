@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
@@ -25,7 +26,17 @@ namespace EntertenimentManager.Infra.Repositories
                         .AsNoTracking()
                         .Include(x => x.Lists)
                         .Where(CategoryQueries.GetByUserId(userId))
-                        .ToListAsync();                    
+                        .ToListAsync();
+        }
+
+        public async Task<Category?> GetById(int id)
+        {
+            return await _context
+                        .Categories
+                        .AsNoTracking()
+                        .Include(x => x.Lists)
+                        .FirstOrDefaultAsync(CategoryQueries.GetById(id));
+
         }
     }
 }

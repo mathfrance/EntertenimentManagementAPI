@@ -7,5 +7,7 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     public interface ICategoryRepository
     {      
         Task<IEnumerable<Category>> GetAllByUserId(int userId);
+        Task<Category> GetById(int Id);
+
     }
 }

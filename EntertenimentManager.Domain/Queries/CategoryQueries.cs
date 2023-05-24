@@ -6,9 +6,14 @@ namespace EntertenimentManager.Domain.Queries
 {
     public static class CategoryQueries
     {
-        public static Expression<Func<Category, bool>> GetByUserId(int id)
+        public static Expression<Func<Category, bool>> GetByUserId(int userId)
         {
-            return x => x.Owner.Id == id;
+            return x => x.Owner.Id == userId;
+        }
+
+        public static Expression<Func<Category, bool>> GetById(int id)
+        {
+            return x => x.Id == id;
         }
     }
 }

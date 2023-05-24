@@ -10,7 +10,9 @@ namespace EntertenimentManager.Domain.Handlers
 {
     public class CategoryHandler :
         Notifiable<Notification>,
-        IHandler<GetAllCategoriesCommand>
+        IHandler<GetAllCategoriesCommand>,
+        IHandler<GetCategoryByIdCommand>
+
     {
         private readonly ICategoryRepository _repository;
 
@@ -23,6 +25,16 @@ namespace EntertenimentManager.Domain.Handlers
             var categories = await _repository.GetAllByUserId(command.UserId);
 
             return new GenericCommandResult(true, "Categorias obtidas com sucesso", categories);
+        }
+
+        public async Task<ICommandResult> Handle(GetCategoryByIdCommand command)
+        {
+            var category = await _repository.GetById(command.Id);
+
+            if (category == null)
+                return new GenericCommandResult(false, "Não foi possível obter a categoria", command.Notifications);
+
+            return new GenericCommandResult(true, "Categorias obtidas com sucesso", category);
         }
     }
 }
