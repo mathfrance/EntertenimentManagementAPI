@@ -18,9 +18,13 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult(_categoryLists);
         }
 
-        public Task<Category> GetById(int Id)
+        public Task<Category> GetById(int id)
         {
-            return Task.FromResult(new Category("Movies", (int)EnumCategories.Movies, new List<PersonalList>()));
+            if(id == 0)
+                return Task.FromResult(new Category("Movies", (int)EnumCategories.Movies, new List<PersonalList>()));
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+            return Task.FromResult<Category>(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
     }
 }
