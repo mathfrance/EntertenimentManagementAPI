@@ -5,6 +5,10 @@ namespace EntertenimentManager.Domain.Commands.PersonalList
 {
     public class GetPersonalListByIdCommand : Notifiable<Notification>, ICommand
     {
+        public GetPersonalListByIdCommand()
+        {
+            
+        }
 
         public GetPersonalListByIdCommand(int id)
         {

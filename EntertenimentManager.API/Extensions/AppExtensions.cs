@@ -1,6 +1,7 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Category;
+using EntertenimentManager.Domain.Commands.PersonalList;
 using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Entities.Categories.Contracts;
 using EntertenimentManager.Domain.Handlers;
@@ -81,15 +82,21 @@ namespace EntertenimentManager.API.Extensions
                 Configuration.StorageConnectionString, 
                 Configuration.ImageContainer));
             builder.Services.AddTransient<ICategoryFactory, CategoryFactory>();
+            #region Repositories
             builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
             builder.Services.AddTransient<IPersonalListRepository, PersonalListRepository>();
+            #endregion
+            #region Handlers
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<CategoryHandler, CategoryHandler>();
             builder.Services.AddTransient<PersonalListHandler, PersonalListHandler>();
+            #endregion
+            #region Commands
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
             builder.Services.AddTransient<GetAllCategoriesCommand, GetAllCategoriesCommand>();
-            builder.Services.AddTransient<EmailService>();
+            builder.Services.AddTransient<GetPersonalListByIdCommand, GetPersonalListByIdCommand>();
+            #endregion
         }
     }
 }

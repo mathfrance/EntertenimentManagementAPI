@@ -10,9 +10,17 @@ namespace EntertenimentManager.Domain.Handlers
 {
     public class PersonalListHandler :
         Notifiable<Notification>,
+        IHandler<GetAllPersonalListsByCategoryIdCommand>,
         IHandler<GetPersonalListByIdCommand>
     {
         private readonly IPersonalListRepository _repository;
+
+        public async Task<ICommandResult> Handle(GetAllPersonalListsByCategoryIdCommand command)
+        {
+            var personalLists = await _repository.GetAllByCategoryId(command.CategoryId);
+
+            return new GenericCommandResult(true, "Listas obtidas com sucesso", personalLists);
+        }
 
         public PersonalListHandler(IPersonalListRepository repository)
         {
@@ -20,12 +28,12 @@ namespace EntertenimentManager.Domain.Handlers
         }
         public async Task<ICommandResult> Handle(GetPersonalListByIdCommand command)
         {
-            var category = await _repository.GetById(command.Id);
+            var personalList = await _repository.GetById(command.Id);
 
-            if (category == null)
+            if (personalList == null)
                 return new GenericCommandResult(false, "Não foi possível obter a lista", command.Notifications);
 
-            return new GenericCommandResult(true, "Lista obtida com sucesso", category);
-        }
+            return new GenericCommandResult(true, "Lista obtida com sucesso", personalList);
+        }        
     }
 }

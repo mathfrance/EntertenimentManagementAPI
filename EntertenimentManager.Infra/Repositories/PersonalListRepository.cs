@@ -13,13 +13,13 @@ namespace EntertenimentManager.Infra.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<PersonalList>> GetAllByCategoryId(int userId)
+        public async Task<IEnumerable<PersonalList>> GetAllByCategoryId(int categoryId)
         {
             return await _context
                         .PersonalLists
                         .AsNoTracking()
                         .Include(x => x.Items)
-                        .Where(PersonalListQueries.GetByCategoryId(userId))
+                        .Where(PersonalListQueries.GetByCategoryId(categoryId))
                         .ToListAsync();
         }
 
