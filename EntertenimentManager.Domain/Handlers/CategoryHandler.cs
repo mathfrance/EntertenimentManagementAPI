@@ -32,9 +32,9 @@ namespace EntertenimentManager.Domain.Handlers
             var category = await _repository.GetById(command.Id);
 
             if (category == null)
-                return new GenericCommandResult(false, "Não foi possível obter a categoria", command.Notifications);
+                return new GenericCommandResult(false, "Não foi possível obter a categoria informada", command.Notifications);
 
-            return new GenericCommandResult(true, "Categorias obtidas com sucesso", category);
+            return new GenericCommandResult(true, "Categoria obtida com sucesso", category);
         }
     }
 }

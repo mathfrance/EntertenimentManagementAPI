@@ -83,8 +83,10 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<ICategoryFactory, CategoryFactory>();
             builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddTransient<IPersonalListRepository, PersonalListRepository>();
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<CategoryHandler, CategoryHandler>();
+            builder.Services.AddTransient<PersonalListHandler, PersonalListHandler>();
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
             builder.Services.AddTransient<GetAllCategoriesCommand, GetAllCategoriesCommand>();
             builder.Services.AddTransient<EmailService>();

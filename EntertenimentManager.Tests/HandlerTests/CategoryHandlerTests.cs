@@ -11,8 +11,8 @@ namespace EntertenimentManager.Tests.HandlerTests
     {
         private readonly CategoryHandler _categoryHandler = new(new FakeCategoryRepository());
         private readonly GetAllCategoriesCommand _getAllCategoriesCommand = new() { UserId = 1};
-        private readonly GetCategoryByIdCommand _getCategoryByIdCommand = new() { Id = 0};
-        private readonly GetCategoryByIdCommand _getANotExistentCategoryByIdCommand = new() { Id = -1};
+        private readonly GetCategoryByIdCommand _getCategoryByIdCommand = new(0);
+        private readonly GetCategoryByIdCommand _getANotExistentCategoryByIdCommand = new(-1);
         private GenericCommandResult _result = new();
 
         #region GetAllCategoriesCommand        

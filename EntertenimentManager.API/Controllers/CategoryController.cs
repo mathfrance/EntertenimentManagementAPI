@@ -15,7 +15,7 @@ namespace EntertenimentManager.API.Controllers
     {
         [HttpGet("v1/categories/")]
         [Authorize]
-        public async Task<IActionResult> GetAsync(
+        public async Task<IActionResult> GetAllAsync(
             [FromServices] GetAllCategoriesCommand command,
             [FromServices] CategoryHandler handler)
         {
@@ -38,11 +38,11 @@ namespace EntertenimentManager.API.Controllers
 
         [HttpPost("v1/categories/")]
         [Authorize]
-        public async Task<IActionResult> GetAsync(
+        public async Task<IActionResult> GetByIdAsync(
             [FromBody] GetCategoryByIdCommand command,
             [FromServices] CategoryHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter as categorias do usuário", ModelState.GetErrors()));
+            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter a categoria informada", ModelState.GetErrors()));
            
             try
             {

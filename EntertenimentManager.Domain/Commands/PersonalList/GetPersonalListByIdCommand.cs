@@ -1,12 +1,12 @@
 ﻿using EntertenimentManager.Domain.Commands.Contracts;
 using Flunt.Notifications;
 
-namespace EntertenimentManager.Domain.Commands.Category
+namespace EntertenimentManager.Domain.Commands.PersonalList
 {
-    public class GetCategoryByIdCommand : Notifiable<Notification>, ICommand
+    public class GetPersonalListByIdCommand : Notifiable<Notification>, ICommand
     {
 
-        public GetCategoryByIdCommand(int id)
+        public GetPersonalListByIdCommand(int id)
         {
             Id = id;
         }
