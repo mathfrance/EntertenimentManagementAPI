@@ -8,6 +8,6 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     public interface IPersonalListRepository
     {
         Task<IEnumerable<PersonalList>> GetAllByCategoryId(int categoryId);
-        Task<PersonalList> GetById(int Id);
+        Task<PersonalList> GetById(int id);
     }
 }

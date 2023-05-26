@@ -1,5 +1,4 @@
 ﻿using EntertenimentManager.API.Extensions;
-using EntertenimentManager.Domain.Commands.Category;
 using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Handlers;
 using Microsoft.AspNetCore.Authorization;
