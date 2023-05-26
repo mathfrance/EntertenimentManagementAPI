@@ -28,5 +28,10 @@ namespace EntertenimentManager.Domain.Entities.Lists
         {
             return HashCode.Combine(Id, Title, Category);
         }
+
+        public void AddCategory (Category category)
+        {
+            Category ??= category;
+        }
     }
 }
