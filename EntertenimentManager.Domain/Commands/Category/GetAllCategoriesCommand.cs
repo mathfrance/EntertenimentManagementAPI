@@ -7,10 +7,6 @@ namespace EntertenimentManager.Domain.Commands.Category
 {
     public class GetAllCategoriesCommand : Notifiable<Notification>, ICommand
     {
-
-        public GetAllCategoriesCommand()
-        { }
-
         public int UserId { get; set; } = 0;
 
         public void Validate()

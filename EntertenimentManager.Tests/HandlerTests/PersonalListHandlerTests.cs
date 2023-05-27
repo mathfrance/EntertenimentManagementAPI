@@ -7,12 +7,12 @@ using EntertenimentManager.Domain.Commands.PersonalList;
 namespace EntertenimentManager.Tests.HandlerTests
 {
     [TestClass]
-    public class PersonalListHandlerTests
+    public class PersonalListTests
     {
         private readonly PersonalListHandler _personalListHandler = new(new FakePersonalListRepository());
-        private readonly GetAllPersonalListsByCategoryIdCommand _getAllPersonalListsCommand = new(1);
-        private readonly GetPersonalListByIdCommand _getPersonalListByIdCommand = new(0);
-        private readonly GetPersonalListByIdCommand _getANotExistentPersonalListByIdCommand = new(-1);
+        private readonly GetAllPersonalListsByCategoryIdCommand _getAllPersonalListsCommand = new() { CategoryId = 1};
+        private readonly GetPersonalListByIdCommand _getPersonalListByIdCommand = new();
+        private readonly GetPersonalListByIdCommand _getANotExistentPersonalListByIdCommand = new() { Id = -1};
         private GenericCommandResult _result = new();
 
         #region GetAllPersonalListsByCategoryIdCommand        

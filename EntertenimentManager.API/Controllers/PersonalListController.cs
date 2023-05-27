@@ -11,14 +11,15 @@ namespace EntertenimentManager.API.Controllers
 {
     public class PersonalListController : ControllerBase
     {
-        [HttpPost("v1/categories/lists/")]
+        [HttpGet("v1/categories/all/lists/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetAllAsync(
-            [FromBody] GetAllPersonalListsByCategoryIdCommand command,
+            [FromRoute] int id,
+            [FromServices] GetAllPersonalListsByCategoryIdCommand command,
             [FromServices] PersonalListHandler handler)
         {
             if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter a lista", ModelState.GetErrors()));
-
+            command.CategoryId = id;
             try
             {
                 var result = await handler.Handle(command);
