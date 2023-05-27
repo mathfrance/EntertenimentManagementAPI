@@ -5,7 +5,10 @@ namespace EntertenimentManager.Domain.Commands.Category
 {
     public class GetCategoryByIdCommand : Notifiable<Notification>, ICommand
     {
-
+        public GetCategoryByIdCommand()
+        {
+            
+        }
         public GetCategoryByIdCommand(int id)
         {
             Id = id;

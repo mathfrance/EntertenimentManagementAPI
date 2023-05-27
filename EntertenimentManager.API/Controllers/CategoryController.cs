@@ -36,14 +36,15 @@ namespace EntertenimentManager.API.Controllers
             }
         }
 
-        [HttpPost("v1/categories/")]
+        [HttpGet("v1/categories/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetByIdAsync(
-            [FromBody] GetCategoryByIdCommand command,
+            [FromRoute] int id,
+            [FromServices] GetCategoryByIdCommand command,
             [FromServices] CategoryHandler handler)
         {
             if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter a categoria informada", ModelState.GetErrors()));
-           
+            command.Id = id;
             try
             {
                 var result = await handler.Handle(command);

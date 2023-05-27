@@ -95,6 +95,7 @@ namespace EntertenimentManager.API.Extensions
             #region Commands
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();
             builder.Services.AddTransient<GetAllCategoriesCommand, GetAllCategoriesCommand>();
+            builder.Services.AddTransient<GetCategoryByIdCommand, GetCategoryByIdCommand>();
             builder.Services.AddTransient<GetPersonalListByIdCommand, GetPersonalListByIdCommand>();
             #endregion
         }
