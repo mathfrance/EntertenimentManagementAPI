@@ -7,7 +7,7 @@ namespace EntertenimentManager.Domain.Entities.Itens
 {
     public class Movie : Entity, IItem
     {
-        public Movie(string title, string genre, int releaseYear, int durationInMinutes = 0, string distributor = "", string director = "", string urlImage = "")            
+        public Movie(string title, string genre, int releaseYear, int durationInMinutes, string urlImage, string distributor = "", string director = "")            
         {
             Title = title;
             Genre = genre;
