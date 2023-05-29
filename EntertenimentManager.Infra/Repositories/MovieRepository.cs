@@ -6,10 +6,11 @@ using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EntertenimentManager.Infra.Repositories
 {
-    internal class MovieRepository : IMovieRepository
+    public class MovieRepository : IMovieRepository
     {
         private readonly EntertenimentManagementDataContext _context;
         public MovieRepository(EntertenimentManagementDataContext context)
@@ -27,7 +28,7 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context
                         .PersonalLists
-                        .Include(x => x.Items)
+                        .Include(x => (IEnumerable<Movie>)x.Items)
                         .FirstOrDefaultAsync(PersonalListQueries.GetById(id));
         }
     }

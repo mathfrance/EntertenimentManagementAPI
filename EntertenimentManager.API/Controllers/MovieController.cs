@@ -6,9 +6,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Infra.Contexts;
+using Microsoft.AspNetCore.Authorization;
+using EntertenimentManager.Domain.Handlers;
+using EntertenimentManager.Domain.Commands.Item.Movie;
+using EntertenimentManager.Domain.Commands;
+using System;
 
 namespace EntertenimentManager.API.Controllers
 {
+    [Authorize]
     public class MovieController : ControllerBase
     {
         [HttpGet("v1/movies")]
@@ -49,17 +55,16 @@ namespace EntertenimentManager.API.Controllers
 
         [HttpPost("v1/movies")]
         public async Task<IActionResult> PostAsync(
-            [FromBody] Movie model,
-            [FromServices] EntertenimentManagementDataContext context)
+            [FromBody] CreateMovieCommand command,
+            [FromServices] MovieHandler handler)
         {
             if (!ModelState.IsValid) return BadRequest(new ResultViewModel<Movie>(ModelState.GetErrors()));
 
             try
             {
-                await context.Movies.AddAsync(model);
-                await context.SaveChangesAsync();
-
-                return Created($"v1/movies/{model.Id}", new ResultViewModel<Movie>(model));
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
             }
             catch
             {

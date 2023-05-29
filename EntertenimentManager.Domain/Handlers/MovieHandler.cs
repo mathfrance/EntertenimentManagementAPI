@@ -44,7 +44,7 @@ namespace EntertenimentManager.Domain.Handlers
                 command.ThumbImage.FileName, 
                 command.Distributor, 
                 command.Director);
-
+            movie.AddToList(personalList);
             await _repository.CreateAsync(movie);
 
             await _imageStorage.UploadAsync(command.ThumbImage.ImageBytes, command.ThumbImage.FileName);

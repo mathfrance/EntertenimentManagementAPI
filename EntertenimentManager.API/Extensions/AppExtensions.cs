@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -75,7 +76,11 @@ namespace EntertenimentManager.API.Extensions
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<EntertenimentManagementDataContext>(options =>                
-                options.UseSqlServer(connectionString));
+                options
+                .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
+                .EnableSensitiveDataLogging()
+                .UseSqlServer(connectionString, x =>
+                x.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery)));
             builder.Services.AddTransient<TokenService>();
             builder.Services.AddTransient<EmailService>();
             builder.Services.AddTransient<IImageStorage>(provider => new AzureImageStorage(
@@ -86,11 +91,13 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<IAccountRepository, AccountRepository>();
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
             builder.Services.AddTransient<IPersonalListRepository, PersonalListRepository>();
+            builder.Services.AddTransient<IMovieRepository, MovieRepository>();
             #endregion
             #region Handlers
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<CategoryHandler, CategoryHandler>();
             builder.Services.AddTransient<PersonalListHandler, PersonalListHandler>();
+            builder.Services.AddTransient<MovieHandler, MovieHandler>();
             #endregion
             #region Commands
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();

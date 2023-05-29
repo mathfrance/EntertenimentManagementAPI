@@ -12,7 +12,7 @@ namespace EntertenimentManager.Domain.Commands.Item.Movie
         private readonly int _maxFutureYearRelase;
         public CreateMovieCommand()
         {
-
+            _maxFutureYearRelase = DateTime.Now.AddYears(5).Year;
         }
 
         public CreateMovieCommand(string distributor, string director, int durationInMinutes, string title, string genre, string urlImage, int releaseYear, int belongsToId)
@@ -50,10 +50,10 @@ namespace EntertenimentManager.Domain.Commands.Item.Movie
                 .IsLowerThan(Distributor, 80, "A Distribuidora precisa ter no máximo 80 caracteres")
                 .IsLowerThan(Director, 80, "O(A) Diretor(a) precisa ter no máximo 80 caracteres")
                 .IsLowerThan(Genre, 50, "O gênero precisa ter no máximo 50 caracteres")
-                .IsLowerThan(ReleaseYear, 1900, "O filme precisa ter sido lançado após o ano 1900")
-                .IsGreaterThan(ReleaseYear, _maxFutureYearRelase, $"O filme precisa ter data de lançamento até {_maxFutureYearRelase}")
-                .IsLowerThan(DurationInMinutes, 1, "O filme precisa ter duração mínima de 1 minuto")
-                .IsGreaterThan(DurationInMinutes, 999, "O filme precisa ter duração máxima de 999 minutos")
+                .IsGreaterThan(ReleaseYear, 1900, "O filme precisa ter sido lançado após o ano 1900")
+                .IsLowerThan(ReleaseYear, _maxFutureYearRelase, $"O filme precisa ter data de lançamento até {_maxFutureYearRelase}")
+                .IsGreaterThan(DurationInMinutes, 1, "O filme precisa ter duração mínima de 1 minuto")
+                .IsLowerThan(DurationInMinutes, 999, "O filme precisa ter duração máxima de 999 minutos")
                 );
              AddNotifications(ThumbImage.Notifications);
         }

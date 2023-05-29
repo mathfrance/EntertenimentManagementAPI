@@ -32,6 +32,11 @@ namespace EntertenimentManager.Domain.Entities.Itens
 
         public PersonalList BelongsTo { get; private set; }
         #endregion
+        
+        public void AddToList(PersonalList list)
+        {
+            BelongsTo = list;
+        }
 
         public void Update(string title, string genre, int releaseYear, int durationInMinutes, string distributor, string director, string urlImage, PersonalList belongsTo)
         {
