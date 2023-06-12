@@ -5,43 +5,28 @@ using System.Collections.Generic;
 
 namespace EntertenimentManager.Domain.Entities.Itens
 {
-    public class Game : Entity, IItem
+    public class Game : Item
     {
-        public Game(string title, string genre, int releaseYear, string developer = "", string urlImage = "")
+        public Game()
         {
-            Title = title;
-            Genre = genre;
-            ReleaseYear = releaseYear;
+            
+        }
+        public Game(string title, string genre, int releaseYear, PersonalList belongsTo, string developer = "", string urlImage = "")
+            : base(title, genre, releaseYear, urlImage, belongsTo)
+        {
             Developer = developer;
-            UrlImage = urlImage;
             Platforms = new();
         }
 
-        #region Properties
         public string Developer { get; private set; } = string.Empty;
 
         public List<Platform> Platforms { get; private set; }
 
-        public string Title { get; private set; } = string.Empty;
-
-        public string Genre { get; private set; } = string.Empty;
-
-        public string UrlImage { get; private set; } = string.Empty;
-
-        public int ReleaseYear { get; private set; } = 0;
-
-        public PersonalList BelongsTo { get; private set; }
-        #endregion
-
         public void Update(string title, string genre, int releaseYear, string developer, string urlImage, List<Platform> platforms, PersonalList belongsTo)
         {
-            Title = title;
-            Genre = genre;
-            ReleaseYear = releaseYear;
+            base.Update(title, genre, releaseYear, urlImage, belongsTo);
             Developer = developer;
-            UrlImage = urlImage;
             Platforms = platforms;
-            BelongsTo = belongsTo;
         }
     }
 }

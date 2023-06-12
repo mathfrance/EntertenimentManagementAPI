@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Entities.Itens.Contracts;
 using EntertenimentManager.Domain.Entities.Lists;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -9,42 +10,12 @@ namespace EntertenimentManager.Infra.Mappings
     {
         public void Configure(EntityTypeBuilder<Game> builder)
         {
-            builder.ToTable("Game");
-
-            builder.HasKey(x => x.Id);
-
-            builder.Property(x => x.Id)
-                .ValueGeneratedOnAdd();
-
-            builder.Property(x => x.Title)
-                .IsRequired()
-                .HasColumnType("NVARCHAR")
-                .HasMaxLength(80);
-
-            builder.Property(x => x.Genre)
-                .IsRequired()
-                .HasColumnType("NVARCHAR")
-                .HasMaxLength(50);
-
-            builder.Property(x => x.UrlImage);
-            //     .HasDefaultValue("Foto de perfil anonimo");
-
-            builder.Property(x => x.ReleaseYear)
-                .IsRequired();
+            builder.ToTable("Game")
+                .HasBaseType<Item>();
 
             builder.Property(x => x.Developer)
                .HasColumnType("NVARCHAR")
                .HasMaxLength(80);
-
-            builder
-                .HasIndex(x => x.Title, "IX_Game_Title")
-                .IsUnique();
-
-            builder
-                .HasOne(x => x.BelongsTo)
-                .WithMany(x => (IEnumerable<Game>)x.Items)
-                        .HasConstraintName("FK_Game_PersonalList")
-                        .OnDelete(DeleteBehavior.ClientCascade);
 
             builder
                 .HasMany(x => x.Platforms)

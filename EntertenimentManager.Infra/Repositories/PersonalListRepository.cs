@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Lists;
+﻿using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;

@@ -40,11 +40,12 @@ namespace EntertenimentManager.Domain.Handlers
                 command.Title, 
                 command.Genre, 
                 command.ReleaseYear, 
+                command.Distributor,
+                command.Director,
+                personalList,
                 command.DurationInMinutes, 
-                command.ThumbImage.FileName, 
-                command.Distributor, 
-                command.Director);
-            movie.AddToList(personalList);
+                command.ThumbImage.FileName
+                );
             await _repository.CreateAsync(movie);
 
             await _imageStorage.UploadAsync(command.ThumbImage.ImageBytes, command.ThumbImage.FileName);

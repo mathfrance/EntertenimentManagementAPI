@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EntertenimentManagement.Infra.Migrations
+namespace EntertenimentManager.Infra.Migrations
 {
     [DbContext(typeof(EntertenimentManagementDataContext))]
     partial class EntertenimentManagementDataContextModelSnapshot : ModelSnapshot
@@ -22,114 +22,7 @@ namespace EntertenimentManagement.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Game", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BelongsToId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Developer")
-                        .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<int>("ReleaseYear")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<string>("UrlImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BelongsToId");
-
-                    b.HasIndex(new[] { "Title" }, "IX_Game_Title")
-                        .IsUnique();
-
-                    b.ToTable("Game", (string)null);
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Movie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("BelongsToId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Director")
-                        .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<string>("Distributor")
-                        .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<int>("DurationInMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<int>("ReleaseYear")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR");
-
-                    b.Property<string>("UrlImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BelongsToId");
-
-                    b.HasIndex(new[] { "Title" }, "IX_Movie_Title")
-                        .IsUnique();
-
-                    b.ToTable("Movie", (string)null);
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Platform", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Platform", (string)null);
-                });
-
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Categories.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,6 +46,56 @@ namespace EntertenimentManagement.Infra.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Category", (string)null);
+                });
+
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Contracts.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BelongsToId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ReleaseYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BelongsToId");
+
+                    b.ToTable("Item");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Platform", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("NVARCHAR");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Platform", (string)null);
                 });
 
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.PersonalList", b =>
@@ -261,25 +204,34 @@ namespace EntertenimentManagement.Infra.Migrations
 
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Game", b =>
                 {
-                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", "BelongsTo")
-                        .WithMany("Items")
-                        .HasForeignKey("BelongsToId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .HasConstraintName("FK_Game_PersonalList");
+                    b.HasBaseType("EntertenimentManager.Domain.Entities.Itens.Contracts.Item");
 
-                    b.Navigation("BelongsTo");
+                    b.Property<string>("Developer")
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
+
+                    b.ToTable("Game", (string)null);
                 });
 
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Movie", b =>
                 {
-                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", "BelongsTo")
-                        .WithMany()
-                        .HasForeignKey("BelongsToId");
+                    b.HasBaseType("EntertenimentManager.Domain.Entities.Itens.Contracts.Item");
 
-                    b.Navigation("BelongsTo");
+                    b.Property<string>("Director")
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<string>("Distributor")
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR");
+
+                    b.Property<int>("DurationInMinutes")
+                        .HasColumnType("int");
+
+                    b.ToTable("Movie", (string)null);
                 });
 
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Categories.Category", b =>
                 {
                     b.HasOne("EntertenimentManager.Domain.Entities.Users.User", "Owner")
                         .WithMany("Categories")
@@ -290,9 +242,18 @@ namespace EntertenimentManagement.Infra.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Contracts.Item", b =>
+                {
+                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.PersonalList", "BelongsTo")
+                        .WithMany("Items")
+                        .HasForeignKey("BelongsToId");
+
+                    b.Navigation("BelongsTo");
+                });
+
             modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.PersonalList", b =>
                 {
-                    b.HasOne("EntertenimentManager.Domain.Entities.Lists.Category", "Category")
+                    b.HasOne("EntertenimentManager.Domain.Entities.Categories.Category", "Category")
                         .WithMany("Lists")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -335,7 +296,25 @@ namespace EntertenimentManagement.Infra.Migrations
                         .HasConstraintName("FK_UserRoles_RoleId");
                 });
 
-            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Lists.Category", b =>
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Game", b =>
+                {
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Contracts.Item", null)
+                        .WithOne()
+                        .HasForeignKey("EntertenimentManager.Domain.Entities.Itens.Game", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Itens.Movie", b =>
+                {
+                    b.HasOne("EntertenimentManager.Domain.Entities.Itens.Contracts.Item", null)
+                        .WithOne()
+                        .HasForeignKey("EntertenimentManager.Domain.Entities.Itens.Movie", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EntertenimentManager.Domain.Entities.Categories.Category", b =>
                 {
                     b.Navigation("Lists");
                 });

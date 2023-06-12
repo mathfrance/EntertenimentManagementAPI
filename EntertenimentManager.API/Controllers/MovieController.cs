@@ -89,7 +89,7 @@ namespace EntertenimentManager.API.Controllers
                 if (movie == null)
                     return NotFound(new ResultViewModel<Movie>(ModelState.GetErrors()));
 
-                movie.Update(model.Title, model.Genre, model.ReleaseYear, model.DurationInMinutes, model.Distributor, model.Director, model.UrlImage, model.BelongsTo);
+                //movie.Update(model.Title, model.Genre, model.ReleaseYear, model.DurationInMinutes, model.Distributor, model.Director, model.UrlImage);
 
                 context.Movies.Update(movie);
                 await context.SaveChangesAsync();

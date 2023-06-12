@@ -28,7 +28,7 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context
                         .PersonalLists
-                        .Include(x => (IEnumerable<Movie>)x.Items)
+                        .Include(x => x.Items)
                         .FirstOrDefaultAsync(PersonalListQueries.GetById(id));
         }
     }
