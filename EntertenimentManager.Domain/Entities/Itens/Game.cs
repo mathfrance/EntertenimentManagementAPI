@@ -24,7 +24,7 @@ namespace EntertenimentManager.Domain.Entities.Itens
 
         public void Update(string title, string genre, int releaseYear, string developer, string urlImage, List<Platform> platforms, PersonalList belongsTo)
         {
-            base.Update(title, genre, releaseYear, urlImage, belongsTo);
+            base.Update(title, genre, releaseYear, urlImage);
             Developer = developer;
             Platforms = platforms;
         }

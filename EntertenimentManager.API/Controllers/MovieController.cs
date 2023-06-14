@@ -1,6 +1,4 @@
-﻿using EntertenimentManager.API.ViewModels;
-using EntertenimentManager.API.Extensions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,11 +21,11 @@ namespace EntertenimentManager.API.Controllers
             try
             {
                 var movies = await context.Movies.ToListAsync();
-                return Ok(new ResultViewModel<List<Movie>>(movies));
+                return Ok();
             }
             catch
             {
-                return StatusCode(500, new ResultViewModel<List<Movie>>("Não foi possível buscar os filmes"));
+                return StatusCode(500);
             }
         }
 
@@ -43,13 +41,13 @@ namespace EntertenimentManager.API.Controllers
                 .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (movie == null)
-                    return NotFound(new ResultViewModel<Movie>("Filme não encontrado"));
+                    return NotFound();
 
-                return Ok(new ResultViewModel<Movie>(movie));
+                return Ok();
             }
             catch
             {
-                return StatusCode(500, new ResultViewModel<Movie>("Não foi possível buscar o filme"));
+                return StatusCode(500);
             }
         }
 
@@ -58,7 +56,6 @@ namespace EntertenimentManager.API.Controllers
             [FromBody] CreateMovieCommand command,
             [FromServices] MovieHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new ResultViewModel<Movie>(ModelState.GetErrors()));
 
             try
             {
@@ -68,37 +65,24 @@ namespace EntertenimentManager.API.Controllers
             }
             catch
             {
-                return StatusCode(500, new ResultViewModel<Movie>("Não foi possível incluir o filme"));
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
 
-        [HttpPut("v1/movies/{id:int}")]
+        [HttpPut("v1/movies/")]
         public async Task<IActionResult> PutAsync(
-            [FromRoute] int id,
-            [FromBody] Movie model,
-            [FromServices] EntertenimentManagementDataContext context)
+            [FromBody] UpdateMovieCommand command,
+            [FromServices] MovieHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new ResultViewModel<Movie>(ModelState.GetErrors()));
-
             try
             {
-                var movie = await context
-                    .Movies
-                    .FirstOrDefaultAsync(x => x.Id == id);
-
-                if (movie == null)
-                    return NotFound(new ResultViewModel<Movie>(ModelState.GetErrors()));
-
-                //movie.Update(model.Title, model.Genre, model.ReleaseYear, model.DurationInMinutes, model.Distributor, model.Director, model.UrlImage);
-
-                context.Movies.Update(movie);
-                await context.SaveChangesAsync();
-
-                return Ok(movie);
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
             }
             catch
             {
-                return StatusCode(500, new ResultViewModel<Movie>("Não foi possível alterar o filme"));
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
 
@@ -114,7 +98,7 @@ namespace EntertenimentManager.API.Controllers
                     .FirstOrDefaultAsync(x => x.Id == id);
 
                 if (movie == null)
-                    return NotFound(new ResultViewModel<Movie>("Filme não encontrado"));
+                    return NotFound();
 
                 context.Movies.Remove(movie);
                 await context.SaveChangesAsync();
@@ -123,7 +107,7 @@ namespace EntertenimentManager.API.Controllers
             }
             catch
             {
-                return StatusCode(500, new ResultViewModel<Movie>("Não foi possível excluir o filme"));
+                return StatusCode(500);
             }
         }
     }

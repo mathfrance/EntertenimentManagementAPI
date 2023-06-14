@@ -21,9 +21,9 @@ namespace EntertenimentManager.Domain.Entities.Itens
         public string Director { get; private set; } = string.Empty;
         public int DurationInMinutes { get; private set; } = 0;
 
-        public void Update(string title, string genre, int releaseYear, int durationInMinutes, string distributor, string director, string urlImage, PersonalList belongsTo)
+        public void Update(string title, string genre, int releaseYear, int durationInMinutes, string distributor, string director, string urlImage)
         {
-            base.Update(title, genre, releaseYear, urlImage, belongsTo);
+            base.Update(title, genre, releaseYear, urlImage);
             Distributor = distributor;
             Director = director;
             DurationInMinutes = durationInMinutes;

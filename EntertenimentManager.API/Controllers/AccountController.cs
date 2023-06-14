@@ -19,13 +19,11 @@ namespace EntertenimentManager.API.Controllers
     public class AccountController : ControllerBase
     {
         [HttpPost("v1/accounts/")]
-        public async Task<IActionResult> Post(
+        public async Task<IActionResult> PostAsync(
             [FromBody] CreateAccountCommand command,
             [FromServices] AccountHandler handler,
             [FromServices] EmailService emailService)
-        {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível realizar o cadastro", ModelState.GetErrors()));
-
+        {     
             try
             {
                 var result = await handler.Handle(command);
@@ -61,8 +59,6 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] AccountHandler handler,
             [FromServices] TokenService tokenService)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível realizar o login", ModelState.GetErrors()));
-
             try
             {
                 var result = await handler.Handle(command);
@@ -86,8 +82,6 @@ namespace EntertenimentManager.API.Controllers
             [FromBody] AllowAdminCommand command,
             [FromServices] AccountHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível alterar a permissão", ModelState.GetErrors()));
-
             try
             {
                 var result = await handler.Handle(command);
@@ -102,11 +96,10 @@ namespace EntertenimentManager.API.Controllers
 
         [Authorize]
         [HttpPut("v1/accounts/")]
-        public async Task<IActionResult> Put(
+        public async Task<IActionResult> PutAsync(
             [FromBody] UpdateAccountCommand command,
             [FromServices] AccountHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível alterar o usuário", ModelState.GetErrors()));
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             command.RequestEmail = identity.Name;
             try
@@ -123,7 +116,7 @@ namespace EntertenimentManager.API.Controllers
 
         [Authorize]
         [HttpDelete("v1/accounts/")]
-        public async Task<IActionResult> Delete(
+        public async Task<IActionResult> DeleteAsync(
             [FromServices] DeleteAccountCommand command,
             [FromServices] AccountHandler handler)
         {

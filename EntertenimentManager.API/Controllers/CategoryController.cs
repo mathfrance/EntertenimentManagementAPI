@@ -18,7 +18,6 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetAllCategoriesCommand command,
             [FromServices] CategoryHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter as categorias do usuário", ModelState.GetErrors()));
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if(int.TryParse(userId, out int userIdInt))
@@ -42,7 +41,6 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetCategoryByIdCommand command,
             [FromServices] CategoryHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter a categoria informada", ModelState.GetErrors()));
             command.Id = id;
             try
             {

@@ -76,7 +76,8 @@ namespace EntertenimentManager.API.Extensions
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<EntertenimentManagementDataContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlServer(connectionString, x =>
+                x.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery)));
             builder.Services.AddTransient<TokenService>();
             builder.Services.AddTransient<EmailService>();
             builder.Services.AddTransient<IImageStorage>(provider => new AzureImageStorage(

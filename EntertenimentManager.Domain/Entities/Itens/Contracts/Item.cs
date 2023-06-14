@@ -26,13 +26,13 @@ namespace EntertenimentManager.Domain.Entities.Itens.Contracts
         public PersonalList BelongsTo { get; private set; }
 
 
-        protected void Update(string title, string genre, int releaseYear, string urlImage, PersonalList belongsTo)
+        protected void Update(string title, string genre, int releaseYear, string urlImage)
         {
             Title = title;
             Genre = genre;
-            UrlImage = urlImage;
             ReleaseYear = releaseYear;
-            BelongsTo = belongsTo;
+            if (!string.IsNullOrEmpty(urlImage))
+                UrlImage = urlImage;
         }
     }
 }

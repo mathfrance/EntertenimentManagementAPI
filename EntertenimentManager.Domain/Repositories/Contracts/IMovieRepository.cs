@@ -9,9 +9,9 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     public interface IMovieRepository
     {
         Task CreateAsync(Movie movie);
-        //Task UpdateAsync(User user);
+        Task UpdateAsync(Movie movie);
         //Task DeleteAsync(User user);
         Task<PersonalList> GetPersonalListById(int id);
-        //Task<User> GetByEmailNoTracking(string email);
+        Task<Movie> GetMovieById(int id);
     }
 }

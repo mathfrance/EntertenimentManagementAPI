@@ -24,12 +24,26 @@ namespace EntertenimentManager.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(Movie movie)
+        {
+            _context.Movies.Update(movie);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Movie?> GetMovieById(int id)
+        {
+            return await _context
+                        .Movies
+                        .Include(x => x.BelongsTo)
+                        .FirstOrDefaultAsync(MovieQueries.GetById(id));
+        }
+
         public async Task<PersonalList?> GetPersonalListById(int id)
         {
             return await _context
                         .PersonalLists
                         .Include(x => x.Items)
                         .FirstOrDefaultAsync(PersonalListQueries.GetById(id));
-        }
+        }        
     }
 }

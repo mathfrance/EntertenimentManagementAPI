@@ -1,20 +1,20 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Contracts;
 using EntertenimentManager.Domain.Commands.Item.Movie;
-using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
-using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using Flunt.Notifications;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Users;
+using SecureIdentity.Password;
 
 namespace EntertenimentManager.Domain.Handlers
 {
     public class MovieHandler :
         Notifiable<Notification>,
-        IHandler<CreateMovieCommand>
+        IHandler<CreateMovieCommand>,
+        IHandler<UpdateMovieCommand>
     {
         private readonly IMovieRepository _repository;
         private readonly IImageStorage _imageStorage;
@@ -51,6 +51,33 @@ namespace EntertenimentManager.Domain.Handlers
             await _imageStorage.UploadAsync(command.ThumbImage.ImageBytes, command.ThumbImage.FileName);
 
             return new GenericCommandResult(true, "Filme criado com sucesso", movie);
+        }
+
+        public async Task<ICommandResult> Handle(UpdateMovieCommand command)
+        {
+            command.Validate();
+
+            if (!command.IsValid)
+                return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
+
+            var movie = await _repository.GetMovieById(command.Id);
+
+            if(movie == null) 
+                return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
+
+            if (command.HasImageToUpdate())
+            {
+                movie.Update(command.Title, command.Genre, command.ReleaseYear, command.DurationInMinutes, command.Distributor, command.Director, command.NewImage.FileName);
+                await _imageStorage.UploadAsync(command.NewImage.ImageBytes, command.NewImage.FileName);
+            }
+            else
+            {
+                movie.Update(command.Title, command.Genre, command.ReleaseYear, command.DurationInMinutes, command.Distributor, command.Director, string.Empty);
+            }
+
+            await _repository.UpdateAsync(movie);
+
+            return new GenericCommandResult(true, "Filme atualizado com sucesso", movie);
         }
     }
 }

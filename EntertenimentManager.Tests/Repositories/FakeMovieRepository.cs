@@ -13,6 +13,16 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.CompletedTask;
         }
 
+        public Task UpdateAsync(Movie movie)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task<Movie> GetMovieById(int id)
+        {
+            return Task.FromResult(new Movie());
+        }
+
         public Task<PersonalList> GetPersonalListById(int id)
         {
             if (id == 0)
@@ -23,6 +33,6 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult<PersonalList>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
-        }
+        }       
     }
 }

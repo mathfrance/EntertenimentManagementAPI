@@ -18,7 +18,6 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetAllPersonalListsByCategoryIdCommand command,
             [FromServices] PersonalListHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter a lista", ModelState.GetErrors()));
             command.CategoryId = id;
             try
             {
@@ -39,7 +38,6 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetPersonalListByIdCommand command,
             [FromServices] PersonalListHandler handler)
         {
-            if (!ModelState.IsValid) return BadRequest(new GenericCommandResult(false, "Não foi possível obter a lista", ModelState.GetErrors()));
             command.Id = id;
             try
             {
