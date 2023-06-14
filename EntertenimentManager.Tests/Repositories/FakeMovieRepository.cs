@@ -20,7 +20,14 @@ namespace EntertenimentManager.Tests.Repositories
 
         public Task<Movie> GetMovieById(int id)
         {
-            return Task.FromResult(new Movie());
+            if (id == 0)
+            {
+                return Task.FromResult(new Movie());
+            }
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
+            return Task.FromResult<Movie>(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
+
         }
 
         public Task<PersonalList> GetPersonalListById(int id)

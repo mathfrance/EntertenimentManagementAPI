@@ -16,6 +16,9 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly CreateMovieCommand _validCreateMovieCommand;
         private readonly CreateMovieCommand _notExistentPersonalListIdCreateMovieCommand;
         private readonly CreateMovieCommand _invalidCreateMovieCommand;
+        private readonly UpdateMovieCommand _validUpdateMovieCommand = new (0, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
+        private readonly UpdateMovieCommand _notExistentIdUpdateMovieCommand = new(-1, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
+        private readonly UpdateMovieCommand _invalidUpdateMovieCommand = new(0, "", "", 149, "", "", 2018);
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
 
@@ -47,6 +50,32 @@ namespace EntertenimentManager.Tests.HandlerTests
         public async Task ShouldReturnFailWhenCreateCommandHasANotExistentPersonalListId()
         {
             var res = await _movieHandler.Handle(_notExistentPersonalListIdCreateMovieCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
+        #endregion
+
+        #region UpdateMovieCommand
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenUpdateCommandIsValid()
+        {
+            var res = await _movieHandler.Handle(_validUpdateMovieCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenUpdateCommandIsInvalid()
+        {
+            var res = await _movieHandler.Handle(_invalidUpdateMovieCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenUpdateCommandHasANotExistentId()
+        {
+            var res = await _movieHandler.Handle(_notExistentIdUpdateMovieCommand);
             _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }
