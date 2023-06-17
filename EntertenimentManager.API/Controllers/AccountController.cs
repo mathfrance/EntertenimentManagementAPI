@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 using EntertenimentManager.API.Services;
-using EntertenimentManager.API.Extensions;
 using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.SharedContext.ValueObjects;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Entities.Users;
 using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -60,7 +61,7 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] TokenService tokenService)
         {
             try
-            {
+            {              
                 var result = await handler.Handle(command);
                 var commandResult = (GenericCommandResult)result;
                 if (commandResult.Success)
@@ -101,7 +102,7 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] AccountHandler handler)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
-            command.RequestEmail = identity.Name;
+            command.RequestEmail = identity.Name;            
             try
             {
                 var result = await handler.Handle(command);

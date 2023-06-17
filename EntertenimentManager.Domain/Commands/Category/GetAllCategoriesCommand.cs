@@ -5,10 +5,10 @@ using Flunt.Validations;
 
 namespace EntertenimentManager.Domain.Commands.Category
 {
-    public class GetAllCategoriesCommand : Notifiable<Notification>, ICommand
+    public class GetAllCategoriesCommand : Notifiable<Notification>, ICommandGet
     {
         public int UserId { get; set; } = 0;
-
+        public bool IsRequestFromAdmin { get; set; } = false;
         public void Validate()
         {
         }

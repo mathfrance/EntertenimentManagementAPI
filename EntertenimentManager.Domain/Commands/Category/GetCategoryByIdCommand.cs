@@ -3,9 +3,12 @@ using Flunt.Notifications;
 
 namespace EntertenimentManager.Domain.Commands.Category
 {
-    public class GetCategoryByIdCommand : Notifiable<Notification>, ICommand
+    public class GetCategoryByIdCommand : Notifiable<Notification>, ICommandGet
     {
         public int Id { get; set; } = 0;
+        public int UserId { get; set; } = 0;
+
+        public bool IsRequestFromAdmin { get; set; } = false;
 
         public void Validate()
         {

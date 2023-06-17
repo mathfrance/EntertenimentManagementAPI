@@ -6,15 +6,15 @@ using EntertenimentManager.Domain.Repositories.Contracts;
 using Flunt.Notifications;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Entities.Itens;
-using EntertenimentManager.Domain.Entities.Users;
-using SecureIdentity.Password;
 
 namespace EntertenimentManager.Domain.Handlers
 {
     public class MovieHandler :
         Notifiable<Notification>,
         IHandler<CreateMovieCommand>,
-        IHandler<UpdateMovieCommand>
+        IHandler<UpdateMovieCommand>,
+        IHandler<GetMovieByIdCommand>
+        
     {
         private readonly IMovieRepository _repository;
         private readonly IImageStorage _imageStorage;
@@ -60,7 +60,7 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
 
-            var movie = await _repository.GetMovieById(command.Id);
+            var movie = await _repository.GetById(command.Id);
 
             if(movie == null) 
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
@@ -78,6 +78,20 @@ namespace EntertenimentManager.Domain.Handlers
             await _repository.UpdateAsync(movie);
 
             return new GenericCommandResult(true, "Filme atualizado com sucesso", movie);
+        }
+
+        public async Task<ICommandResult> Handle(GetMovieByIdCommand command)
+        {
+            if(!command.IsRequestFromAdmin && !await _repository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+            {
+                return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);
+            }
+            var movie = await _repository.GetById(command.Id);
+
+            if (movie == null)
+                return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);
+
+            return new GenericCommandResult(true, "Filme obtida com sucesso", movie);
         }
     }
 }

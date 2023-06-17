@@ -1,6 +1,7 @@
 ﻿using EntertenimentManager.API.Extensions;
 using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Category;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,7 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetAllCategoriesCommand command,
             [FromServices] CategoryHandler handler)
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            var userId = identity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if(int.TryParse(userId, out int userIdInt))
-                command.UserId = userIdInt;
+            command.UserId = HttpContext.GetRequestUserId();
             try
             {
                 var result = await handler.Handle(command);
@@ -41,6 +39,7 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetCategoryByIdCommand command,
             [FromServices] CategoryHandler handler)
         {
+            command.UserId = HttpContext.GetRequestUserId();
             command.Id = id;
             try
             {

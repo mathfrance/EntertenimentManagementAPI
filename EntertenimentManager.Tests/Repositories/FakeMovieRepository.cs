@@ -1,7 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Categories;
-using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
 namespace EntertenimentManager.Tests.Repositories
@@ -18,7 +16,7 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.CompletedTask;
         }
 
-        public Task<Movie> GetMovieById(int id)
+        public Task<Movie> GetById(int id)
         {
             if (id == 0)
             {
@@ -40,6 +38,11 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult<PersonalList>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
-        }       
+        }
+
+        public Task<bool> IsMovieAssociatedWithUserIdAsync(int id, int requestUserId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,9 +3,11 @@ using Flunt.Notifications;
 
 namespace EntertenimentManager.Domain.Commands.PersonalList
 {
-    public class GetAllPersonalListsByCategoryIdCommand : Notifiable<Notification>, ICommand
+    public class GetAllPersonalListsByCategoryIdCommand : Notifiable<Notification>, ICommandGet
     {
         public int CategoryId { get; set; } = 0;
+        public int UserId { get; set; } = 0;
+        public bool IsRequestFromAdmin { get; set; } = false;
 
         public void Validate()
         {

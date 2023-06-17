@@ -1,6 +1,7 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Category;
+using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Commands.PersonalList;
 using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Entities.Categories.Contracts;
@@ -102,6 +103,7 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<GetCategoryByIdCommand, GetCategoryByIdCommand>();
             builder.Services.AddTransient<GetAllPersonalListsByCategoryIdCommand, GetAllPersonalListsByCategoryIdCommand>();
             builder.Services.AddTransient<GetPersonalListByIdCommand, GetPersonalListByIdCommand>();
+            builder.Services.AddTransient<GetMovieByIdCommand, GetMovieByIdCommand>();
             #endregion
         }
     }

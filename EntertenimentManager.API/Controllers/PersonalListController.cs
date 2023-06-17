@@ -14,11 +14,13 @@ namespace EntertenimentManager.API.Controllers
         [HttpGet("v1/categories/all/lists/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetAllAsync(
-            [FromRoute] int id,
+            [FromRoute] int categoryId,
             [FromServices] GetAllPersonalListsByCategoryIdCommand command,
             [FromServices] PersonalListHandler handler)
         {
-            command.CategoryId = id;
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            command.CategoryId = categoryId;
             try
             {
                 var result = await handler.Handle(command);
@@ -38,6 +40,8 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GetPersonalListByIdCommand command,
             [FromServices] PersonalListHandler handler)
         {
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             command.Id = id;
             try
             {
