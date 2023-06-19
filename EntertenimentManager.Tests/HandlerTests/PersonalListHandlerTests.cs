@@ -11,8 +11,10 @@ namespace EntertenimentManager.Tests.HandlerTests
     {
         private readonly PersonalListHandler _personalListHandler = new(new FakePersonalListRepository(), new FakeCategoryRepository());
         private readonly GetAllPersonalListsByCategoryIdCommand _getAllPersonalListsCommand = new() { CategoryId = 1};
+        private readonly GetAllPersonalListsByCategoryIdCommand _getANotAssociateUserIdWithCategoryCommand = new() { CategoryId = 1, UserId = -1};
         private readonly GetPersonalListByIdCommand _getPersonalListByIdCommand = new();
-        private readonly GetPersonalListByIdCommand _getANotExistentPersonalListByIdCommand = new() { Id = -1};
+        private readonly GetPersonalListByIdCommand _getANotExistentPersonalListByIdCommand = new() { Id = -1}; 
+        private readonly GetPersonalListByIdCommand _getANotAssociateUserIdWithpersonalListCommand = new() { UserId = -1}; 
         private GenericCommandResult _result = new();
 
         #region GetAllPersonalListsByCategoryIdCommand        
@@ -22,6 +24,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _personalListHandler.Handle(_getAllPersonalListsCommand);
             _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensCategoryIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _personalListHandler.Handle(_getANotAssociateUserIdWithCategoryCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
         }
         #endregion
 
@@ -40,6 +50,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _personalListHandler.Handle(_getPersonalListByIdCommand);
             _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _personalListHandler.Handle(_getANotAssociateUserIdWithpersonalListCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
         }
         #endregion
     }

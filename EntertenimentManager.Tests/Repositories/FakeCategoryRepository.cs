@@ -29,7 +29,9 @@ namespace EntertenimentManager.Tests.Repositories
 
         public Task<bool> IsCategoryAssociatedWithUserIdAsync(int id, int requestUserId)
         {
-            throw new NotImplementedException();
+            if (requestUserId == -1) return Task.FromResult(false);
+            
+            return Task.FromResult(true);
         }
     }
 }

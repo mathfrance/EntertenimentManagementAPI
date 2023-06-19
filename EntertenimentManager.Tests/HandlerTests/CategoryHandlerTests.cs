@@ -13,6 +13,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly GetAllCategoriesCommand _getAllCategoriesCommand = new() { UserId = 1};
         private readonly GetCategoryByIdCommand _getCategoryByIdCommand = new();
         private readonly GetCategoryByIdCommand _getANotExistentCategoryByIdCommand = new() { Id = -1 };
+        private readonly GetCategoryByIdCommand _getANotAssociateUserIdCommand = new() { UserId = -1 };
         private GenericCommandResult _result = new();
 
         #region GetAllCategoriesCommand        
@@ -40,6 +41,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _categoryHandler.Handle(_getCategoryByIdCommand);
             _result = (GenericCommandResult)res;
             Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensCategoryIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _categoryHandler.Handle(_getANotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
         }
         #endregion
     }

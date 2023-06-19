@@ -20,7 +20,9 @@ namespace EntertenimentManager.Tests.Repositories
 
         public Task<bool> IsPersonalListAssociatedWithUserIdAsync(int id, int requestUserId)
         {
-            throw new NotImplementedException();
+            if (requestUserId == -1) return Task.FromResult(false);
+
+            return Task.FromResult(true);
         }
 
         Task<PersonalList> IPersonalListRepository.GetById(int id)
