@@ -19,6 +19,9 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly UpdateMovieCommand _validUpdateMovieCommand = new (0, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
         private readonly UpdateMovieCommand _notExistentIdUpdateMovieCommand = new(-1, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
         private readonly UpdateMovieCommand _invalidUpdateMovieCommand = new(0, "", "", 149, "", "", 2018);
+        private readonly GetMovieByIdCommand _getMovieByIdCommand = new();
+        private readonly GetMovieByIdCommand _getANotExistentMovieByIdCommand = new() {Id = -1};
+        private readonly GetMovieByIdCommand _getANotAssociateUserIdCommand = new() {UserId = -1};
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
 
@@ -76,6 +79,31 @@ namespace EntertenimentManager.Tests.HandlerTests
         public async Task ShouldReturnFailWhenUpdateCommandHasANotExistentId()
         {
             var res = await _movieHandler.Handle(_notExistentIdUpdateMovieCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
+        #endregion
+
+        #region GetMovieById
+        public async Task ShouldReturnFailWhenGetANotExistentMovieByIdCommand()
+        {
+            var res = await _movieHandler.Handle(_getANotExistentMovieByIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenGetAExistentMovieByIdCommand()
+        {
+            var res = await _movieHandler.Handle(_getMovieByIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensMovieIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _movieHandler.Handle(_getANotAssociateUserIdCommand);
             _result = (GenericCommandResult)res;
             Assert.IsFalse(_result.Success);
         }

@@ -37,7 +37,7 @@ namespace EntertenimentManager.Tests.HandlerTests
 
         #region GetPersonalListByIdCommand        
         [TestMethod]
-        public async Task ShouldReturnFailWhenGetANotExistentCategoryByIdCommand()
+        public async Task ShouldReturnFailWhenGetANotExistentPersonalListByIdCommand()
         {
             var res = await _personalListHandler.Handle(_getANotExistentPersonalListByIdCommand);
             _result = (GenericCommandResult)res;
@@ -45,7 +45,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
 
         [TestMethod]
-        public async Task ShouldReturnSuccessWhenGetAExistentCategoryByIdCommand()
+        public async Task ShouldReturnSuccessWhenGetAExistentPersonalListByIdCommand()
         {
             var res = await _personalListHandler.Handle(_getPersonalListByIdCommand);
             _result = (GenericCommandResult)res;
