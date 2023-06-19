@@ -1,5 +1,4 @@
-﻿using EntertenimentManager.Domain.Entities.Itens;
-using EntertenimentManager.Domain.Entities.Lists;
+﻿using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
@@ -32,6 +31,12 @@ namespace EntertenimentManager.Infra.Repositories
                         .Include(x => x.Items)
                         .FirstOrDefaultAsync(PersonalListQueries.GetById(id));
 
+        }
+
+        public async Task<bool> IsPersonalListAssociatedWithUserIdAsync(int id, int requestUserId)
+        {
+            return await _context.PersonalLists
+                        .AnyAsync(pl => pl.Id == id && pl.Category.Owner.Id == requestUserId);
         }
     }
 }

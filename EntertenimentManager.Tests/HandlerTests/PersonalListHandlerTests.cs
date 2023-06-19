@@ -9,7 +9,7 @@ namespace EntertenimentManager.Tests.HandlerTests
     [TestClass]
     public class PersonalListTests
     {
-        private readonly PersonalListHandler _personalListHandler = new(new FakePersonalListRepository());
+        private readonly PersonalListHandler _personalListHandler = new(new FakePersonalListRepository(), new FakeCategoryRepository());
         private readonly GetAllPersonalListsByCategoryIdCommand _getAllPersonalListsCommand = new() { CategoryId = 1};
         private readonly GetPersonalListByIdCommand _getPersonalListByIdCommand = new();
         private readonly GetPersonalListByIdCommand _getANotExistentPersonalListByIdCommand = new() { Id = -1};

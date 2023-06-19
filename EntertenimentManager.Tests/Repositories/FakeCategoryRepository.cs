@@ -26,5 +26,10 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult<Category>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
         }
+
+        public Task<bool> IsCategoryAssociatedWithUserIdAsync(int id, int requestUserId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

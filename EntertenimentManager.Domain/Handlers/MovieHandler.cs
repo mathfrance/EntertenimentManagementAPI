@@ -83,9 +83,8 @@ namespace EntertenimentManager.Domain.Handlers
         public async Task<ICommandResult> Handle(GetMovieByIdCommand command)
         {
             if(!command.IsRequestFromAdmin && !await _repository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
-            {
                 return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);
-            }
+
             var movie = await _repository.GetById(command.Id);
 
             if (movie == null)

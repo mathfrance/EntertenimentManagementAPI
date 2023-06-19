@@ -13,22 +13,31 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<GetAllPersonalListsByCategoryIdCommand>,
         IHandler<GetPersonalListByIdCommand>
     {
-        private readonly IPersonalListRepository _repository;
+        private readonly IPersonalListRepository _personalListRepository;
+        private readonly ICategoryRepository _categoryRepository;
+
+        public PersonalListHandler(IPersonalListRepository personalListRepository, ICategoryRepository categoryRepository)
+        {
+            _personalListRepository = personalListRepository;
+            _categoryRepository = categoryRepository;
+        }
 
         public async Task<ICommandResult> Handle(GetAllPersonalListsByCategoryIdCommand command)
         {
-            var personalLists = await _repository.GetAllByCategoryId(command.CategoryId);
+            if (!command.IsRequestFromAdmin && !await _categoryRepository.IsCategoryAssociatedWithUserIdAsync(command.CategoryId, command.UserId))
+                return new GenericCommandResult(false, "Não foi possível obter as listas da categoria", command.Notifications);
+
+            var personalLists = await _personalListRepository.GetAllByCategoryId(command.CategoryId);
 
             return new GenericCommandResult(true, "Listas obtidas com sucesso", personalLists);
         }
-
-        public PersonalListHandler(IPersonalListRepository repository)
-        {
-            _repository = repository;
-        }
+       
         public async Task<ICommandResult> Handle(GetPersonalListByIdCommand command)
         {
-            var personalList = await _repository.GetById(command.Id);
+            if (!command.IsRequestFromAdmin && !await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.Id, command.UserId))
+                return new GenericCommandResult(false, "Não foi possível obter a lista", command.Notifications);
+
+            var personalList = await _personalListRepository.GetById(command.Id);
 
             if (personalList == null)
                 return new GenericCommandResult(false, "Não foi possível obter a lista", command.Notifications);

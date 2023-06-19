@@ -38,5 +38,11 @@ namespace EntertenimentManager.Infra.Repositories
                         .FirstOrDefaultAsync(CategoryQueries.GetById(id));
 
         }
+
+        public async Task<bool> IsCategoryAssociatedWithUserIdAsync(int id, int requestUserId)
+        {
+            return await _context.Categories
+                        .AnyAsync(c => c.Id == id && c.Owner.Id == requestUserId);
+        }
     }
 }

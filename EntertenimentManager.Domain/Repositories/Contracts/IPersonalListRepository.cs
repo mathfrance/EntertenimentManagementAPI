@@ -6,6 +6,7 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
 {
     public interface IPersonalListRepository
     {
+        Task<bool> IsPersonalListAssociatedWithUserIdAsync(int id, int requestUserId);
         Task<IEnumerable<PersonalList>> GetAllByCategoryId(int categoryId);
         Task<PersonalList> GetById(int id);
     }

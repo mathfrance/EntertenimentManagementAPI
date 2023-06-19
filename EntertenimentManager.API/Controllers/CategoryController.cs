@@ -40,6 +40,7 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] CategoryHandler handler)
         {
             command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             command.Id = id;
             try
             {

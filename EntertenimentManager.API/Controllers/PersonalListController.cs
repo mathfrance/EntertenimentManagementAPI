@@ -11,7 +11,7 @@ namespace EntertenimentManager.API.Controllers
 {
     public class PersonalListController : ControllerBase
     {
-        [HttpGet("v1/categories/all/lists/{id:int}")]
+        [HttpGet("v1/categories/all/lists/{categoryId:int}")]
         [Authorize]
         public async Task<IActionResult> GetAllAsync(
             [FromRoute] int categoryId,
