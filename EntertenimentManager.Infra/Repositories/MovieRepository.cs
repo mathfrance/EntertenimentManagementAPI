@@ -32,7 +32,6 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context
                         .Movies
-                        .Include(x => x.BelongsTo)
                         .FirstOrDefaultAsync(MovieQueries.GetById(id));
         }
 
@@ -40,7 +39,6 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context
                         .PersonalLists
-                        .Include(x => x.Items)
                         .FirstOrDefaultAsync(PersonalListQueries.GetById(id));
         }
 
