@@ -32,6 +32,26 @@ namespace EntertenimentManager.API.Controllers
             }
         }
 
+        [HttpGet("v1/categories/user/{id:int}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetAllFromUserAsync(
+            [FromRoute] int id,
+            [FromServices] GetAllCategoriesCommand command,
+            [FromServices] CategoryHandler handler)
+        {
+            command.UserId = id;
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
         [HttpGet("v1/categories/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetByIdAsync(
