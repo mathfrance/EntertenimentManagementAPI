@@ -15,6 +15,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private GenericCommandResult _result = new();
         private readonly CreateMovieCommand _validCreateMovieCommand;
         private readonly CreateMovieCommand _notExistentPersonalListIdCreateMovieCommand;
+        private readonly CreateMovieCommand _aPersonalListNotAssociateWithUserIdCommand;
         private readonly CreateMovieCommand _invalidCreateMovieCommand;
         private readonly UpdateMovieCommand _validUpdateMovieCommand = new (0, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
         private readonly UpdateMovieCommand _notExistentIdUpdateMovieCommand = new(-1, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
@@ -29,6 +30,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             _validCreateMovieCommand = new CreateMovieCommand("Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", _base64Image, 2018, _existentPersonalListId);
             _notExistentPersonalListIdCreateMovieCommand = new CreateMovieCommand("Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", _base64Image, 2018, _notExistentPersonalListId);
+            _aPersonalListNotAssociateWithUserIdCommand = new CreateMovieCommand("Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", _base64Image, 2018, _existentPersonalListId) { UserId = -1};
             _invalidCreateMovieCommand = new CreateMovieCommand("", "", 149, "", "", _base64Image, 2018, _existentPersonalListId);
         }
 
@@ -54,7 +56,15 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _movieHandler.Handle(_notExistentPersonalListIdCreateMovieCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message,"Não foi possível adicionar o filme à lista");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListFromCreateIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _movieHandler.Handle(_aPersonalListNotAssociateWithUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Não foi possível criar o filme na lista informada");
         }
         #endregion
 
