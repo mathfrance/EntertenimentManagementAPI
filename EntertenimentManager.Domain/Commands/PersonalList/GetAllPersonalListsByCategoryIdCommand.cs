@@ -3,7 +3,7 @@ using Flunt.Notifications;
 
 namespace EntertenimentManager.Domain.Commands.PersonalList
 {
-    public class GetAllPersonalListsByCategoryIdCommand : Notifiable<Notification>, ICommandGet
+    public class GetAllPersonalListsByCategoryIdCommand : Notifiable<Notification>, ICommandTokenAuthorization
     {
         public int CategoryId { get; set; } = 0;
         public int UserId { get; set; } = 0;

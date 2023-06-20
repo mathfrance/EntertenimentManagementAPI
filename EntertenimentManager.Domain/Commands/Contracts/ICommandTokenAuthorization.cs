@@ -1,6 +1,6 @@
 ﻿namespace EntertenimentManager.Domain.Commands.Contracts
 {
-    public interface ICommandGet : ICommand
+    public interface ICommandTokenAuthorization : ICommand
     {
         public int UserId { get; set; }
 

@@ -5,7 +5,7 @@ using Flunt.Validations;
 
 namespace EntertenimentManager.Domain.Commands.Category
 {
-    public class GetAllCategoriesCommand : Notifiable<Notification>, ICommandGet
+    public class GetAllCategoriesCommand : Notifiable<Notification>, ICommandTokenAuthorization
     {
         public int UserId { get; set; } = 0;
         public bool IsRequestFromAdmin { get; set; } = false;
