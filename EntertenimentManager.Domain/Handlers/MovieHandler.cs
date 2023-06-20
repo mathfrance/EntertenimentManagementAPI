@@ -16,12 +16,14 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<GetMovieByIdCommand>
         
     {
-        private readonly IMovieRepository _repository;
+        private readonly IMovieRepository _movieRepository;
+        private readonly IPersonalListRepository _personalListRepository;
         private readonly IImageStorage _imageStorage;
 
-        public MovieHandler(IMovieRepository repository, IImageStorage storage)
+        public MovieHandler(IMovieRepository movieRepository, IPersonalListRepository personalListRepository, IImageStorage storage)
         {
-            _repository = repository;
+            _movieRepository = movieRepository;
+            _personalListRepository = personalListRepository;
             _imageStorage = storage;
         }
         public async Task<ICommandResult> Handle(CreateMovieCommand command)
@@ -31,7 +33,10 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível criar o filme", command.Notifications);
 
-            var personalList = await _repository.GetPersonalListById(command.BelongsToId);
+            if (!command.IsRequestFromAdmin && !await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.BelongsToId, command.UserId))
+                return new GenericCommandResult(false, "Não foi possível criar o filme na lista informada", command.Notifications);
+
+            var personalList = await _movieRepository.GetPersonalListById(command.BelongsToId);
 
             if (personalList == null)
                 return new GenericCommandResult(false, "Não foi possível adicionar o filme à lista", command.Notifications);
@@ -46,7 +51,7 @@ namespace EntertenimentManager.Domain.Handlers
                 command.DurationInMinutes, 
                 command.ThumbImage.FileName
                 );
-            await _repository.CreateAsync(movie);
+            await _movieRepository.CreateAsync(movie);
 
             await _imageStorage.UploadAsync(command.ThumbImage.ImageBytes, command.ThumbImage.FileName);
 
@@ -60,7 +65,7 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
 
-            var movie = await _repository.GetById(command.Id);
+            var movie = await _movieRepository.GetById(command.Id);
 
             if(movie == null) 
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
@@ -75,17 +80,17 @@ namespace EntertenimentManager.Domain.Handlers
                 movie.Update(command.Title, command.Genre, command.ReleaseYear, command.DurationInMinutes, command.Distributor, command.Director, string.Empty);
             }
 
-            await _repository.UpdateAsync(movie);
+            await _movieRepository.UpdateAsync(movie);
 
             return new GenericCommandResult(true, "Filme atualizado com sucesso", movie);
         }
 
         public async Task<ICommandResult> Handle(GetMovieByIdCommand command)
         {
-            if(!command.IsRequestFromAdmin && !await _repository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+            if(!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
                 return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);
 
-            var movie = await _repository.GetById(command.Id);
+            var movie = await _movieRepository.GetById(command.Id);
 
             if (movie == null)
                 return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);

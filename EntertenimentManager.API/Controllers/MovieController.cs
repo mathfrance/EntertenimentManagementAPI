@@ -40,7 +40,8 @@ namespace EntertenimentManager.API.Controllers
             [FromBody] CreateMovieCommand command,
             [FromServices] MovieHandler handler)
         {
-
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             try
             {
                 var result = await handler.Handle(command);

@@ -7,7 +7,7 @@ using System;
 
 namespace EntertenimentManager.Domain.Commands.Item.Movie
 {
-    public class CreateMovieCommand : Notifiable<Notification>, ICommand
+    public class CreateMovieCommand : Notifiable<Notification>, ICommandTokenAuthorization
     {
         private readonly int _maxFutureYearRelase;
         public CreateMovieCommand()
@@ -40,6 +40,8 @@ namespace EntertenimentManager.Domain.Commands.Item.Movie
         public int ReleaseYear { get; set; } = 0;
 
         public int BelongsToId { get; set; }
+        public int UserId { get; set; } = 0;
+        public bool IsRequestFromAdmin { get; set; } = false;
 
         public void Validate()
         {
