@@ -13,7 +13,8 @@ namespace EntertenimentManager.Domain.Handlers
         Notifiable<Notification>,
         IHandler<CreateMovieCommand>,
         IHandler<UpdateMovieCommand>,
-        IHandler<GetMovieByIdCommand>
+        IHandler<GetMovieByIdCommand>,
+        IHandler<DeleteMovieCommand>
         
     {
         private readonly IMovieRepository _movieRepository;
@@ -99,6 +100,19 @@ namespace EntertenimentManager.Domain.Handlers
                 return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);
 
             return new GenericCommandResult(true, "Filme obtida com sucesso", movie);
+        }
+
+        public async Task<ICommandResult> Handle(DeleteMovieCommand command)
+        {
+            if (!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+                return new GenericCommandResult(false, "Filme indisponível", command.Notifications);
+
+            var movie = await _movieRepository.GetById(command.Id);
+
+            if (movie == null)
+                return new GenericCommandResult(false, "Não foi realizar a exclusão do filme", command.Notifications);
+
+            return new GenericCommandResult(true, "Filme excluído com sucesso", movie);
         }
     }
 }

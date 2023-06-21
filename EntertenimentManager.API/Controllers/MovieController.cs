@@ -8,6 +8,7 @@ using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Commands;
 using System;
 using EntertenimentManager.API.Extensions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -76,25 +77,21 @@ namespace EntertenimentManager.API.Controllers
         [HttpDelete("v1/movies/{id:int}")]
         public async Task<IActionResult> DeleteAsync(
             [FromRoute] int id,
-            [FromServices] EntertenimentManagementDataContext context)
+            [FromServices] DeleteMovieCommand command,
+            [FromServices] MovieHandler handler)
         {
+            command.Id = id;
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             try
             {
-                var movie = await context
-                    .Movies
-                    .FirstOrDefaultAsync(x => x.Id == id);
-
-                if (movie == null)
-                    return NotFound();
-
-                context.Movies.Remove(movie);
-                await context.SaveChangesAsync();
-
-                return Ok(movie);
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
             }
             catch
             {
-                return StatusCode(500);
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
             }
         }
     }

@@ -104,6 +104,7 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<GetAllPersonalListsByCategoryIdCommand, GetAllPersonalListsByCategoryIdCommand>();
             builder.Services.AddTransient<GetPersonalListByIdCommand, GetPersonalListByIdCommand>();
             builder.Services.AddTransient<GetMovieByIdCommand, GetMovieByIdCommand>();
+            builder.Services.AddTransient<DeleteMovieCommand, DeleteMovieCommand>();
             #endregion
         }
     }

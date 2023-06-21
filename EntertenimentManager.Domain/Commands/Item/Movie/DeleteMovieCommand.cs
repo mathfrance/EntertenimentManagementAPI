@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EntertenimentManager.Domain.Commands.Contracts;
+using Flunt.Notifications;
 
 namespace EntertenimentManager.Domain.Commands.Item.Movie
 {
-    public class DeleteMovieCommand
+    public class DeleteMovieCommand : Notifiable<Notification>, ICommandTokenAuthorization
     {
+        public int Id { get; set; } = 0;
+        public int UserId { get; set; } = 0;
+        public bool IsRequestFromAdmin { get; set; } = false;
+
+        public void Validate()
+        {
+            
+        }
     }
 }
