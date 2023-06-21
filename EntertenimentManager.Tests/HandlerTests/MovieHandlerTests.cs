@@ -65,7 +65,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _movieHandler.Handle(_aPersonalListNotAssociateWithUserIdCreateCommand);
             _result = (GenericCommandResult)res;
-            Assert.AreEqual(_result.Message, "Não foi possível criar o filme na lista informada");
+            Assert.AreEqual(_result.Message, "Não é possível criar o filme na lista informada");
         }
         #endregion
 
@@ -99,16 +99,17 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _movieHandler.Handle(_aMovieNotAssociateWithUserIdUpdateCommand);
             _result = (GenericCommandResult)res;
-            Assert.AreEqual(_result.Message, "Não foi possível atualizar as informações para o filme informado");
+            Assert.AreEqual(_result.Message, "Filme indisponível");
         }
         #endregion
 
         #region GetMovieById
+        [TestMethod]
         public async Task ShouldReturnFailWhenGetANotExistentMovieByIdCommand()
         {
             var res = await _movieHandler.Handle(_getANotExistentMovieByIdCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Não foi possível obter o filme");
         }
 
         [TestMethod]
@@ -124,7 +125,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _movieHandler.Handle(_getANotAssociateUserIdCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Filme indisponível");
         }
         #endregion
     }

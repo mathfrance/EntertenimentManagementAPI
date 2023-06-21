@@ -34,7 +34,7 @@ namespace EntertenimentManager.Domain.Handlers
                 return new GenericCommandResult(false, "Não foi possível criar o filme", command.Notifications);
 
             if (!command.IsRequestFromAdmin && !await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.BelongsToId, command.UserId))
-                return new GenericCommandResult(false, "Não foi possível criar o filme na lista informada", command.Notifications);
+                return new GenericCommandResult(false, "Não é possível criar o filme na lista informada", command.Notifications);
 
             var personalList = await _movieRepository.GetPersonalListById(command.BelongsToId);
 
@@ -66,7 +66,7 @@ namespace EntertenimentManager.Domain.Handlers
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
 
             if (!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
-                return new GenericCommandResult(false, "Não foi possível atualizar as informações para o filme informado", command.Notifications);
+                return new GenericCommandResult(false, "Filme indisponível", command.Notifications);
 
             var movie = await _movieRepository.GetById(command.Id);
 
@@ -91,7 +91,7 @@ namespace EntertenimentManager.Domain.Handlers
         public async Task<ICommandResult> Handle(GetMovieByIdCommand command)
         {
             if(!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
-                return new GenericCommandResult(false, "Não foi possível obter o filme", command.Notifications);
+                return new GenericCommandResult(false, "Filme indisponível", command.Notifications);
 
             var movie = await _movieRepository.GetById(command.Id);
 

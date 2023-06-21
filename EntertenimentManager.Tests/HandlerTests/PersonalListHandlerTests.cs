@@ -31,7 +31,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _personalListHandler.Handle(_getANotAssociateUserIdWithCategoryCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Categoria indisponível");
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _personalListHandler.Handle(_getANotExistentPersonalListByIdCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Não foi possível obter a lista");
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _personalListHandler.Handle(_getANotAssociateUserIdWithpersonalListCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Lista indisponível");
         }
         #endregion
     }

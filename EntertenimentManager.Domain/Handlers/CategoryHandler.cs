@@ -30,7 +30,7 @@ namespace EntertenimentManager.Domain.Handlers
         public async Task<ICommandResult> Handle(GetCategoryByIdCommand command)
         {
             if (!command.IsRequestFromAdmin && !await _repository.IsCategoryAssociatedWithUserIdAsync(command.Id, command.UserId))
-                return new GenericCommandResult(false, "Não foi possível obter a categoria informada", command.Notifications);
+                return new GenericCommandResult(false, "Categoria indisponível", command.Notifications);
 
             var category = await _repository.GetById(command.Id);
 

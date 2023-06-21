@@ -32,7 +32,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _categoryHandler.Handle(_getANotExistentCategoryByIdCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Não foi possível obter a categoria informada");
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _categoryHandler.Handle(_getANotAssociateUserIdCommand);
             _result = (GenericCommandResult)res;
-            Assert.IsFalse(_result.Success);
+            Assert.AreEqual(_result.Message, "Categoria indisponível");
         }
         #endregion
     }
