@@ -65,6 +65,9 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
 
+            if (!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+                return new GenericCommandResult(false, "Não foi possível atualizar as informações para o filme informado", command.Notifications);
+
             var movie = await _movieRepository.GetById(command.Id);
 
             if(movie == null) 
