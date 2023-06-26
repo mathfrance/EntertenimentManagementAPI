@@ -24,6 +24,9 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly GetMovieByIdCommand _getMovieByIdCommand = new();
         private readonly GetMovieByIdCommand _getANotExistentMovieByIdCommand = new() {Id = -1};
         private readonly GetMovieByIdCommand _getANotAssociateUserIdCommand = new() {UserId = -1};
+        private readonly DeleteMovieCommand _deleteMovieCommand = new();
+        private readonly DeleteMovieCommand _deleteANotExistentMovieCommand = new() { Id = -1 };
+        private readonly DeleteMovieCommand _deleteANotAssociateUserIdDeleteCommand = new() { UserId = -1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
 
@@ -103,7 +106,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
         #endregion
 
-        #region GetMovieById
+        #region GetMovieByIdCommand
         [TestMethod]
         public async Task ShouldReturnFailWhenGetANotExistentMovieByIdCommand()
         {
@@ -124,6 +127,32 @@ namespace EntertenimentManager.Tests.HandlerTests
         public async Task ShouldReturnFailWhensMovieIsNotAssociatedWithUserIdCommand()
         {
             var res = await _movieHandler.Handle(_getANotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Filme indisponível");
+        }
+        #endregion
+
+        #region DeleteMovieCommand
+        [TestMethod]
+        public async Task ShouldReturnFailWhenGetANotExistentMovieDeleteCommand()
+        {
+            var res = await _movieHandler.Handle(_deleteANotExistentMovieCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Não foi realizar a exclusão do filme");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenGetAExistentMovieDeleteCommand()
+        {
+            var res = await _movieHandler.Handle(_deleteMovieCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensMovieIsNotAssociatedWithUserIdDeleteCommand()
+        {
+            var res = await _movieHandler.Handle(_deleteANotAssociateUserIdDeleteCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Filme indisponível");
         }

@@ -16,6 +16,11 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.CompletedTask;
         }
 
+        public Task DeleteAsync(Movie movie)
+        {
+            return Task.CompletedTask;
+        }
+
         public Task<Movie> GetById(int id)
         {
             if (id == 0)
@@ -45,6 +50,6 @@ namespace EntertenimentManager.Tests.Repositories
             if (requestUserId == -1) return Task.FromResult(false);
 
             return Task.FromResult(true);
-        }
+        }        
     }
 }
