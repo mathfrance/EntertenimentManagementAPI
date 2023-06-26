@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using EntertenimentManager.Infra.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Commands;
 using System;
 using EntertenimentManager.API.Extensions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EntertenimentManager.API.Controllers
 {

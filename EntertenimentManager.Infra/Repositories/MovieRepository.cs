@@ -1,6 +1,7 @@
 ﻿
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
+using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
@@ -28,6 +29,12 @@ namespace EntertenimentManager.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(Movie movie)
+        {
+            _context.Movies.Remove(movie);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Movie?> GetById(int id)
         {
             return await _context
@@ -46,6 +53,6 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context.Movies
                         .AnyAsync(m => m.Id == id && m.BelongsTo.Category.Owner.Id == requestUserId);
-        }
+        }       
     }
 }

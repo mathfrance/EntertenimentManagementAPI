@@ -112,6 +112,8 @@ namespace EntertenimentManager.Domain.Handlers
             if (movie == null)
                 return new GenericCommandResult(false, "Não foi realizar a exclusão do filme", command.Notifications);
 
+            await _movieRepository.DeleteAsync(movie);
+
             return new GenericCommandResult(true, "Filme excluído com sucesso", movie);
         }
     }

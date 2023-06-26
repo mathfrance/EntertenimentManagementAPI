@@ -10,7 +10,7 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     {
         Task CreateAsync(Movie movie);
         Task UpdateAsync(Movie movie);
-        //Task DeleteAsync(User user);
+        Task DeleteAsync(Movie movie);
         Task<PersonalList> GetPersonalListById(int id);
         Task<Movie> GetById(int id);
 
