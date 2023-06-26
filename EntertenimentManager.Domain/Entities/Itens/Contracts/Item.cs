@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Lists;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.SharedContext;
 using System.Collections.Generic;
 
@@ -33,6 +34,11 @@ namespace EntertenimentManager.Domain.Entities.Itens.Contracts
             ReleaseYear = releaseYear;
             if (!string.IsNullOrEmpty(urlImage))
                 UrlImage = urlImage;
+        }
+
+        public void AssigPersonalList(PersonalList personalList)
+        {
+            BelongsTo ??= personalList;
         }
     }
 }

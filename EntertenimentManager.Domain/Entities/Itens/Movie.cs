@@ -28,6 +28,5 @@ namespace EntertenimentManager.Domain.Entities.Itens
             Director = director;
             DurationInMinutes = durationInMinutes;
         }
-
     }
 }

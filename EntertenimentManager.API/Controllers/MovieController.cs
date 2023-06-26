@@ -36,7 +36,7 @@ namespace EntertenimentManager.API.Controllers
         [HttpGet("v1/all/movies/{personalListId:int}")]
         public async Task<IActionResult> GetAllByPersonalListIdAsync(
             [FromRoute] int personalListId,
-            [FromServices] GetAllByPersonalListId command,
+            [FromServices] GetAllByPersonalListIdCommand command,
             [FromServices] MovieHandler handler)
         {
             command.UserId = HttpContext.GetRequestUserId();

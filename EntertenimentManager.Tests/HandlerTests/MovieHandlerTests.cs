@@ -27,6 +27,8 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly DeleteMovieCommand _deleteMovieCommand = new();
         private readonly DeleteMovieCommand _deleteANotExistentMovieCommand = new() { Id = -1 };
         private readonly DeleteMovieCommand _deleteANotAssociateUserIdDeleteCommand = new() { UserId = -1 };
+        private readonly GetAllByPersonalListIdCommand _getAllByPersonalListId = new();
+        private readonly GetAllByPersonalListIdCommand _getAllByPersonalListIdNotAssociateUserIdCommand = new() { UserId = -1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
 
@@ -155,6 +157,24 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _movieHandler.Handle(_deleteANotAssociateUserIdDeleteCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Filme indisponível");
+        }
+        #endregion
+
+        #region GetAllByPersonalListIdCommand
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenGetAllByPersonalListIdCommand()
+        {
+            var res = await _movieHandler.Handle(_getAllByPersonalListId);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListIdIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _movieHandler.Handle(_getAllByPersonalListIdNotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista indisponível");
         }
         #endregion
     }

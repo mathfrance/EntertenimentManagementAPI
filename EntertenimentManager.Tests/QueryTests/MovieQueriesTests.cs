@@ -1,8 +1,6 @@
 ﻿
-using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,6 +12,7 @@ namespace EntertenimentManager.Tests.QueryTests
         private readonly List<Movie> _movies;
         private readonly int _existingMovieId = 0;
         private readonly int _notExistingMovieId = -1;
+        private readonly int _existingPersonalListId = 0;
 
         public MovieQueriesTests()
         {
@@ -21,6 +20,13 @@ namespace EntertenimentManager.Tests.QueryTests
             {
                 new()
             };
+            _movies[0].AssigPersonalList(new PersonalList("Assistido"));
+        }
+        [TestMethod]
+        public void ShouldReturnResultWhenPassAExistentPersonalListId()
+        {
+            var result = _movies.AsQueryable().Where(MovieQueries.GetByPersonalListId(_existingPersonalListId));
+            Assert.AreEqual(1, result.Count());
         }
 
         [TestMethod]
