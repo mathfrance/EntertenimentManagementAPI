@@ -33,6 +33,27 @@ namespace EntertenimentManager.API.Controllers
             }
         }
 
+        [HttpGet("v1/all/movies/{personalListId:int}")]
+        public async Task<IActionResult> GetAllByPersonalListIdAsync(
+            [FromRoute] int personalListId,
+            [FromServices] GetAllByPersonalListId command,
+            [FromServices] MovieHandler handler)
+        {
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            command.PersonalListId = personalListId;
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
         [HttpPost("v1/movies")]
         public async Task<IActionResult> PostAsync(
             [FromBody] CreateMovieCommand command,

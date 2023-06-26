@@ -9,7 +9,7 @@ namespace EntertenimentManager.API.Controllers
         [HttpGet("")]
         public IActionResult Get()
         {
-            return Ok("Env Dev");
+            return Ok();
         }
     }
 }

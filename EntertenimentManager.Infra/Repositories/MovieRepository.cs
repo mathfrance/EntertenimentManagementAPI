@@ -53,6 +53,15 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context.Movies
                         .AnyAsync(m => m.Id == id && m.BelongsTo.Category.Owner.Id == requestUserId);
-        }       
+        }
+
+        public async Task<IEnumerable<Movie>> GetAllByPersonalId(int personalListId)
+        {
+            return await _context
+                        .Movies
+                        .AsNoTracking()
+                        .Where(MovieQueries.GetByPersonalListId(personalListId))
+                        .ToListAsync();
+        }
     }
 }

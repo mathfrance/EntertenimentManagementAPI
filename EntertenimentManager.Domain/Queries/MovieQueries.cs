@@ -9,5 +9,10 @@ namespace EntertenimentManager.Domain.Queries
         {
             return x => x.Id == id;
         }
+
+        public static Expression<Func<Movie, bool>> GetByPersonalListId(int personalListId)
+        {
+            return x => x.BelongsTo.Id == personalListId;
+        }
     }
 }

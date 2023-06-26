@@ -14,7 +14,8 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<CreateMovieCommand>,
         IHandler<UpdateMovieCommand>,
         IHandler<GetMovieByIdCommand>,
-        IHandler<DeleteMovieCommand>
+        IHandler<DeleteMovieCommand>,
+        IHandler<GetAllByPersonalListId>
         
     {
         private readonly IMovieRepository _movieRepository;
@@ -115,6 +116,16 @@ namespace EntertenimentManager.Domain.Handlers
             await _movieRepository.DeleteAsync(movie);
 
             return new GenericCommandResult(true, "Filme excluído com sucesso", movie);
+        }
+
+        public async Task<ICommandResult> Handle(GetAllByPersonalListId command)
+        {
+            if (!command.IsRequestFromAdmin && !await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.PersonalListId, command.UserId))
+                return new GenericCommandResult(false, "Lista indisponível", command.Notifications);
+
+            var movies = await _movieRepository.GetAllByPersonalId(command.PersonalListId);
+
+            return new GenericCommandResult(true, "Filmes obtidos com sucesso", movies);
         }
     }
 }

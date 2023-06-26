@@ -1,4 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
@@ -6,6 +7,11 @@ namespace EntertenimentManager.Tests.Repositories
 {
     public class FakeMovieRepository : IMovieRepository
     {
+        private readonly IEnumerable<Movie> _movieLists;
+        public FakeMovieRepository()
+        {
+            _movieLists = new List<Movie>();
+        }
         public Task CreateAsync(Movie movie)
         {
             return Task.CompletedTask;
@@ -50,6 +56,11 @@ namespace EntertenimentManager.Tests.Repositories
             if (requestUserId == -1) return Task.FromResult(false);
 
             return Task.FromResult(true);
-        }        
+        }
+
+        public Task<IEnumerable<Movie>> GetAllByPersonalId(int personalListId)
+        {
+            return Task.FromResult(_movieLists);
+        }
     }
 }
