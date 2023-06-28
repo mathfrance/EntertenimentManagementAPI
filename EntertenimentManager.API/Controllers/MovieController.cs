@@ -6,6 +6,7 @@ using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Commands;
 using System;
 using EntertenimentManager.API.Extensions;
+using EntertenimentManager.Domain.Commands.Item;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -99,6 +100,25 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] MovieHandler handler)
         {
             command.Id = id;
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
+        [HttpPut("v1/movies/switch")]
+        public async Task<IActionResult> SwitchListAsync(
+            [FromBody] SwitchPersonalListFromItemCommand command,
+            [FromServices] MovieHandler handler)
+        {
             command.UserId = HttpContext.GetRequestUserId();
             command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             try

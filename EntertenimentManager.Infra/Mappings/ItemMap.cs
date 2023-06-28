@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using EntertenimentManager.Domain.Entities.Itens.Contracts;
 using EntertenimentManager.Domain.Entities.Itens;
 
 namespace EntertenimentManager.Infra.Mappings

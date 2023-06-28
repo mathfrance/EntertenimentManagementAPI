@@ -1,5 +1,4 @@
-﻿using EntertenimentManager.Domain.Entities.Itens.Contracts;
-using EntertenimentManager.Domain.Entities.Lists;
+﻿using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.SharedContext;
 using System.Collections.Generic;
 

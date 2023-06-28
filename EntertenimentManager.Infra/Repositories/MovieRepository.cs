@@ -1,7 +1,6 @@
 ﻿
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
@@ -46,10 +45,11 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context
                         .PersonalLists
+                        .Include(x => x.Category)
                         .FirstOrDefaultAsync(PersonalListQueries.GetById(id));
         }
 
-        public async Task<bool> IsMovieAssociatedWithUserIdAsync(int id, int requestUserId)
+        public async Task<bool> IsItemAssociatedWithUserIdAsync(int id, int requestUserId)
         {
             return await _context.Movies
                         .AnyAsync(m => m.Id == id && m.BelongsTo.Category.Owner.Id == requestUserId);
@@ -62,6 +62,13 @@ namespace EntertenimentManager.Infra.Repositories
                         .AsNoTracking()
                         .Where(MovieQueries.GetByPersonalListId(personalListId))
                         .ToListAsync();
+        }
+
+
+        public async Task<bool> IsSwitchBetweenSameTypePersonalLists(int id, int newPersonalListIdCategoryType)
+        {
+            return await _context.Movies
+                        .AnyAsync(m => m.Id == id && m.BelongsTo.Category.Type == newPersonalListIdCategoryType);
         }
     }
 }

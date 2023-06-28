@@ -6,6 +6,7 @@ using EntertenimentManager.Domain.Repositories.Contracts;
 using Flunt.Notifications;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Commands.Item;
 
 namespace EntertenimentManager.Domain.Handlers
 {
@@ -15,14 +16,18 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<UpdateMovieCommand>,
         IHandler<GetMovieByIdCommand>,
         IHandler<DeleteMovieCommand>,
-        IHandler<GetAllByPersonalListIdCommand>
-        
+        IHandler<GetAllByPersonalListIdCommand>,
+        IHandler<SwitchPersonalListFromItemCommand>
+
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IPersonalListRepository _personalListRepository;
         private readonly IImageStorage _imageStorage;
 
-        public MovieHandler(IMovieRepository movieRepository, IPersonalListRepository personalListRepository, IImageStorage storage)
+        public MovieHandler(
+            IMovieRepository movieRepository, 
+            IPersonalListRepository personalListRepository,
+            IImageStorage storage)
         {
             _movieRepository = movieRepository;
             _personalListRepository = personalListRepository;
@@ -67,7 +72,7 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsValid)
                 return new GenericCommandResult(false, "Não foi possível atualizar as informações do filme", command.Notifications);
 
-            if (!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+            if (!command.IsRequestFromAdmin && !await _movieRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
                 return new GenericCommandResult(false, "Filme indisponível", command.Notifications);
 
             var movie = await _movieRepository.GetById(command.Id);
@@ -92,7 +97,7 @@ namespace EntertenimentManager.Domain.Handlers
 
         public async Task<ICommandResult> Handle(GetMovieByIdCommand command)
         {
-            if(!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+            if(!command.IsRequestFromAdmin && !await _movieRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
                 return new GenericCommandResult(false, "Filme indisponível", command.Notifications);
 
             var movie = await _movieRepository.GetById(command.Id);
@@ -105,7 +110,7 @@ namespace EntertenimentManager.Domain.Handlers
 
         public async Task<ICommandResult> Handle(DeleteMovieCommand command)
         {
-            if (!command.IsRequestFromAdmin && !await _movieRepository.IsMovieAssociatedWithUserIdAsync(command.Id, command.UserId))
+            if (!command.IsRequestFromAdmin && !await _movieRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
                 return new GenericCommandResult(false, "Filme indisponível", command.Notifications);
 
             var movie = await _movieRepository.GetById(command.Id);
@@ -127,5 +132,36 @@ namespace EntertenimentManager.Domain.Handlers
 
             return new GenericCommandResult(true, "Filmes obtidos com sucesso", movies);
         }
+
+        public async Task<ICommandResult> Handle(SwitchPersonalListFromItemCommand command)
+        {
+            if (!command.IsRequestFromAdmin)
+            {
+                if (!await _movieRepository.IsItemAssociatedWithUserIdAsync(command.ItemId, command.UserId))
+                    return new GenericCommandResult(false, "Filme indisponível para troca", command.Notifications);
+                if (!await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.NewPersonalListId, command.UserId))
+                    return new GenericCommandResult(false, "Lista indisponível para troca", command.Notifications);
+            }
+
+            var personalList = await _movieRepository.GetPersonalListById(command.NewPersonalListId);
+
+            if (personalList == null)
+                return new GenericCommandResult(false, "Lista não encontrada", command.Notifications);
+
+            if (personalList.Category == null || !await _movieRepository.IsSwitchBetweenSameTypePersonalLists(command.ItemId, personalList.Category.Type))
+                return new GenericCommandResult(false, "Não é possível realizar a troca para a lista informada", command.Notifications);
+
+            var movie = await _movieRepository.GetById(command.ItemId);
+
+            if (movie == null)
+                return new GenericCommandResult(false, "Filme não encontrado", command.Notifications);
+
+            movie.SwitchPersonalList(personalList);
+
+            await _movieRepository.UpdateAsync(movie);
+
+            return new GenericCommandResult(true, "Troca realizada com sucesso", null);
+        }
+
     }
 }

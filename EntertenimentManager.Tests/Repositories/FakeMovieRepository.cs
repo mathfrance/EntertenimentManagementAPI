@@ -1,5 +1,4 @@
-﻿using EntertenimentManager.Domain.Entities.Categories;
-using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
@@ -51,7 +50,7 @@ namespace EntertenimentManager.Tests.Repositories
 
         }
 
-        public Task<bool> IsMovieAssociatedWithUserIdAsync(int id, int requestUserId)
+        public Task<bool> IsItemAssociatedWithUserIdAsync(int id, int requestUserId)
         {
             if (requestUserId == -1) return Task.FromResult(false);
 
@@ -61,6 +60,11 @@ namespace EntertenimentManager.Tests.Repositories
         public Task<IEnumerable<Movie>> GetAllByPersonalId(int personalListId)
         {
             return Task.FromResult(_movieLists);
+        }
+
+        public Task<bool> IsSwitchBetweenSameTypePersonalLists(int id, int requestUserId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,15 +1,13 @@
-﻿using EntertenimentManager.Domain.Entities.Categories;
-using EntertenimentManager.Domain.Entities.Lists;
+﻿using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.SharedContext;
-using System.Collections.Generic;
 
-namespace EntertenimentManager.Domain.Entities.Itens.Contracts
+namespace EntertenimentManager.Domain.Entities.Itens
 {
     public abstract class Item : Entity
     {
         public Item()
         {
-            
+
         }
         protected Item(string title, string genre, int releaseYear, string urlImage, PersonalList belongsTo)
         {
@@ -36,7 +34,7 @@ namespace EntertenimentManager.Domain.Entities.Itens.Contracts
                 UrlImage = urlImage;
         }
 
-        public void AssigPersonalList(PersonalList personalList)
+        public void SwitchPersonalList(PersonalList personalList)
         {
             BelongsTo ??= personalList;
         }

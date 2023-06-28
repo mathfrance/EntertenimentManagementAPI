@@ -1,5 +1,4 @@
-﻿
-using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,7 +19,7 @@ namespace EntertenimentManager.Tests.QueryTests
             {
                 new()
             };
-            _movies[0].AssigPersonalList(new PersonalList("Assistido"));
+            _movies[0].SwitchPersonalList(new PersonalList("Assistido"));
         }
         [TestMethod]
         public void ShouldReturnResultWhenPassAExistentPersonalListId()
