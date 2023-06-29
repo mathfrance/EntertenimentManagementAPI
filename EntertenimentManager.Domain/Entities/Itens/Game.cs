@@ -1,11 +1,13 @@
 ﻿using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.SharedContext;
+using EntertenimentManager.Domain.Entities.Users;
+using System;
 using System.Collections.Generic;
 
 namespace EntertenimentManager.Domain.Entities.Itens
 {
     public class Game : Item
     {
+        private readonly List<Platform> _platforms;
         public Game()
         {
             
@@ -14,18 +16,23 @@ namespace EntertenimentManager.Domain.Entities.Itens
             : base(title, genre, releaseYear, urlImage, belongsTo)
         {
             Developer = developer;
-            Platforms = new();
+            _platforms = new();
         }
 
         public string Developer { get; private set; } = string.Empty;
 
-        public List<Platform> Platforms { get; private set; }
+        public IReadOnlyCollection<Platform> Platforms { get { return _platforms.ToArray(); } }
 
-        public void Update(string title, string genre, int releaseYear, string developer, string urlImage, List<Platform> platforms, PersonalList belongsTo)
+        public void Update(string title, string genre, int releaseYear, string developer, string urlImage, List<Platform> platforms)
         {
             base.Update(title, genre, releaseYear, urlImage);
             Developer = developer;
-            Platforms = platforms;
+            this.UpdatePlatforms(platforms);
+        }
+
+        private void UpdatePlatforms(List<Platform> platforms)
+        {
+            
         }
     }
 }
