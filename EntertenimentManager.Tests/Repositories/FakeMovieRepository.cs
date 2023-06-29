@@ -1,5 +1,7 @@
-﻿using EntertenimentManager.Domain.Entities.Itens;
+﻿using EntertenimentManager.Domain.Entities.Categories;
+using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Entities.Lists;
+using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
 namespace EntertenimentManager.Tests.Repositories
@@ -42,7 +44,17 @@ namespace EntertenimentManager.Tests.Repositories
         {
             if (id == 0)
             {
-                return Task.FromResult(new PersonalList("Para Assistir"));
+                var personalList = new PersonalList("Para Assistir");
+                var category = new Category("Movies", (int)EnumCategories.Movies, new List<PersonalList>());
+                personalList.AddCategory(category);
+                return Task.FromResult(personalList);
+            }
+            if (id == 1)
+            {
+                var personalList = new PersonalList("Para Jogar");
+                var category = new Category("Games", (int)EnumCategories.Games, new List<PersonalList>());
+                personalList.AddCategory(category);
+                return Task.FromResult(personalList);
             }
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             return Task.FromResult<PersonalList>(null);
@@ -52,6 +64,8 @@ namespace EntertenimentManager.Tests.Repositories
 
         public Task<bool> IsItemAssociatedWithUserIdAsync(int id, int requestUserId)
         {
+            if (id == -1 && requestUserId == -1) return Task.FromResult(true);
+
             if (requestUserId == -1) return Task.FromResult(false);
 
             return Task.FromResult(true);
@@ -62,9 +76,11 @@ namespace EntertenimentManager.Tests.Repositories
             return Task.FromResult(_movieLists);
         }
 
-        public Task<bool> IsSwitchBetweenSameTypePersonalLists(int id, int requestUserId)
+        public Task<bool> IsSwitchBetweenSameTypePersonalLists(int itemId, int newPersonalListCategoryType)
         {
-            throw new NotImplementedException();
+            if (newPersonalListCategoryType == (int)EnumCategories.Movies) return Task.FromResult(true);
+
+            return Task.FromResult(false);
         }
     }
 }

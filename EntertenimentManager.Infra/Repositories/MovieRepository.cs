@@ -65,10 +65,10 @@ namespace EntertenimentManager.Infra.Repositories
         }
 
 
-        public async Task<bool> IsSwitchBetweenSameTypePersonalLists(int id, int newPersonalListIdCategoryType)
+        public async Task<bool> IsSwitchBetweenSameTypePersonalLists(int itemId, int newPersonalListCategoryType)
         {
             return await _context.Movies
-                        .AnyAsync(m => m.Id == id && m.BelongsTo.Category.Type == newPersonalListIdCategoryType);
+                        .AnyAsync(m => m.Id == itemId && m.BelongsTo.Category.Type == newPersonalListCategoryType);
         }
     }
 }

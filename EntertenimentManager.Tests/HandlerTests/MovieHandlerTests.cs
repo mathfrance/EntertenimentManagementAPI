@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.Domain.Commands;
+using EntertenimentManager.Domain.Commands.Item;
 using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Tests.Repositories;
@@ -29,6 +30,12 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly DeleteMovieCommand _deleteANotAssociateUserIdDeleteCommand = new() { UserId = -1 };
         private readonly GetAllByPersonalListIdCommand _getAllByPersonalListId = new();
         private readonly GetAllByPersonalListIdCommand _getAllByPersonalListIdNotAssociateUserIdCommand = new() { UserId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchPersonalListFromItemCommand = new();
+        private readonly SwitchPersonalListFromItemCommand _switchItemIdNotAssociateUserIdCommand = new() { UserId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchPersonalListNotAssociateUserIdCommand = new() { ItemId = -1, UserId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchANotExistentNewPersonalListCommand = new() { NewPersonalListId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchANotExistentNewMovieIdCommand = new() { ItemId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchADifferentCategoryTypeCommand = new() { NewPersonalListId = 1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
 
@@ -175,6 +182,56 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _movieHandler.Handle(_getAllByPersonalListIdNotAssociateUserIdCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Lista indisponível");
+        }
+        #endregion
+
+        #region SwitchPersonalListFromItemCommand
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhensSwitchPersonalListFromItemCommand()
+        {
+            var res = await _movieHandler.Handle(_switchPersonalListFromItemCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensItemIdFromSwitchIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _movieHandler.Handle(_switchItemIdNotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Filme indisponível para troca");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListIdFromSwitchIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _movieHandler.Handle(_switchPersonalListNotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista indisponível para troca");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensANotExistentNewPersonalListItsInformedCommand()
+        {
+            var res = await _movieHandler.Handle(_switchANotExistentNewPersonalListCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista não encontrada");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenSwitchToADifferentCategoryTypeCommand()
+        {
+            var res = await _movieHandler.Handle(_switchADifferentCategoryTypeCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Não é possível realizar a troca para a lista informada");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensANotExistentMovieItsInformedCommand()
+        {
+            var res = await _movieHandler.Handle(_switchANotExistentNewMovieIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Filme não encontrado");
         }
         #endregion
     }

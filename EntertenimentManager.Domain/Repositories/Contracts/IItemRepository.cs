@@ -8,6 +8,6 @@ namespace EntertenimentManager.Domain.Repositories.Contracts
     {
         Task<PersonalList> GetPersonalListById(int id);
         Task<bool> IsItemAssociatedWithUserIdAsync(int id, int requestUserId);
-        Task<bool> IsSwitchBetweenSameTypePersonalLists(int id, int requestUserId);
+        Task<bool> IsSwitchBetweenSameTypePersonalLists(int itemId, int newPersonalListCategoryType);
     }
 }

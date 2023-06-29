@@ -1,6 +1,4 @@
-﻿using EntertenimentManager.Domain.Entities.Categories;
-using EntertenimentManager.Domain.Entities.Lists;
-using EntertenimentManager.Domain.Enumerators;
+﻿using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
 namespace EntertenimentManager.Tests.Repositories
