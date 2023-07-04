@@ -2,6 +2,7 @@
 using EntertenimentManager.Domain.Commands.Contracts;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using EntertenimentManager.Domain.Entities.Itens;
+using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Handlers.Contract;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using Flunt.Notifications;
@@ -40,6 +41,9 @@ namespace EntertenimentManager.Domain.Handlers
 
             if (personalList == null)
                 return new GenericCommandResult(false, "Não foi possível adicionar o jogo à lista", command.Notifications);
+
+            if (personalList.Category == null || personalList.Category.Type != (int)EnumCategories.Games)
+                return new GenericCommandResult(false, "Lista informada não é da categoria de jogos", command.Notifications);
 
             var platforms = await _gameRepository.GetPlatformsByIds(command.Platforms);
 
