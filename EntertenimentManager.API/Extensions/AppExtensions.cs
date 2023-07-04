@@ -90,12 +90,14 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
             builder.Services.AddTransient<IPersonalListRepository, PersonalListRepository>();
             builder.Services.AddTransient<IMovieRepository, MovieRepository>();
+            builder.Services.AddTransient<IGameRepository, GameRepository>();
             #endregion
             #region Handlers
             builder.Services.AddTransient<AccountHandler, AccountHandler>();
             builder.Services.AddTransient<CategoryHandler, CategoryHandler>();
             builder.Services.AddTransient<PersonalListHandler, PersonalListHandler>();
             builder.Services.AddTransient<MovieHandler, MovieHandler>();
+            builder.Services.AddTransient<GameHandler, GameHandler>();
             #endregion
             #region Commands
             builder.Services.AddTransient<DeleteAccountCommand, DeleteAccountCommand>();

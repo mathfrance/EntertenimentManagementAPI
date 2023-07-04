@@ -1,5 +1,4 @@
 ﻿using EntertenimentManager.Domain.Entities.Itens;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
