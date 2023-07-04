@@ -17,6 +17,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly CreateMovieCommand _validCreateMovieCommand;
         private readonly CreateMovieCommand _notExistentPersonalListIdCreateMovieCommand;
         private readonly CreateMovieCommand _aPersonalListNotAssociateWithUserIdCreateCommand;
+        private readonly CreateMovieCommand _differentCategoryTypeCreateCommand;
         private readonly CreateMovieCommand _invalidCreateMovieCommand;
         private readonly UpdateMovieCommand _validUpdateMovieCommand = new (0, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
         private readonly UpdateMovieCommand _notExistentIdUpdateMovieCommand = new(-1, "Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", 2018);
@@ -38,6 +39,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly SwitchPersonalListFromItemCommand _switchADifferentCategoryTypeCommand = new() { NewPersonalListId = 1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
+        private readonly int _personalListIdWithDifferentCategoryType = 1;
 
         public MovieHandlerTests()
         {
@@ -45,6 +47,7 @@ namespace EntertenimentManager.Tests.HandlerTests
             _notExistentPersonalListIdCreateMovieCommand = new CreateMovieCommand("Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", _base64Image, 2018, _notExistentPersonalListId);
             _aPersonalListNotAssociateWithUserIdCreateCommand = new CreateMovieCommand("Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", _base64Image, 2018, _existentPersonalListId) { UserId = -1};
             _invalidCreateMovieCommand = new CreateMovieCommand("", "", 149, "", "", _base64Image, 2018, _existentPersonalListId);
+            _differentCategoryTypeCreateCommand = new CreateMovieCommand("Disney", "Russo Brothers", 149, "Avengers: Civil War", "Action", _base64Image, 2018, _personalListIdWithDifferentCategoryType);
         }
 
         #region CreateMovieCommand
@@ -78,6 +81,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _movieHandler.Handle(_aPersonalListNotAssociateWithUserIdCreateCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Não é possível criar o filme na lista informada");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListCategoryTypeItsNotEnumMovieCommand()
+        {
+            var res = await _movieHandler.Handle(_differentCategoryTypeCreateCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista informada não é da categoria de filmes");
         }
         #endregion
 
