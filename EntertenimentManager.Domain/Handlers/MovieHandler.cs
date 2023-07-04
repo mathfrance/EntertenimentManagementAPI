@@ -7,6 +7,7 @@ using Flunt.Notifications;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Commands.Item;
+using EntertenimentManager.Domain.Enumerators;
 
 namespace EntertenimentManager.Domain.Handlers
 {
@@ -47,6 +48,9 @@ namespace EntertenimentManager.Domain.Handlers
 
             if (personalList == null)
                 return new GenericCommandResult(false, "Não foi possível adicionar o filme à lista", command.Notifications);
+
+            if (personalList.Category == null || personalList.Category.Type != (int)EnumCategories.Movies)
+                return new GenericCommandResult(false, "Lista informada não é da categoria de filmes", command.Notifications);
 
             var movie = new Movie(
                 command.Title, 
