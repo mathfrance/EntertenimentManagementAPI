@@ -17,14 +17,14 @@ namespace EntertenimentManager.Domain.Commands.Item.Game
             _maxFutureYearRelase = DateTime.Now.AddYears(5).Year;
         }
 
-        public CreateGameCommand(string developer, string title, string genre, int releaseYear, int belongsToId, Image thumbImage, List<int> platforms)
+        public CreateGameCommand(string title, string genre, string developer, int releaseYear, int belongsToId, string urlImage, List<int> platforms)
         {
             Developer = developer;
             Title = title;
             Genre = genre;
             ReleaseYear = releaseYear;
             BelongsToId = belongsToId;
-            ThumbImage = thumbImage;
+            ThumbImage = new(urlImage);
             Platforms = platforms;
             _maxFutureYearRelase = DateTime.Now.AddYears(5).Year;
         }
