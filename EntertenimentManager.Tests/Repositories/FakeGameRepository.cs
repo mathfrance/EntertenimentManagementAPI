@@ -9,9 +9,11 @@ namespace EntertenimentManager.Tests.Repositories
     public class FakeGameRepository : IGameRepository
     {
         private readonly IEnumerable<Game> _gameLists;
+        private readonly IEnumerable<Platform> _platformsLists;
         public FakeGameRepository()
         {
             _gameLists = new List<Game>();
+            _platformsLists = new List<Platform>();
         }
         public Task CreateAsync(Game game)
         {
@@ -85,7 +87,7 @@ namespace EntertenimentManager.Tests.Repositories
 
         public Task<IEnumerable<Platform>> GetPlatformsByIds(IEnumerable<int> platformsIds)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_platformsLists);
         }
     }
 }
