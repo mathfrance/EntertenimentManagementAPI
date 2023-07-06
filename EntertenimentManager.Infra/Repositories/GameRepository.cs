@@ -4,6 +4,7 @@ using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace EntertenimentManager.Infra.Repositories
 {
@@ -27,14 +28,20 @@ namespace EntertenimentManager.Infra.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<Game>> GetAllByPersonalId(int personalListId)
+        public async Task<IEnumerable<Game>> GetAllByPersonalId(int personalListId)
         {
-            throw new NotImplementedException();
+            return await _context
+                        .Games
+                        .AsNoTracking()
+                        .Where(GameQueries.GetByPersonalListId(personalListId))
+                        .ToListAsync();
         }
 
-        public Task<Game> GetById(int id)
+        public async Task<Game?> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context
+                       .Games
+                       .FirstOrDefaultAsync(GameQueries.GetById(id));
         }
 
         public async Task<PersonalList?> GetPersonalListById(int id)

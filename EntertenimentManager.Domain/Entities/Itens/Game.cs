@@ -33,8 +33,11 @@ namespace EntertenimentManager.Domain.Entities.Itens
         {
             if (platforms != null)
             {
-                _platforms.Clear();
-                _platforms.AddRange(platforms);
+                foreach (var platform in platforms)
+                {
+                    if(!_platforms.Exists(x => x.Id == platform.Id)) 
+                        _platforms.Add(platform);
+                }
             }
         }
     }

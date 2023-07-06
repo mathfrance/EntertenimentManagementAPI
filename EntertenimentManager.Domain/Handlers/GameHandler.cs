@@ -12,7 +12,8 @@ namespace EntertenimentManager.Domain.Handlers
 {
     public class GameHandler :
         Notifiable<Notification>,
-        IHandler<CreateGameCommand>
+        IHandler<CreateGameCommand>,
+        IHandler<UpdateGameCommand>
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPersonalListRepository _personalListRepository;
@@ -61,6 +62,38 @@ namespace EntertenimentManager.Domain.Handlers
             await _imageStorage.UploadAsync(command.ThumbImage.ImageBytes, command.ThumbImage.FileName);
 
             return new GenericCommandResult(true, "Jogo criado com sucesso", game);
+        }
+
+        public async Task<ICommandResult> Handle(UpdateGameCommand command)
+        {
+            command.Validate();
+
+            if (!command.IsValid)
+                return new GenericCommandResult(false, "Não foi possível atualizar as informações do jogo", command.Notifications);
+
+            if (!command.IsRequestFromAdmin && !await _gameRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
+                return new GenericCommandResult(false, "Jogo indisponível", command.Notifications);
+
+            var game = await _gameRepository.GetById(command.Id);
+
+            if (game == null)
+                return new GenericCommandResult(false, "Não foi possível atualizar as informações do jogo", command.Notifications);
+
+            var platforms = await _gameRepository.GetPlatformsByIds(command.Platforms);
+
+            if (command.HasImageToUpdate())
+            {
+                game.Update(command.Title, command.Genre, command.ReleaseYear, command.Developer, command.NewImage.FileName, platforms);
+                await _imageStorage.UploadAsync(command.NewImage.ImageBytes, command.NewImage.FileName);
+            }
+            else
+            {
+                game.Update(command.Title, command.Genre, command.ReleaseYear, command.Developer, string.Empty, platforms);
+            }
+
+            await _gameRepository.UpdateAsync(game);
+
+            return new GenericCommandResult(true, "Jogo atualizado com sucesso", game);
         }
     }
 }
