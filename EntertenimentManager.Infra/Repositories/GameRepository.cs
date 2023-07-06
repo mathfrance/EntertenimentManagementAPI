@@ -41,6 +41,7 @@ namespace EntertenimentManager.Infra.Repositories
         {
             return await _context
                        .Games
+                       .Include(x => x.Platforms)
                        .FirstOrDefaultAsync(GameQueries.GetById(id));
         }
 
