@@ -2,7 +2,6 @@
 using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Queries;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace EntertenimentManager.Tests.QueryTests
 {
