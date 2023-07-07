@@ -18,6 +18,10 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly CreateGameCommand _aPersonalListNotAssociateWithUserIdCreateCommand;
         private readonly CreateGameCommand _differentCategoryTypeCreateCommand;
         private readonly CreateGameCommand _invalidCreateGameCommand;
+        private readonly UpdateGameCommand _validUpdateGameCommand = new(0, "GTA V", "Sandbox", "RockStar Games", 2013, 1, "", new());
+        private readonly UpdateGameCommand _notExistentIdUpdateGameCommand = new(-1, "GTA V", "Sandbox", "RockStar Games", 2013, 1, "", new());
+        private readonly UpdateGameCommand _invalidUpdateGameCommand = new(-1, "", "", "", 2013, 1, "", new());
+        private readonly UpdateGameCommand _aGameNotAssociateWithUserIdUpdateCommand = new(0, "GTA V", "Sandbox", "RockStar Games", 2013, 1, "", new()) { UserId = -1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
         private readonly int _personalListIdWithDifferentCategoryType = 1;
@@ -70,6 +74,40 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _gameHandler.Handle(_differentCategoryTypeCreateCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Lista informada não é da categoria de jogos");
+        }
+        #endregion
+
+        #region UpdateGameCommand
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenUpdateCommandIsValid()
+        {
+            var res = await _gameHandler.Handle(_validUpdateGameCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenUpdateCommandIsInvalid()
+        {
+            var res = await _gameHandler.Handle(_invalidUpdateGameCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsFalse(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenUpdateCommandHasANotExistentId()
+        {
+            var res = await _gameHandler.Handle(_notExistentIdUpdateGameCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Não foi possível atualizar as informações do jogo");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensGameFromUpdateIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _gameHandler.Handle(_aGameNotAssociateWithUserIdUpdateCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Jogo indisponível");
         }
         #endregion
 

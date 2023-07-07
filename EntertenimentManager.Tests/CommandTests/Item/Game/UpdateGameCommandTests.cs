@@ -13,9 +13,9 @@ namespace EntertenimentManager.Tests.CommandTests.Item.Game
 
         public UpdateGameCommandTests()
         {
-            _validCommand = new("GTA V", "Sandbox", "RockStar Games", 2013, 1, _base64Image, new());
-            _validCommandWithoutImage = new("GTA V", "Sandbox", "RockStar Games", 2013, 1, "", new());
-            _invalidCommand = new("", "", "", 2013, 1, _base64Image, new());
+            _validCommand = new(0,"GTA V", "Sandbox", "RockStar Games", 2013, 1, _base64Image, new());
+            _validCommandWithoutImage = new(0, "GTA V", "Sandbox", "RockStar Games", 2013, 1, "", new());
+            _invalidCommand = new(0, "", "", "", 2013, 1, _base64Image, new());
         }
 
         [TestMethod]

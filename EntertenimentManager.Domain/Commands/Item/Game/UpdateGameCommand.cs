@@ -17,8 +17,9 @@ namespace EntertenimentManager.Domain.Commands.Item.Game
             _maxFutureYearRelase = DateTime.Now.AddYears(5).Year;
         }
 
-        public UpdateGameCommand(string title, string genre, string developer, int releaseYear, int belongsToId, string urlImage, List<int> platforms)
+        public UpdateGameCommand(int id, string title, string genre, string developer, int releaseYear, int belongsToId, string urlImage, List<int> platforms)
         {
+            Id = id;
             Developer = developer;
             Title = title;
             Genre = genre;
