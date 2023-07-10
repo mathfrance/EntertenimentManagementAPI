@@ -132,6 +132,11 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsRequestFromAdmin && !await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.PersonalListId, command.UserId))
                 return new GenericCommandResult(false, "Lista indisponível", command.Notifications);
 
+            var personalList = await _movieRepository.GetPersonalListById(command.PersonalListId);
+
+            if (personalList == null || personalList.Category == null || personalList.Category.Type != (int)EnumCategories.Movies)
+                return new GenericCommandResult(false, "Lista informada não é da categoria de jogos", command.Notifications);
+
             var movies = await _movieRepository.GetAllByPersonalId(command.PersonalListId);
 
             return new GenericCommandResult(true, "Filmes obtidos com sucesso", movies);
