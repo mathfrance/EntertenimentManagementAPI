@@ -29,6 +29,9 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly GetAllByPersonalListIdCommand _getAllByPersonalListId = new();
         private readonly GetAllByPersonalListIdCommand __differentCategoryTypeGetAllByPersonalListId = new() { PersonalListId = 1 };
         private readonly GetAllByPersonalListIdCommand _getAllByPersonalListIdNotAssociateUserIdCommand = new() { UserId = -1 };
+        private readonly DeleteGameCommand _deleteGameCommand = new();
+        private readonly DeleteGameCommand _deleteANotExistentGameCommand = new() { Id = -1 };
+        private readonly DeleteGameCommand _deleteANotAssociateUserIdDeleteCommand = new() { UserId = -1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
         private readonly int _personalListIdWithDifferentCategoryType = 1;
@@ -167,6 +170,32 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _gameHandler.Handle(__differentCategoryTypeGetAllByPersonalListId);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Lista informada não é da categoria de jogos");
+        }
+        #endregion
+
+        #region DeleteGameCommand
+        [TestMethod]
+        public async Task ShouldReturnFailWhenGetANotExistentGameDeleteCommand()
+        {
+            var res = await _gameHandler.Handle(_deleteANotExistentGameCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Não foi possível realizar a exclusão do jogo");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenGetAExistentGameDeleteCommand()
+        {
+            var res = await _gameHandler.Handle(_deleteGameCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensGameIsNotAssociatedWithUserIdDeleteCommand()
+        {
+            var res = await _gameHandler.Handle(_deleteANotAssociateUserIdDeleteCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Jogo indisponível");
         }
         #endregion
 
