@@ -13,7 +13,8 @@ namespace EntertenimentManager.Domain.Handlers
     public class GameHandler :
         Notifiable<Notification>,
         IHandler<CreateGameCommand>,
-        IHandler<UpdateGameCommand>
+        IHandler<UpdateGameCommand>,
+        IHandler<GetGameByIdCommand>
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPersonalListRepository _personalListRepository;
@@ -94,6 +95,19 @@ namespace EntertenimentManager.Domain.Handlers
             await _gameRepository.UpdateAsync(game);
 
             return new GenericCommandResult(true, "Jogo atualizado com sucesso", game);
+        }
+
+        public async Task<ICommandResult> Handle(GetGameByIdCommand command)
+        {
+            if (!command.IsRequestFromAdmin && !await _gameRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
+                return new GenericCommandResult(false, "Jogo indisponível", command.Notifications);
+
+            var movie = await _gameRepository.GetById(command.Id);
+
+            if (movie == null)
+                return new GenericCommandResult(false, "Não foi possível obter o jogo", command.Notifications);
+
+            return new GenericCommandResult(true, "Jogo obtida com sucesso", movie);
         }
     }
 }

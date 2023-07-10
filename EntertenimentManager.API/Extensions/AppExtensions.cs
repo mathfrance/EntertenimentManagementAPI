@@ -1,6 +1,7 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Category;
+using EntertenimentManager.Domain.Commands.Item.Game;
 using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Commands.PersonalList;
 using EntertenimentManager.Domain.Entities.Categories;
@@ -107,6 +108,7 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<GetMovieByIdCommand, GetMovieByIdCommand>();
             builder.Services.AddTransient<DeleteMovieCommand, DeleteMovieCommand>();
             builder.Services.AddTransient<GetAllByPersonalListIdCommand, GetAllByPersonalListIdCommand>();
+            builder.Services.AddTransient<GetGameByIdCommand, GetGameByIdCommand>();
             #endregion
         }
     }

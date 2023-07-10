@@ -4,11 +4,33 @@ using EntertenimentManager.Domain.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Commands.Item.Game;
+using System;
 
 namespace EntertenimentManager.API.Controllers
 {
     public class GameController : ControllerBase
     {
+        [HttpGet("v1/games/{id:int}")]
+        public async Task<IActionResult> GetByIdAsync(
+            [FromRoute] int id,
+            [FromServices] GetGameByIdCommand command,
+            [FromServices] GameHandler handler)
+        {
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            command.Id = id;
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
         [HttpPost("v1/games")]
         public async Task<IActionResult> PostAsync(
             [FromBody] CreateGameCommand command,
