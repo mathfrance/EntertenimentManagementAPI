@@ -135,7 +135,7 @@ namespace EntertenimentManager.Domain.Handlers
             var personalList = await _movieRepository.GetPersonalListById(command.PersonalListId);
 
             if (personalList == null || personalList.Category == null || personalList.Category.Type != (int)EnumCategories.Movies)
-                return new GenericCommandResult(false, "Lista informada não é da categoria de jogos", command.Notifications);
+                return new GenericCommandResult(false, "Lista informada não é da categoria de filmes", command.Notifications);
 
             var movies = await _movieRepository.GetAllByPersonalId(command.PersonalListId);
 

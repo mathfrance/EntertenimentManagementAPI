@@ -30,6 +30,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly DeleteMovieCommand _deleteANotExistentMovieCommand = new() { Id = -1 };
         private readonly DeleteMovieCommand _deleteANotAssociateUserIdDeleteCommand = new() { UserId = -1 };
         private readonly GetAllByPersonalListIdCommand _getAllByPersonalListId = new();
+        private readonly GetAllByPersonalListIdCommand __differentCategoryTypeGetAllByPersonalListId = new() { PersonalListId = 1 };
         private readonly GetAllByPersonalListIdCommand _getAllByPersonalListIdNotAssociateUserIdCommand = new() { UserId = -1 };
         private readonly SwitchPersonalListFromItemCommand _switchPersonalListFromItemCommand = new();
         private readonly SwitchPersonalListFromItemCommand _switchItemIdNotAssociateUserIdCommand = new() { UserId = -1 };
@@ -193,6 +194,14 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _movieHandler.Handle(_getAllByPersonalListIdNotAssociateUserIdCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Lista indisponível");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensGetAllByPersonalListCategoryTypeItsNotEnumMovieCommand()
+        {
+            var res = await _movieHandler.Handle(__differentCategoryTypeGetAllByPersonalListId);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista informada não é da categoria de filmes");
         }
         #endregion
 
