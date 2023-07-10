@@ -159,7 +159,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         {
             var res = await _movieHandler.Handle(_deleteANotExistentMovieCommand);
             _result = (GenericCommandResult)res;
-            Assert.AreEqual(_result.Message, "Não foi realizar a exclusão do filme");
+            Assert.AreEqual(_result.Message, "Não foi possível realizar a exclusão do filme");
         }
 
         [TestMethod]

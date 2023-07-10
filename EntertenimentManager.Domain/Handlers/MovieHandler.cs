@@ -120,7 +120,7 @@ namespace EntertenimentManager.Domain.Handlers
             var movie = await _movieRepository.GetById(command.Id);
 
             if (movie == null)
-                return new GenericCommandResult(false, "Não foi realizar a exclusão do filme", command.Notifications);
+                return new GenericCommandResult(false, "Não foi possível realizar a exclusão do filme", command.Notifications);
 
             await _movieRepository.DeleteAsync(movie);
 
