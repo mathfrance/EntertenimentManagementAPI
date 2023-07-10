@@ -1,4 +1,5 @@
 ﻿using EntertenimentManager.Domain.Commands;
+using EntertenimentManager.Domain.Commands.Item;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using EntertenimentManager.Domain.Handlers;
 using EntertenimentManager.Tests.Repositories;
@@ -25,6 +26,9 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly GetGameByIdCommand _getGameByIdCommand = new();
         private readonly GetGameByIdCommand _getANotExistentGameByIdCommand = new() { Id = -1 };
         private readonly GetGameByIdCommand _getANotAssociateUserIdCommand = new() { UserId = -1 };
+        private readonly GetAllByPersonalListIdCommand _getAllByPersonalListId = new();
+        private readonly GetAllByPersonalListIdCommand __differentCategoryTypeGetAllByPersonalListId = new() { PersonalListId = 1 };
+        private readonly GetAllByPersonalListIdCommand _getAllByPersonalListIdNotAssociateUserIdCommand = new() { UserId = -1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
         private readonly int _personalListIdWithDifferentCategoryType = 1;
@@ -114,7 +118,7 @@ namespace EntertenimentManager.Tests.HandlerTests
         }
         #endregion
 
-        #region GetMovieByIdCommand
+        #region GetGameByIdCommand
         [TestMethod]
         public async Task ShouldReturnFailWhenGetANotExistentGameByIdCommand()
         {
@@ -137,6 +141,32 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _gameHandler.Handle(_getANotAssociateUserIdCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Jogo indisponível");
+        }
+        #endregion
+
+        #region GetAllByPersonalListIdCommand
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhenGetAllByPersonalListIdCommand()
+        {
+            var res = await _gameHandler.Handle(_getAllByPersonalListId);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListIdIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _gameHandler.Handle(_getAllByPersonalListIdNotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista indisponível");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensGetAllByPersonalListCategoryTypeItsNotEnumGameCommand()
+        {
+            var res = await _gameHandler.Handle(__differentCategoryTypeGetAllByPersonalListId);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista informada não é da categoria de jogos");
         }
         #endregion
 
