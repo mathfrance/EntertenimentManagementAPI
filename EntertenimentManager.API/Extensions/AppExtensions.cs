@@ -1,6 +1,7 @@
 ﻿using EntertenimentManager.API.Services;
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Commands.Category;
+using EntertenimentManager.Domain.Commands.Item;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using EntertenimentManager.Domain.Commands.Item.Movie;
 using EntertenimentManager.Domain.Commands.PersonalList;

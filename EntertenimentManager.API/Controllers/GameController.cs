@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using System;
+using EntertenimentManager.Domain.Commands.Item;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -19,6 +20,27 @@ namespace EntertenimentManager.API.Controllers
             command.UserId = HttpContext.GetRequestUserId();
             command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             command.Id = id;
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
+        [HttpGet("v1/all/games/{personalListId:int}")]
+        public async Task<IActionResult> GetAllByPersonalListIdAsync(
+            [FromRoute] int personalListId,
+            [FromServices] GetAllByPersonalListIdCommand command,
+            [FromServices] GameHandler handler)
+        {
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            command.PersonalListId = personalListId;
             try
             {
                 var result = await handler.Handle(command);

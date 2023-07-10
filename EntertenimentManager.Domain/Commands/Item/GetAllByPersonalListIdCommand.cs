@@ -1,7 +1,7 @@
 ﻿using EntertenimentManager.Domain.Commands.Contracts;
 using Flunt.Notifications;
 
-namespace EntertenimentManager.Domain.Commands.Item.Movie
+namespace EntertenimentManager.Domain.Commands.Item
 {
     public class GetAllByPersonalListIdCommand : Notifiable<Notification>, ICommandTokenAuthorization
     {

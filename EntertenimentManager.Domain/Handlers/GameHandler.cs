@@ -1,5 +1,6 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Commands.Contracts;
+using EntertenimentManager.Domain.Commands.Item;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using EntertenimentManager.Domain.Entities.Itens;
 using EntertenimentManager.Domain.Enumerators;
@@ -14,7 +15,8 @@ namespace EntertenimentManager.Domain.Handlers
         Notifiable<Notification>,
         IHandler<CreateGameCommand>,
         IHandler<UpdateGameCommand>,
-        IHandler<GetGameByIdCommand>
+        IHandler<GetGameByIdCommand>,
+        IHandler<GetAllByPersonalListIdCommand>
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPersonalListRepository _personalListRepository;
@@ -102,12 +104,27 @@ namespace EntertenimentManager.Domain.Handlers
             if (!command.IsRequestFromAdmin && !await _gameRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
                 return new GenericCommandResult(false, "Jogo indisponível", command.Notifications);
 
-            var movie = await _gameRepository.GetById(command.Id);
+            var game = await _gameRepository.GetById(command.Id);
 
-            if (movie == null)
+            if (game == null)
                 return new GenericCommandResult(false, "Não foi possível obter o jogo", command.Notifications);
 
-            return new GenericCommandResult(true, "Jogo obtida com sucesso", movie);
+            return new GenericCommandResult(true, "Jogo obtida com sucesso", game);
+        }
+
+        public async Task<ICommandResult> Handle(GetAllByPersonalListIdCommand command)
+        {
+            if (!command.IsRequestFromAdmin && !await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.PersonalListId, command.UserId))
+                return new GenericCommandResult(false, "Lista indisponível", command.Notifications);
+
+            var personalList = await _gameRepository.GetPersonalListById(command.PersonalListId);
+
+            if (personalList == null || personalList.Category == null || personalList.Category.Type != (int)EnumCategories.Games)
+                return new GenericCommandResult(false, "Lista informada não é da categoria de jogos", command.Notifications);
+
+            var games = await _gameRepository.GetAllByPersonalId(command.PersonalListId);
+
+            return new GenericCommandResult(true, "Jogos obtidos com sucesso", games);
         }
     }
 }
