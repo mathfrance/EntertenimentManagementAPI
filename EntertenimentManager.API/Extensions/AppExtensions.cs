@@ -110,6 +110,7 @@ namespace EntertenimentManager.API.Extensions
             builder.Services.AddTransient<DeleteMovieCommand, DeleteMovieCommand>();
             builder.Services.AddTransient<GetAllByPersonalListIdCommand, GetAllByPersonalListIdCommand>();
             builder.Services.AddTransient<GetGameByIdCommand, GetGameByIdCommand>();
+            builder.Services.AddTransient<DeleteGameCommand, DeleteGameCommand>();
             #endregion
         }
     }

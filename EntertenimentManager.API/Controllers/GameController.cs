@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using System;
 using EntertenimentManager.Domain.Commands.Item;
+using EntertenimentManager.Domain.Commands.Item.Movie;
 
 namespace EntertenimentManager.API.Controllers
 {
@@ -77,6 +78,27 @@ namespace EntertenimentManager.API.Controllers
             [FromBody] UpdateGameCommand command,
             [FromServices] GameHandler handler)
         {
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
+        [HttpDelete("v1/games/{id:int}")]
+        public async Task<IActionResult> DeleteAsync(
+            [FromRoute] int id,
+            [FromServices] DeleteGameCommand command,
+            [FromServices] GameHandler handler)
+        {
+            command.Id = id;
             command.UserId = HttpContext.GetRequestUserId();
             command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             try

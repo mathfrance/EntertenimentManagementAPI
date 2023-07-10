@@ -16,7 +16,9 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<CreateGameCommand>,
         IHandler<UpdateGameCommand>,
         IHandler<GetGameByIdCommand>,
-        IHandler<GetAllByPersonalListIdCommand>
+        IHandler<GetAllByPersonalListIdCommand>,
+        IHandler<DeleteGameCommand>
+
     {
         private readonly IGameRepository _gameRepository;
         private readonly IPersonalListRepository _personalListRepository;
@@ -125,6 +127,21 @@ namespace EntertenimentManager.Domain.Handlers
             var games = await _gameRepository.GetAllByPersonalId(command.PersonalListId);
 
             return new GenericCommandResult(true, "Jogos obtidos com sucesso", games);
+        }
+
+        public async Task<ICommandResult> Handle(DeleteGameCommand command)
+        {
+            if (!command.IsRequestFromAdmin && !await _gameRepository.IsItemAssociatedWithUserIdAsync(command.Id, command.UserId))
+                return new GenericCommandResult(false, "Jogo indisponível", command.Notifications);
+
+            var game = await _gameRepository.GetById(command.Id);
+
+            if (game == null)
+                return new GenericCommandResult(false, "Não foi possível realizar a exclusão do jogo", command.Notifications);
+
+            await _gameRepository.DeleteAsync(game);
+
+            return new GenericCommandResult(true, "Jogo excluído com sucesso", game);
         }
     }
 }
