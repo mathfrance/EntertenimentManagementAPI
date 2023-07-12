@@ -17,7 +17,8 @@ namespace EntertenimentManager.Domain.Handlers
         IHandler<UpdateGameCommand>,
         IHandler<GetGameByIdCommand>,
         IHandler<GetAllByPersonalListIdCommand>,
-        IHandler<DeleteGameCommand>
+        IHandler<DeleteGameCommand>,
+        IHandler<SwitchPersonalListFromItemCommand>
 
     {
         private readonly IGameRepository _gameRepository;
@@ -142,6 +143,36 @@ namespace EntertenimentManager.Domain.Handlers
             await _gameRepository.DeleteAsync(game);
 
             return new GenericCommandResult(true, "Jogo excluído com sucesso", game);
+        }
+
+        public async Task<ICommandResult> Handle(SwitchPersonalListFromItemCommand command)
+        {
+            if (!command.IsRequestFromAdmin)
+            {
+                if (!await _gameRepository.IsItemAssociatedWithUserIdAsync(command.ItemId, command.UserId))
+                    return new GenericCommandResult(false, "Jogo indisponível para troca", command.Notifications);
+                if (!await _personalListRepository.IsPersonalListAssociatedWithUserIdAsync(command.NewPersonalListId, command.UserId))
+                    return new GenericCommandResult(false, "Lista indisponível para troca", command.Notifications);
+            }
+
+            var personalList = await _gameRepository.GetPersonalListById(command.NewPersonalListId);
+
+            if (personalList == null)
+                return new GenericCommandResult(false, "Lista não encontrada", command.Notifications);
+
+            if (personalList.Category == null || !await _gameRepository.IsSwitchBetweenSameTypePersonalLists(command.ItemId, personalList.Category.Type))
+                return new GenericCommandResult(false, "Não é possível realizar a troca para a lista informada", command.Notifications);
+
+            var game = await _gameRepository.GetById(command.ItemId);
+
+            if (game == null)
+                return new GenericCommandResult(false, "Jogo não encontrado", command.Notifications);
+
+            game.SwitchPersonalList(personalList);
+
+            await _gameRepository.UpdateAsync(game);
+
+            return new GenericCommandResult(true, "Troca realizada com sucesso", null);
         }
     }
 }

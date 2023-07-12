@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using EntertenimentManager.Domain.Commands.Item.Game;
 using System;
 using EntertenimentManager.Domain.Commands.Item;
-using EntertenimentManager.Domain.Commands.Item.Movie;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EntertenimentManager.API.Controllers
 {
+    [Authorize]
     public class GameController : ControllerBase
     {
         [HttpGet("v1/games/{id:int}")]
@@ -99,6 +100,25 @@ namespace EntertenimentManager.API.Controllers
             [FromServices] GameHandler handler)
         {
             command.Id = id;
+            command.UserId = HttpContext.GetRequestUserId();
+            command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
+            try
+            {
+                var result = await handler.Handle(command);
+                var commandResult = (GenericCommandResult)result;
+                return Ok(commandResult);
+            }
+            catch
+            {
+                return StatusCode(500, new GenericCommandResult(false, "Falha interna no servidor", null));
+            }
+        }
+
+        [HttpPut("v1/games/switch")]
+        public async Task<IActionResult> SwitchListAsync(
+            [FromBody] SwitchPersonalListFromItemCommand command,
+            [FromServices] GameHandler handler)
+        {
             command.UserId = HttpContext.GetRequestUserId();
             command.IsRequestFromAdmin = HttpContext.IsRequestFromAdmin();
             try

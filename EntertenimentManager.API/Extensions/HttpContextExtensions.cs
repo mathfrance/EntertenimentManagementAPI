@@ -1,7 +1,5 @@
-﻿using EntertenimentManager.Domain.Entities.Users;
-using EntertenimentManager.Domain.Enumerators;
+﻿using EntertenimentManager.Domain.Enumerators;
 using Microsoft.AspNetCore.Http;
-using System.Linq;
 using System.Security.Claims;
 
 namespace EntertenimentManager.API.Extensions
