@@ -32,6 +32,12 @@ namespace EntertenimentManager.Tests.HandlerTests
         private readonly DeleteGameCommand _deleteGameCommand = new();
         private readonly DeleteGameCommand _deleteANotExistentGameCommand = new() { Id = -1 };
         private readonly DeleteGameCommand _deleteANotAssociateUserIdDeleteCommand = new() { UserId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchPersonalListFromItemCommand = new();
+        private readonly SwitchPersonalListFromItemCommand _switchItemIdNotAssociateUserIdCommand = new() { UserId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchPersonalListNotAssociateUserIdCommand = new() { ItemId = -1, UserId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchANotExistentNewPersonalListCommand = new() { NewPersonalListId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchANotExistentNewGameIdCommand = new() { ItemId = -1 };
+        private readonly SwitchPersonalListFromItemCommand _switchADifferentCategoryTypeCommand = new() { NewPersonalListId = 1 };
         private readonly int _existentPersonalListId = 0;
         private readonly int _notExistentPersonalListId = -1;
         private readonly int _personalListIdWithDifferentCategoryType = 1;
@@ -196,6 +202,56 @@ namespace EntertenimentManager.Tests.HandlerTests
             var res = await _gameHandler.Handle(_deleteANotAssociateUserIdDeleteCommand);
             _result = (GenericCommandResult)res;
             Assert.AreEqual(_result.Message, "Jogo indisponível");
+        }
+        #endregion
+
+        #region SwitchPersonalListFromItemCommand
+        [TestMethod]
+        public async Task ShouldReturnSuccessWhensSwitchPersonalListFromItemCommand()
+        {
+            var res = await _gameHandler.Handle(_switchPersonalListFromItemCommand);
+            _result = (GenericCommandResult)res;
+            Assert.IsTrue(_result.Success);
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensItemIdFromSwitchIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _gameHandler.Handle(_switchItemIdNotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Jogo indisponível para troca");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensPersonalListIdFromSwitchIsNotAssociatedWithUserIdCommand()
+        {
+            var res = await _gameHandler.Handle(_switchPersonalListNotAssociateUserIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista indisponível para troca");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensANotExistentNewPersonalListItsInformedCommand()
+        {
+            var res = await _gameHandler.Handle(_switchANotExistentNewPersonalListCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Lista não encontrada");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhenSwitchToADifferentCategoryTypeCommand()
+        {
+            var res = await _gameHandler.Handle(_switchADifferentCategoryTypeCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Não é possível realizar a troca para a lista informada");
+        }
+
+        [TestMethod]
+        public async Task ShouldReturnFailWhensANotExistentGameItsInformedCommand()
+        {
+            var res = await _gameHandler.Handle(_switchANotExistentNewGameIdCommand);
+            _result = (GenericCommandResult)res;
+            Assert.AreEqual(_result.Message, "Jogo não encontrado");
         }
         #endregion
 
