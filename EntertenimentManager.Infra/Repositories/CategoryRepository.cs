@@ -1,14 +1,8 @@
 ﻿using EntertenimentManager.Domain.Entities.Categories;
-using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Queries;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using EntertenimentManager.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EntertenimentManager.Infra.Repositories
 {
