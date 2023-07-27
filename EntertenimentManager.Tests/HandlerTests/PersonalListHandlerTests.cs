@@ -1,7 +1,7 @@
 ﻿using EntertenimentManager.Domain.Commands;
 using EntertenimentManager.Domain.Handlers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EntertenimentManager.Tests.Repositories;
+using EntertenimentManager.Tests.FakeRepositories;
 using EntertenimentManager.Domain.Commands.PersonalList;
 
 namespace EntertenimentManager.Tests.HandlerTests

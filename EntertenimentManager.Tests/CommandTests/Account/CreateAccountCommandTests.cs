@@ -1,7 +1,7 @@
 using EntertenimentManager.Domain.Commands.Account;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EntertenimentManager.Tests.CommandTests
+namespace EntertenimentManager.Tests.CommandTests.Account
 {
     [TestClass]
     public class CreateAccountCommandTests
@@ -13,7 +13,7 @@ namespace EntertenimentManager.Tests.CommandTests
         public CreateAccountCommandTests()
         {
             _validCommand = new("Fulano", "fulano@email.com", _base64Image);
-            _invalidCommand = new("", "",  _base64Image);
+            _invalidCommand = new("", "", _base64Image);
         }
 
         [TestMethod]

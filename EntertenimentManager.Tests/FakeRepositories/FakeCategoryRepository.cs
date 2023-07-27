@@ -4,7 +4,7 @@ using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Enumerators;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
-namespace EntertenimentManager.Tests.Repositories
+namespace EntertenimentManager.Tests.FakeRepositories
 {
     public class FakeCategoryRepository : ICategoryRepository
     {

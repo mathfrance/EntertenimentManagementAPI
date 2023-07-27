@@ -3,7 +3,7 @@ using EntertenimentManager.Domain.Entities.Users;
 using EntertenimentManager.Domain.Repositories.Contracts;
 using SecureIdentity.Password;
 
-namespace EntertenimentManager.Tests.Repositories
+namespace EntertenimentManager.Tests.FakeRepositories
 {
     public class FakeAccountRepositiry : IAccountRepository
     {

@@ -1,7 +1,7 @@
 ﻿using EntertenimentManager.Domain.Entities.Lists;
 using EntertenimentManager.Domain.Repositories.Contracts;
 
-namespace EntertenimentManager.Tests.Repositories
+namespace EntertenimentManager.Tests.FakeRepositories
 {
     public class FakePersonalListRepository : IPersonalListRepository
     {

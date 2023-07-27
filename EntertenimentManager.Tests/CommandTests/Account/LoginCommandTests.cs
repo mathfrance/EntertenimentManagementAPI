@@ -1,7 +1,7 @@
 ﻿using EntertenimentManager.Domain.Commands.Account;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace EntertenimentManager.Tests.CommandTests
+namespace EntertenimentManager.Tests.CommandTests.Account
 {
     [TestClass]
     public class LoginCommandTests

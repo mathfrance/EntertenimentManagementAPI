@@ -2,7 +2,7 @@
 using EntertenimentManager.Domain.Commands.Account;
 using EntertenimentManager.Domain.Entities.Categories;
 using EntertenimentManager.Domain.Handlers;
-using EntertenimentManager.Tests.Repositories;
+using EntertenimentManager.Tests.FakeRepositories;
 using EntertenimentManager.Tests.Storages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
