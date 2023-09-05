@@ -11,8 +11,8 @@ Este projeto foi concebido com o objetivo de aplicar conceitos e estudos relacio
 
 ## Desenvolvimento
 
-* .Net 6.0
-* Entity Framework Core 7.0
+- .Net 6.0
+- Entity Framework Core 7.0
 
 ## Pacotes de Terceiros
 
@@ -38,6 +38,22 @@ Este projeto foi concebido com o objetivo de aplicar conceitos e estudos relacio
   - ```dotnet ef database update -s ..\EntertenimentManager.API\```
 - Para iniciar o projeto rode o comando abaixo, os pacotes serão restaurados automaticamente.
   - ```dotnet run``` 
-- Para mais informações sobre o funcionamento visite a Wiki do projeto.
+- Para mais detalhes sobre o funcionamento, consulte a Wiki do projeto.
 
+## Automação com GitHub Actions
+
+Este projeto inclui um workflow automatizado com o GitHub Actions para simplificar várias tarefas:
+
+- **Compilação:** O projeto é compilado automaticamente em cada push ou pull request.
+- **Testes Unitários:** São executados automaticamente após cada compilação para garantir a integridade do código.
+- **Atualização do Banco de Dados:** As migrações do Entity Framework Core são aplicadas automaticamente quando necessário.
+- **Deploy no Azure Cloud Services:** O projeto pode ser implantado automaticamente no Azure Cloud Services.
+
+### Configurando Segredos
+
+Para usar esse workflow, você deve configurar os [segredos das Actions](https://docs.github.com/pt/actions/security-guides/using-secrets-in-github-actions) no seu repositório com as informações necessárias para o Azure Cloud Services e para acesso ao banco de dados, se aplicável.
+
+Certifique-se de configurar esses segredos de forma segura para manter suas informações confidenciais protegidas.
+
+Consulte o arquivo de workflow [master_enterteniment-manager.yml](https://github.com/mathfrance/EntertenimentManagementAPI/blob/master/.github/workflows/master_enterteniment-manager.yml) para obter detalhes sobre como o workflow está configurado e ajuste conforme necessário.
 
