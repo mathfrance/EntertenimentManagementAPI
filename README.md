@@ -2,12 +2,15 @@
 ![GitHub](https://img.shields.io/github/license/mathfrance/EntertenimentManagementAPI)
 
 ## Visão Geral
+
 Este projeto representa o backend de um gerenciador de filmes e jogos, desenvolvido para auxiliar na organização de itens em listas. O objetivo é proporcionar aos usuários um maior controle sobre suas escolhas de filmes para assistir, bem como jogos para jogar. A plataforma possibilita o acompanhamento do que já foi assistido ou jogado, o que está atualmente em andamento e o que está planejado para o futuro.
 
 ## Finalidade
+
 Este projeto foi concebido com o objetivo de aplicar conceitos e estudos relacionados a padrões e melhores práticas de desenvolvimento. Sinta-se à vontade para sugerir mudanças e melhorias com foco nesses aspectos. Para obter informações mais detalhadas sobre o código, consulte a Wiki do projeto.,
 
 ## Desenvolvimento
+
 * .Net 6.0
 * Entity Framework Core 7.0
 
@@ -24,4 +27,17 @@ Este projeto foi concebido com o objetivo de aplicar conceitos e estudos relacio
 
 - **Azure.Storage.Blobs (12.17.0):** [![NuGet](https://img.shields.io/nuget/v/Azure.Storage.Blobs)](https://www.nuget.org/packages/Azure.Storage.Blobs)
   - Usado para armazenar imagens no Azure Storage.
+ 
+## Executando o projeto
+- Certifique-se de que você tenha o .NET 6 SDK instalado em sua máquina. Você pode verificar a versão do .NET usando o seguinte comando no terminal:
+  -   ```shell dotnet --version```
+- Clone o repositório do projeto para o seu ambiente local usando o Git:
+  -  ```git clone https://github.com/mathfrance/EntertenimentManagementAPI.git``` 
+- Configure a **ConectionString** no arquivo **appsettings.json**. Deve ser uma base SQL Server.
+- Abra um terminal na pasta do projeto **EntertenimentManager.Infra** e execute o seguinte comando para criar o banco de dados e aplicar as migrações:
+  - ```dotnet ef database update -s ..\EntertenimentManager.API\```
+- Para iniciar o projeto rode o comando abaixo, os pacotes serão restaurados automaticamente.
+  - ```dotnet run``` 
+- Para mais informações sobre o funcionamento visite a Wiki do projeto.
+
 
