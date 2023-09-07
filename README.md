@@ -34,9 +34,13 @@ Este projeto foi concebido com o objetivo de aplicar conceitos e estudos relacio
 - Clone o repositório do projeto para o seu ambiente local usando o Git:
   -  ```git clone https://github.com/mathfrance/EntertenimentManagementAPI.git``` 
 - Configure a **ConectionString** no arquivo **appsettings.json**. Deve ser uma base SQL Server.
+- Abra um terminal na raiz do projeto e execute o seguinte comando para restaurar todos os pacotes necessários:
+  - ```dotnet retore```
+- Após a conclusão da restauração de pacotes, compile a aplicação com o seguinte comando:
+  - ```dotnet build```
 - Abra um terminal na pasta do projeto **EntertenimentManager.Infra** e execute o seguinte comando para criar o banco de dados e aplicar as migrações:
   - ```dotnet ef database update -s ..\EntertenimentManager.API\```
-- Para iniciar o projeto rode o comando abaixo, os pacotes serão restaurados automaticamente.
+- Rode o comando abaixo na pasta do projeto **EntertenimentManager.API** para iniciar o projeto:
   - ```dotnet run``` 
 - Para mais detalhes sobre o funcionamento, consulte a Wiki do projeto.
 
