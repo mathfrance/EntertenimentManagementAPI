@@ -38,7 +38,7 @@ jobs:
         run: az sql server firewall-rule create --resource-group API --server enterteniment-manager-server --name githubactions --start-ip-address ${{ steps.ip.outputs.ipv4 }} --end-ip-address ${{ steps.ip.outputs.ipv4 }}
       
       - name: Install EF Tools
-        run: dotnet tool install --global dotnet-ef
+        run: dotnet tool install --global dotnet-ef --version 6.0.0
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
