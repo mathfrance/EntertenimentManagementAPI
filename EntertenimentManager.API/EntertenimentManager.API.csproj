@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <UserSecretsId>4296a8e7-daaa-44c1-88ef-a7d78b7b9444</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
